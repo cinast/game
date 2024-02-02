@@ -1,0 +1,3 @@
+function random(max,min?){
+
+}

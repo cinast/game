@@ -29,8 +29,10 @@ function XHRrequest(
     retry?: number,
     fail?: (failcount: number) => any
 ) {
-    let failcount: number = 0;
+    let failcount: number = 0,response;
     retry = retry || 0;
+    inner();
+    return response
     function inner() {
         const request = new XMLHttpRequest();
         request.open(method, url, async || false);
@@ -39,23 +41,22 @@ function XHRrequest(
             if (request.readyState === XMLHttpRequest.DONE) {
                 const status = request.status;
                 if (status === 0 || (status >= 200 && status < 400)) {
-                    return request.response;
+                    response = request.response;
                 } else {
                     failcount++;
-                    if (fail instanceof Function) {
-                        let re = fail(failcount);
-                        if (failcount > retry) return re;
-                    } else return new Error("request failed");
-
-                    if (retry || failcount < retry) {
-                        return inner();
+                    if (retry || failcount < (retry as number)) {
+                        inner();
+                    } else {
+                        if (fail instanceof Function) {
+                            response = fail(failcount);
+                        } else response = new Error("request failed");
                     }
                 }
-                return inner();
             }
         };
     }
 }
+
 class basicElement {
     readonly id: string;
     readonly BaseType: string = "";
@@ -187,7 +188,7 @@ function enter() {
         "get",
         `${baseurl}/assets/assets.json`,
         false,
-        true,
+        0,
         (c) => {
             if (c > 3) {
                 throw new Error(
@@ -195,9 +196,8 @@ function enter() {
                 );
             }
         }
-    );
+    ) as {name:string,type:string,url:string}[];
     for (const i of asseetslist) {
-        //    }
         let mapdata = {},
             characters = [],
             gamedata;

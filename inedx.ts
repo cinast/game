@@ -26,11 +26,11 @@ function XHRrequest(
     url: string,
     method: string,
     async?: boolean,
-    retry?: boolean,
-    limt?:number,
+    retry?: number,
     fail?: (failcount: number) => any
 ) {
     let failcount: number = 0;
+    retry = retry || 0;
     function inner() {
         const request = new XMLHttpRequest();
         request.open(method, url, async || false);
@@ -44,13 +44,10 @@ function XHRrequest(
                     failcount++;
                     if (fail instanceof Function) {
                         let re = fail(failcount);
-                        if (!retry || failcount>) {
-                            return inner();
-                        }
-                        
+                        if (failcount > retry) return re;
                     } else return new Error("request failed");
 
-                    if (retry) {
+                    if (retry || failcount < retry) {
                         return inner();
                     }
                 }

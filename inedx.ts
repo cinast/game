@@ -1,27 +1,53 @@
-function random(max:number, min?:number) {
+/**@author cinast */
+declare const version = "0.0.0"
+declare const baseurl = "https://github.com/cinast/game/blob/main/";
+
+function random(max: number, min?: number) {
     min = min || 0;
     if (max < min) max ^= min;
     return Math.random() * (max - min) + min;
 }
 
-function randint(max:number, min?:number) {
+function randint(max: number, min?: number) {
     return random(max, min);
 }
 
-function randID(){
+function randID() {
     return randint(1e10).toString(16);
 }
 
+function store() {}
 
-function store() { }
-
+function XHRrequest(url:string,method:string,async?:boolean,retry?:boolean,fail?:(failcount?:number)=>any){
+    let failcount:number = 0
+    function inner(){
+    const request = new XMLHttpRequest();
+    request.open(method,url,async||false)
+    request.send()
+    request.onreadystatechange = () => {
+        if (request.readyState === XMLHttpRequest.DONE) {
+          const status = request.status;
+          if (status === 0 || (status >= 200 && status < 400)) {
+            return request.response
+          } else {
+            failcount++
+            if(fail instanceof Function){ 
+                fail(failcount)
+                if(retry){
+                    inner()
+                }
+            }else return new Error("request failed") ;
+        }
+        inner()
+    }}
+}
 class basicElement {
-    readonly id: string
+    readonly id: string;
     readonly BaseType: string = "";
     type: string = "";
     tag: string[] = [];
-    constructor(id?:string) {
-        this.id = id||randID()
+    constructor(id?: string) {
+        this.id = id || randID();
     }
 }
 
@@ -51,7 +77,7 @@ class character extends basicElement {
     CloneFrom: character | undefined = undefined;
     effects = {};
     layerset: Layer[] = [];
-    eventList: Record<string,eventObjet> = {};
+    eventList: Record<string, eventObjet> = {};
     moveto(x: number, y: number) {
         this.x = x;
         this.y = y;
@@ -63,8 +89,7 @@ class character extends basicElement {
         return cl;
     }
     set cloneFrom(char: character | undefined) {
-        if (!this.isClone && this.CloneFrom?.BaseType !== "character")
-            return;
+        if (!this.isClone && this.CloneFrom?.BaseType !== "character") return;
         this.CloneFrom = char;
     }
     addEvListener(type: string, callback: Function) {
@@ -74,9 +99,9 @@ class character extends basicElement {
     }
     deteleEvListener(evID: string, replace?: eventObjet) {
         let thisEv = this.eventList;
-        delete thisEv[evID]
-        if(replace instanceof eventObjet){
-            thisEv[evID] = replace
+        delete thisEv[evID];
+        if (replace instanceof eventObjet) {
+            thisEv[evID] = replace;
         }
     }
 }
@@ -84,8 +109,7 @@ class character extends basicElement {
 class clonedCharacter extends character {
     isClone: boolean = true;
     set cloneFrom(char: character | undefined) {
-        if (this.CloneFrom?.BaseType == "character")
-            this.CloneFrom = char;
+        if (this.CloneFrom?.BaseType == "character") this.CloneFrom = char;
     }
     constructor(baseChara: character | clonedCharacter) {
         super();
@@ -102,7 +126,7 @@ class sense extends basicElement {
             this.characters = { ...this.characters, [c.name]: c };
         });
     }
-    remove() { }
+    remove() {}
 }
 
 class partElement extends basicElement {
@@ -140,30 +164,31 @@ class Layer extends basicElement {
             if (p?.BaseType == "layer") {
                 this.content.splice(p.layerAt);
             } else {
-                throw(`Type error:  type '${p?.BaseType}'`);
+                throw `Type error:  type '${p?.BaseType}'`;
             }
         });
     }
-    concatLayer() { }
+    concatLayer() {}
 }
 
 function enter() {
     /**@type {HTMLCanvasElement} */
     const canvas = document.getElementById("canvas");
 
-    const baseurl = "https://github.com/cinast/game/blob/main/"
-    const asseets = new Request(`${baseurl}`)
-    // [{
-    //     name: "",
-    //     type: "",
-    //     url: ""
-    // }]
-
-    const action = {
-        "":function(){}
-    }
-    for (const i of asseets) {
-    }
-    let mapdata = {}, characters = [], gamedata
-
+    /**
+     * @type {
+     * {
+     * name:string,
+     * type:string,
+     * url:string
+     * }[]
+     * }
+     */
+    const asseetslist = XHRrequest("get",`${baseurl}/assets/assets.json`,false,())
+        for (const i of asseetslist) {
+        }
+    let mapdata = {},
+        characters = [],
+        gamedata;
+}
 }

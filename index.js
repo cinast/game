@@ -1,3 +1,0 @@
-function random(max,min?){
-
-}

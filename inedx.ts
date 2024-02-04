@@ -2,6 +2,8 @@
 declare const version = "0.0.0";
 declare const baseurl = "https://github.com/cinast/game/blob/main/";
 
+
+//    --- tool functions ---
 function random(max: number, min?: number) {
     min = min || 0;
     if (max < min) max ^= min;
@@ -29,10 +31,11 @@ function XHRrequest(
     retry?: number,
     fail?: (failcount: number) => any
 ) {
-    let failcount: number = 0,response;
+    let failcount: number = 0,
+        response;
     retry = retry || 0;
     inner();
-    return response
+    return response;
     function inner() {
         const request = new XMLHttpRequest();
         request.open(method, url, async || false);
@@ -56,6 +59,52 @@ function XHRrequest(
         };
     }
 }
+
+//    --- progress ---
+
+function getResourseList(){
+    asseets = JSON.parse(
+        XHRrequest("get", `${baseurl}/assets/assets.json`, false, 0, (c) => {
+            if (c > 3) {
+                throw new Error("assets list load failed \nyou need check network");
+            }
+        })
+    )
+}
+
+/**hh, I think you can't open it again*/
+async function enter() {
+
+    let rescounter:number = 0
+    for (const i of asseetslist) {
+     const request = fetch(i.url,{
+    method: "GET", // *GET, POST, PUT, DELETE, etc.
+    mode: "cors", // no-cors, *cors, same-origin
+    cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+    credentials: "same-origin", // include, *same-origin, omit
+    headers: {
+      "Content-Type": "application/json",
+      // 'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    redirect: "follow", // manual, *follow, error
+    referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+    // body: JSON.stringify(data), // body data type must match "Content-Type" header
+     })
+     request.catch((error)=>{
+        loadFailedList.push()
+     })
+     request.then(()=>{})
+     .finally(()=>{
+        rescounter++
+     })
+
+    }
+
+    /**@type {HTMLCanvasElement} */
+    const canvas = document.getElementById("canvas");
+}
+
+//    --- basic constroction ---
 
 class basicElement {
     readonly id: string;
@@ -170,36 +219,15 @@ class Layer {
     }
     concatLayer() {}
 }
-
-function enter() {
-    /**@type {HTMLCanvasElement} */
-    const canvas = document.getElementById("canvas");
-
-    /**
-     * @type {
-     * {
-     * name:string,
-     * type:string,
-     * url:string
-     * }[]
-     * }
-     */
-    const asseetslist = XHRrequest(
-        "get",
-        `${baseurl}/assets/assets.json`,
-        false,
-        0,
-        (c) => {
-            if (c > 3) {
-                throw new Error(
-                    "assets list load failed \nyou need check network or retry <i>enter</i> function"
-                );
-            }
-        }
-    ) as {name:string,type:string,url:string}[];
-    for (const i of asseetslist) {
-        let mapdata = {},
-            characters = [],
-            gamedata;
-    }
-}
+//  ---- runtime ----
+const gobol;
+(()=>{
+//    --- gobol define ---
+let asseets = [];
+let asseetslist = [] as { name: string; type: string; url: string }[];
+let loadFailedList = [];
+let mapdata = {},
+    characters = [],
+    gamedata;
+    
+})()

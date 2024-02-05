@@ -13,6 +13,13 @@
                 width: 100vw;
                 height: 100vh;
             }
+            /*  initial */
+            page {
+                width: 100vw;
+                height: 100vh;
+                background-color: #fff;
+                border: 2px #eee;
+            }
 
             undefined {
                 -val: url("Javascript:console.log()");
@@ -20,17 +27,10 @@
         </style>
         <script src="./inedx.ts">
 
-
-
             document.appendChild([][()=>{
                 let x = new HTMLDivElement();
                 x.tagName = "extra"
             }])
-
-
-
-
-
 
 
             {Coside:()=>{
@@ -43,7 +43,21 @@
         <main>
             <canvas id="canvas"></canvas>
 
-            <page index="1"></page>
+            <page index="1" id="load">
+                <style></style>
+                <div id="loading">
+                    <div id="laod_animation"></div>
+                    <div
+                        id="laoding_text"
+                        style="
+                            font-size: 10px #fff;
+                            font-family: sans-serif system-ui;
+                        "
+                    ></div>
+                    <div id="loading_bar"></div>
+                </div>
+                <div class="dir"></div>
+            </page>
             <page index="2"></page>
             <page index="3"></page>
             <extra></extra>

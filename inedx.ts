@@ -3,6 +3,8 @@ declare const version = "0.0.0";
 declare const baseurl = "https://github.com/cinast/game/blob/main/";
 
 //    --- gobol define ---
+const pages = document.querySelectorAll("page") as NodeListOf<HTMLElement>
+
 let assets: {} = {}
 let asseetslist: {
     name: string;
@@ -102,17 +104,16 @@ async function enter() {
     let rescounter: number = 0
     for (const item of asseetslist) {
         const request = fetch(item.url, {
-            method: "GET", // *GET, POST, PUT, DELETE, etc.
+            method: "GET",
             mode: "cors", // no-cors, *cors, same-origin
             cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
             credentials: "same-origin", // include, *same-origin, omit
             headers: {
                 "Content-Type": "application/json",
-                // 'Content-Type': 'application/x-www-form-urlencoded',
             },
             redirect: "follow", // manual, *follow, error
             referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-            // body: JSON.stringify(data), // body data type must match "Content-Type" header
+            // body: JSON.stringify(data)
         });
         request.catch((error) => {
             loadFailedList.push({

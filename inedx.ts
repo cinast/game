@@ -1,4 +1,7 @@
-/**@author cinast */
+/**
+ * enjoy yourself, :D()
+ * @author cinast 
+ * */
 declare const version = "0.0.0";
 declare const baseurl = "https://github.com/cinast/game/blob/main/";
 
@@ -6,11 +9,12 @@ declare const baseurl = "https://github.com/cinast/game/blob/main/";
 const pages = (() => {
     let dict = {}
     for (const e of document.querySelectorAll("page")) {
-        dict[e.attributes["name"] || `<emptystring ${randID()}>`] = e
+        dict[e.attributes["name"] || `<unnamed page#${randID()}>`] = e
     }
     return dict
 })() as Record<string | number | symbol, HTMLElement>
 
+/** you'd better not touch this {} */
 let assets: {} = {}
 let asseetslist: {
     name: string;
@@ -24,6 +28,10 @@ let loadFailedList: {
     body: typeof asseetslist[number]
 }[] = [];
 
+/**
+ * resource progressing function list  
+ * chooce your way 
+ */
 const parse = {
     // pre:(blob:Blob)=>{FileReader(blob)},
     // aduio:(aduio,bind?)=>{
@@ -43,6 +51,9 @@ function randint(max: number, min?: number) {
     return random(max, min);
 }
 
+/**
+ * no hash (laugh
+ */
 function randID() {
     return randint(1e10).toString(16);
 }
@@ -53,6 +64,13 @@ function read() {
 
 function store() { }
 
+/**
+ * *\*for quicker use\**  
+ * 
+ * set `retry` to limt trying number  
+ * param `fail` only trig once when request fail,  
+ * `failcount` will under retry 
+ */
 function XHRrequest(
     url: string,
     method: string,
@@ -89,15 +107,21 @@ function XHRrequest(
     }
 }
 
+/**
+ * shown page or not 
+ */
 function PageTurnVisitable(name: string | number | symbol, v: boolean) {
     pages[name].style.visibility = v ? "visible" : "hidden"
 }
 
 //    --- progress ---
-
+/**
+ * get resource list form github, *\/assets/assets.json*
+ * if failed, it'll remind you
+ */
 function getResourseList() {
     assets = JSON.parse(
-        XHRrequest("get", `${baseurl}/assets/assets.json`, false, 0, (c) => {
+        XHRrequest("get", `${baseurl}`, false, 0, (c) => {
             if (c > 3) {
                 throw new Error(
                     "assets list load failed \nyou need check network"
@@ -108,7 +132,10 @@ function getResourseList() {
 }
 
 //  ---- runtime ----
-/**hh, I think you can't open it again*/
+/**
+ * hh, I think you can't open it again
+ * don't force open it if assets not ready 
+*/
 async function enter() {
     //get resource
     PageTurnVisitable("loading", true)
@@ -152,6 +179,11 @@ async function enter() {
 
 //    --- basic constroction ---
 
+/**
+ * it is open that you can add sth by your mind
+ * during game time
+ * no cheak
+ */
 class basicElement {
     readonly id: string;
     readonly BaseType: string = "";

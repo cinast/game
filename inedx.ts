@@ -3,7 +3,13 @@ declare const version = "0.0.0";
 declare const baseurl = "https://github.com/cinast/game/blob/main/";
 
 //    --- gobol define ---
-const pages = document.querySelectorAll("page") as NodeListOf<HTMLElement>
+const pages = (() => {
+    let dict = {}
+    for (const e of document.querySelectorAll("page")) {
+        dict[e.attributes["name"] || `<emptystring ${randID()}>`] = e
+    }
+    return dict
+})() as Record<string | number | symbol, HTMLElement>
 
 let assets: {} = {}
 let asseetslist: {
@@ -83,6 +89,9 @@ function XHRrequest(
     }
 }
 
+function PageTurnVisitable(name: string | number | symbol, v: boolean) {
+    pages[name].style.visibility = v ? "visible" : "hidden"
+}
 
 //    --- progress ---
 
@@ -101,6 +110,8 @@ function getResourseList() {
 //  ---- runtime ----
 /**hh, I think you can't open it again*/
 async function enter() {
+    //get resource
+    PageTurnVisitable("loading", true)
     let rescounter: number = 0
     for (const item of asseetslist) {
         const request = fetch(item.url, {
@@ -121,7 +132,7 @@ async function enter() {
                 reson: error,
                 body: item
             })
-            
+
         });
         request
             .then((response) => {

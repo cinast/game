@@ -6,7 +6,9 @@
 declare const version = "0.0.0";
 declare const baseurl = "https://github.com/cinast/game/blob/main/";
 
-//    --- gobol define ---
+import "./utils"
+
+
 // ui control
 const pages = (() => {
     let dict = {};
@@ -31,141 +33,6 @@ let loadFailedList: {
     body: (typeof asseetslist)[number];
 }[] = [];
 
-/**
- * resource progressing function list
- * chooce your way
- */
-const parse = {
-    // pre:(blob:Blob)=>{FileReader(blob)},
-    // aduio:(aduio,bind?)=>{
-    // },
-    // image:(image:Blob)=>new
-} as const;
-
-// accounts
-class account {
-    name: string;
-    readonly id: string;
-    //em, i don't how to do this
-    tk: string;
-    data: {};
-    constructor(name: string, password: string) {
-        this.name = name;
-        this.tk = password;
-    }
-}
-
-//    --- tool functions ---
-function random(max: number, min?: number) {
-    min = min || 0;
-    if (max < min) max ^= min;
-    return Math.random() * (max - min) + min;
-}
-
-function randint(max: number, min?: number) {
-    return random(max, min);
-}
-
-/**
- * no hash (laugh
- */
-function randID() {
-    return randint(1e10).toString(16);
-}
-
-function read() {
-    localStorage.getItem("x62o");
-}
-
-function store() { }
-
-/**
- * *\*for quicker use\**
- *
- * set `retry` to limt trying number
- * param `fail` only trig once when request fail,
- * `failcount` will under retry
- */
-function XHRrequest(
-    url: string,
-    method: string,
-    async?: boolean,
-    retry?: number,
-    fail?: (failcount: number) => any
-) {
-    let failcount: number = 0,
-        response;
-    retry = retry || 0;
-    inner();
-    return response;
-    function inner() {
-        const request = new XMLHttpRequest();
-        request.open(method, url, async || false);
-        request.send();
-        request.onreadystatechange = () => {
-            if (request.readyState === XMLHttpRequest.DONE) {
-                const status = request.status;
-                if (status === 0 || (status >= 200 && status < 400)) {
-                    response = request.response;
-                } else {
-                    failcount++;
-                    if (retry || failcount < (retry as number)) {
-                        inner();
-                    } else {
-                        if (fail instanceof Function) {
-                            response = fail(failcount);
-                        } else response = new Error("request failed");
-                    }
-                }
-            }
-        };
-    }
-}
-
-/**
- * shown page or not
- */
-function PageTurnVisitable(name: string | number | symbol, v: boolean) {
-    pages[name].style.visibility = v ? "visible" : "hidden";
-}
-
-/**
- * shown page or not
- * 
- */
-function PageTurnVisitable(list:{[k in string | number | symbol]: boolean}) {
-    for(let i in list){
-        pages[i].style.visibility = list[i] ? "visible" : "hidden";
-    }
-}
-
-//    --- progress ---
-/**
- * get resource list form github, *\/assets/assets.json*
- * if failed, it'll remind you
- */
-function getResourseList() {
-    assets = JSON.parse(
-        XHRrequest("get", `${baseurl}`, false, 0, (c) => {
-            if (c > 3) {
-                throw new Error(
-                    "assets list load failed \nyou need check network"
-                );
-            }
-        })
-    );
-}
-
-function loadboard() {
-    let loadboard = pages["loading"],
-        bar = loadboard.querySelector("#loading_bar") as HTMLElement
-}
-
-//  ---- runtime ----
-/**
- * hh, I think you can't open it again
- * don't force open it if assets not ready
- */
 async function enter() {
     //get resource
     PageTurnVisitable("loading", true);

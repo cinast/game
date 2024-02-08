@@ -1,4 +1,3 @@
-
 export class Layer {
     readonly id: string;
     readonly BaseType: string = "layer";

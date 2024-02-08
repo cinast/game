@@ -17,8 +17,7 @@
             page {
                 width: 100vw;
                 height: 100vh;
-                background-color: #fff;
-                border: 2px #eee;
+                background-color: #000;
                 visibility: hidden;
             }
 
@@ -42,10 +41,13 @@
     </head>
     <body>
         <main>
-            <canvas id="canvas"></canvas>
-
-            <page index="1" name="loading">
-                <style></style>
+            <page index="1" pagename="loading">
+                <style>
+                    page[ pagename = loading]{
+                        visibility: visible;
+                        background-color: #494949;
+                    }
+                </style>
                 <div id="loading">
                     <div id="laod_animation"></div>
                     <div

@@ -1,5 +1,7 @@
+import "./source/utils/utils";
+
 PageTurnVisitable("laod",false)
-PageTransitionEvent
+
 
 const canvas = document.getElementById("canvas") as HTMLCanvasElement;
 let ctx = canvas.getContext("2d") as CanvasRenderingContext2D;

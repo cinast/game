@@ -1,9 +1,19 @@
 /**
+ * enjoy yourself, :D(
+ * @author cinast Stexley
+ * @update <time>
+ * */
+export const version = "0.0.0";
+export const baseurl = "https://github.com/cinast/game/blob/main/";
+
+export type K = string | number | symbol
+
+/**
  * @deprecated
  * resource progressing function list
  * chooce your way
  */
-declare const parse = {
+export const parse = {
     // pre:(blob:Blob)=>{FileReader(blob)},
     // aduio:(aduio,bind?)=>{
     // },
@@ -34,9 +44,7 @@ export function read() {
 export function store() { }
 
 /**
- * @deprecated 
  * it not full-prepare now
- * *\*for quicker use\**
  *
  * set `retry` to limt trying number
  * param `fail` only trig once when request fail,
@@ -78,51 +86,6 @@ export function XHRrequest(
     }
 }
 
-
-// ui control
-export const pages = (() => {
-    let dict = {};
-    for (const e of document.querySelectorAll("page")) {
-        dict[e.attributes["name"] || `<unnamed page#${randID()}>`] = e;
-    }
-    return dict;
-})() as Record<string | number | symbol, HTMLElement>;
-
-
 /**
  * shown page or not
  */
-export function PageTurnVisitable(name: string | number | symbol, v: boolean) {
-    pages[name].style.visibility = v ? "visible" : "hidden";
-}
-
-/**
- * shown page or not
- * put names into the dict and set switch
- */
-export function PageTurnVisitable(list:{[k in string | number | symbol]: boolean}) {
-    for(let i in list){
-        pages[i].style.visibility = list[i] ? "visible" : "hidden";
-    }
-}
-
-/**
- * get resource list form github, *\/assets/assets.json*
- * if failed, it'll remind you
- */
-export function getResourseList() {
-    assets = JSON.parse(
-        XHRrequest("get", `${baseurl}`, false, 0, (c) => {
-            if (c > 3) {
-                throw new Error(
-                    "assets list load failed \nyou need check network"
-                );
-            }
-        })
-    );
-}
-
-export function loadboard() {
-    let loadboard = pages["loading"],
-        bar = loadboard.querySelector("#loading_bar") as HTMLElement
-}

@@ -1,3 +1,5 @@
+import { randID } from "./utils/utils";
+
 export class basicObject {
     readonly id: string;
     readonly BaseType: string = "";

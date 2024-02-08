@@ -1,3 +1,4 @@
+import { randID } from "./utils/utils";
 export class eventObjet {
     readonly id: string;
     type: string = "";

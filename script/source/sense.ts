@@ -1,4 +1,5 @@
 import { character } from "./character";
+import { randID } from "./utils/utils";
 
 class sense{
     readonly id: string =  randID();;

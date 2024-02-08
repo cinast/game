@@ -1,13 +1,5 @@
-/**
- * enjoy yourself, :D(
- * @author cinast Stexley
- * @update <time>
- * */
-declare const version = "0.0.0";
-declare const baseurl = "https://github.com/cinast/game/blob/main/";
-
-
-
+import "./source/utils/utils"
+import "./source/utils"
 
 // assets manager
 /** you'd better not touch this {} */
@@ -23,6 +15,24 @@ let loadFailedList: {
     reson: Error | string | any;
     body: (typeof asseetslist)[number];
 }[] = [];
+
+
+/**
+ * get resource list form github, *\/assets/assets.json*
+ * if failed, it'll remind you
+ */
+export function getResourseList() {
+    assets = JSON.parse(
+        XHRrequest("get", `${baseurl}`, false, 0, (c) => {
+            if (c > 3) {
+                throw new Error(
+                    "assets list load failed \nyou need check network"
+                );
+            }
+        })
+    );
+}
+
 
 async function enter() {
     //get resource

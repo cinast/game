@@ -6,17 +6,8 @@
 declare const version = "0.0.0";
 declare const baseurl = "https://github.com/cinast/game/blob/main/";
 
-import "./utils"
 
 
-// ui control
-const pages = (() => {
-    let dict = {};
-    for (const e of document.querySelectorAll("page")) {
-        dict[e.attributes["name"] || `<unnamed page#${randID()}>`] = e;
-    }
-    return dict;
-})() as Record<string | number | symbol, HTMLElement>;
 
 // assets manager
 /** you'd better not touch this {} */

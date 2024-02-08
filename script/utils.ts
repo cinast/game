@@ -78,6 +78,17 @@ export function XHRrequest(
     }
 }
 
+
+// ui control
+export const pages = (() => {
+    let dict = {};
+    for (const e of document.querySelectorAll("page")) {
+        dict[e.attributes["name"] || `<unnamed page#${randID()}>`] = e;
+    }
+    return dict;
+})() as Record<string | number | symbol, HTMLElement>;
+
+
 /**
  * shown page or not
  */

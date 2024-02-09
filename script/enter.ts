@@ -70,4 +70,6 @@ async function enter() {
                 rescounter++;
             });
     }
- }
+}
+
+new Worker("./main.ts")

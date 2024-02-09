@@ -85,7 +85,3 @@ export function XHRrequest(
         };
     }
 }
-
-/**
- * shown page or not
- */

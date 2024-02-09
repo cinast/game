@@ -1,4 +1,5 @@
-import "./source/utils/utils";
+console.log("-main-")
+import "./router/runtime";
 
 PageTurnVisitable("laod",false)
 

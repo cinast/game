@@ -6,8 +6,8 @@ so it unamed()
 
 
 ## guide
-see [/doc](document) at `/doc`
+see [doc](doc) at `/doc`
 
 ## enterence
-- game.html  
-- index.ts
+- [game.html](page/game.html)  
+- [entere.ts](script/enter.ts)

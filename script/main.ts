@@ -1,7 +1,7 @@
 console.log("-main-")
-import "./router/runtime";
+import * as u from "./router/runtime";
 
-PageTurnVisitable("laod",false)
+u.PageTurnVisitable("laod",false)
 
 
 const canvas = document.getElementById("canvas") as HTMLCanvasElement;
@@ -12,3 +12,4 @@ let h = (canvas.height = window.innerHeight);
 ctx.globalAlpha = 1;
 
 function update() {}
+

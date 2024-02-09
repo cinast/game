@@ -1,5 +1,5 @@
-import "./source/utils/utils"
-import "./source/utils"
+import { PageTurnVisitable } from "./source/utils/ui";
+import { XHRrequest, baseurl, parse } from "./source/utils/utils";
 
 // assets manager
 /** you'd better not touch this {} */

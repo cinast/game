@@ -8,7 +8,9 @@ export const pages = (() => {
     return dict;
 })() as Record<K, HTMLElement>;
 
-
+/**
+ * shown page or not
+ */
 export function PageTurnVisitable(name: K, v: boolean) {
     pages[name].style.visibility = v ? "visible" : "hidden";
 }
@@ -17,7 +19,7 @@ export function PageTurnVisitable(name: K, v: boolean) {
  * shown page or not
  * put names into the dict and set switch
  */
-export function PageTurnVisitable(list:{[k in K]: boolean}) {
+export function PagesTurnVisitable(list:{[k in K]: boolean}) {
     for(let i in list){
         pages[i].style.visibility = list[i] ? "visible" : "hidden";
     }

@@ -1,5 +1,5 @@
 import { PageTurnVisitable } from "./source/utils/ui";
-import { XHRrequest, baseurl, parse } from "./source/utils/utils";
+import { XHRrequest, parse } from "./source/utils/utils";
 
 // assets manager
 /** you'd better not touch this {} */
@@ -23,7 +23,7 @@ let loadFailedList: {
  */
 export function getResourseList() {
     assets = JSON.parse(
-        XHRrequest("get", `${baseurl}`, false, 0, (c) => {
+        XHRrequest(`${baseurl}/assets/list.json`,"get", false, 3, (c) => {
             if (c > 3) {
                 throw new Error(
                     "assets list load failed \nyou need check network"

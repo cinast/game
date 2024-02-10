@@ -1,10 +1,11 @@
 import { character } from "./character";
 import { randID } from "./utils/utils";
 
-class sense{
-    readonly id: string =  randID();;
+class sense {
+    readonly id: string = randID();;
     readonly BaseType: string = "";
     type: string = "";
+    name: string = ""
     tag: string[] = [];
     Idnex = 0;
     characters: Record<string, character> = {};
@@ -13,5 +14,5 @@ class sense{
             this.characters = { ...this.characters, [c.name]: c };
         });
     }
-    remove() {}
+    remove() { }
 }

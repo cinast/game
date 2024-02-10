@@ -20,6 +20,17 @@ export const parse = {
     // image:(image:Blob)=>new
 } as const;
 
+export function sleep(ms: number): Promise<void> {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+/**
+ * i wonder how deal it
+ */
+export function sleepUntil(condition: () => boolean): Promise<void> {
+    return new Promise(resolve => condition());
+}
+
 export function random(max: number, min?: number) {
     min = min || 0;
     if (max < min) max ^= min;

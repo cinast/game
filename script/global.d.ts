@@ -2,6 +2,9 @@ declare const version = "0.0.0";
 declare const baseurl = "https://github.com/cinast/game/blob/main/";
 
 declare type K = string | number | symbol
+declare type objectCollection = character | clonedCharacter
+declare type senseCollection = sense
+declare type gameCollection = omit<objectCollection,senseCollection>
 
 declare const world: {
     characterkist: character[],
@@ -17,10 +20,10 @@ class sense {
     tag: string[]
     Idnex
     characters: Record<string, character>;
+    name: any;
     addCharacter(...character: character[]): void
     remove() { }
 }
-
 
 declare class basicObject {
     readonly id: string;

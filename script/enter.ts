@@ -16,24 +16,6 @@ let loadFailedList: {
     body: (typeof asseetslist)[number];
 }[] = [];
 
-
-/**
- * get resource list form github, *\/assets/assets.json*
- * if failed, it'll remind you
- */
-export function getResourseList() {
-    assets = JSON.parse(
-        XHRrequest(`${baseurl}/assets/list.json`,"get", false, 3, (c) => {
-            if (c > 3) {
-                throw new Error(
-                    "assets list load failed \nyou need check network"
-                );
-            }
-        })
-    );
-}
-
-
 async function enter() {
     //get resource
     PageTurnVisitable("loading", true);
@@ -63,8 +45,8 @@ async function enter() {
             .then((response) => {
                 let blob = response.blob();
                 blob.then((result) => {
-                    assets[item.name] = parse[item.type](result)
-                })
+                    assets[item.name] = parse[item.type](result);
+                });
             })
             .finally(() => {
                 rescounter++;
@@ -72,4 +54,4 @@ async function enter() {
     }
 }
 
-new Worker("./main.ts")
+new Worker("./main.ts");

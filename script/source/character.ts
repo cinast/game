@@ -1,6 +1,7 @@
 import { basicObject } from "./basic";
 import { eventObjet } from "./events";
-import "./utils/utils"
+import "./utils/utils";
+import { randID } from "./utils/utils";
 
 export class character extends basicObject {
     BaseType = "character";
@@ -79,6 +80,5 @@ export class Layer {
             ? new TypeError()
             : this.parent.layerset.splice(this.layerIndex, 1)[0];
     }
-    concatLayer() { }
+    concatLayer() {}
 }
-

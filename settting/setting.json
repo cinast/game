@@ -1,0 +1,7 @@
+{
+    "resource": {
+        "requset-delay": "3000",
+        "request-method": "get",
+        "requset-rety-limt": "10"
+    }
+}

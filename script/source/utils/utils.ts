@@ -66,3 +66,14 @@ export function XHRrequest(url: string, method: string, async?: boolean) {
     request.open(method, url, async || false);
     return request;
 }
+
+/**
+ * get resource list form github, *\/assets/assets.json*
+ * if failed, it'll remind you
+ */
+export function getResourseList() {
+    // assets = JSON.parse(
+    //     function(){
+    //     }
+    // )
+}

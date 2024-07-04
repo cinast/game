@@ -6,7 +6,7 @@
 export const version = "0.0.0";
 export const baseurl = "https://github.com/cinast/game/blob/main/";
 
-export type K = string | number | symbol
+export type K = string | number | symbol;
 
 /**
  * @deprecated
@@ -21,14 +21,14 @@ export const parse = {
 } as const;
 
 export function sleep(ms: number): Promise<void> {
-    return new Promise(resolve => setTimeout(resolve, ms));
+    return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 /**
  * i wonder how deal it
  */
 export function sleepUntil(condition: () => boolean): Promise<void> {
-    return new Promise(resolve => condition());
+    return new Promise((resolve) => condition());
 }
 
 export function random(max: number, min?: number) {
@@ -52,7 +52,7 @@ export function read() {
     localStorage.getItem("x62o");
 }
 
-export function store() { }
+export function store() {}
 
 /**
  * it not full-prepare now
@@ -61,38 +61,8 @@ export function store() { }
  * param `fail` only trig once when request fail,
  * `failcount` will under retry
  */
-export function XHRrequest(
-    url: string,
-    method: string,
-    async?: boolean,
-    retry?: number,
-    fail?: (failcount: number) => any
-) {
-    let failcount: number = 0,
-        response;
-    retry = retry || 0;
-    inner();
-    return response;
-    function inner() {
-        const request = new XMLHttpRequest();
-        request.open(method, url, async || false);
-        request.send();
-        request.onreadystatechange = () => {
-            if (request.readyState === XMLHttpRequest.DONE) {
-                const status = request.status;
-                if (status === 0 || (status >= 200 && status < 400)) {
-                    response = request.response;
-                } else {
-                    failcount++;
-                    if (retry || failcount < (retry as number)) {
-                        inner();
-                    } else {
-                        if (fail instanceof Function) {
-                            response = fail(failcount);
-                        } else response = new Error("request failed");
-                    }
-                }
-            }
-        };
-    }
+export function XHRrequest(url: string, method: string, async?: boolean) {
+    let request = new XMLHttpRequest();
+    request.open(method, url, async || false);
+    return request;
 }

@@ -1,6 +1,7 @@
 {
   "dependencies": {
-    "tsc": "^2.0.4"
+    "tsc": "^2.0.4",
+    "typescript": "^5.5.3"
   },
   "scripts": {
     "start": "./script/enter.ts",

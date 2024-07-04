@@ -54,4 +54,11 @@ async function enter() {
     }
 }
 
-new Worker("./main.ts");
+let main = new Worker("./runtime/main.ts");
+switch (key) {
+    case value:
+        break;
+
+    default:
+        break;
+}

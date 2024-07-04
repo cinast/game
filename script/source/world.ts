@@ -7,7 +7,6 @@ export class world {
     sense: Record<string, senseCollection> = {};
 
     constructor(opinions?: {
-        runRigthNow?: boolean;
         time?: number | bigint;
         init?: boolean;
         addtions?: sense[];
@@ -22,9 +21,6 @@ export class world {
             opinions.addtions.forEach((i) => {
                 this.sense[i.name || i.id] = i;
             });
-        }
-        if (opinions?.runRigthNow) {
-            this.start;
         }
     }
 

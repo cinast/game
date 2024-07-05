@@ -1,7 +1,15 @@
 import { basicObject } from "./basic";
 import { eventObjet } from "./events";
-import "./utils/utils";
 import { randID } from "./utils/utils";
+
+interface char_ability {
+    speed: number;
+    image: number;
+    health: number;
+    attack: number;
+    defense: number;
+    [key: string]: K | bigint;
+}
 
 export class character extends basicObject {
     BaseType = "character";
@@ -9,6 +17,13 @@ export class character extends basicObject {
     y: number = 0.0;
     name: string = "";
     globalSize: number = 1.0;
+    abilty: char_ability = {
+        speed: 0,
+        image: 0,
+        health: 0,
+        attack: 0,
+        defense: 0,
+    };
     visitable: boolean = true;
     rotation: number = 0.0;
     isClone: boolean = false;

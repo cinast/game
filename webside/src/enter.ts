@@ -2,28 +2,28 @@ import { PageTurnVisitable } from "./source/utils/ui";
 import { XHRrequest, parse } from "./source/utils/utils";
 
 // Assets manager
-interface Asset {
+export interface AssetListItem {
     content: any;
-    type: string;
-    loaded: boolean;
-}
-
-interface AssetListItem {
     name: string;
+    loaded: boolean;
     type: string;
     url: string;
     loadsucceed: boolean;
 }
 
-interface LoadFailedItem {
+export interface LoadErroredItem {
     name: string;
     reason: Error | string | any;
-    body: AssetListItem;
+    body:
+        | AssetListItem
+        | AssetListItem[]
+        | Record<K, AssetListItem>
+        | Record<K, AssetListItem[]>;
 }
 
-const assets: Record<string, Asset> = {};
-const assetsList: AssetListItem[] = [];
-const loadFailedList: LoadFailedItem[] = [];
+export const assets: Record<string, AssetListItem> = {};
+export const assetsList: AssetListItem[] = [];
+export const loadFailedList: LoadErroredItem[] = [];
 
 async function loadAssets() {
     try {
@@ -40,39 +40,42 @@ async function loadAssets() {
     let rescounter = 0;
 
     for (const item of assetsList) {
-        fetch(item.url, {
-            method: "GET",
-            mode: "cors",
-            cache: "no-cache",
-            credentials: "same-origin",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            redirect: "follow",
-            referrerPolicy: "no-referrer",
-        })
-            .then((response) => response.blob())
-            .then((blob) => {
-                assets[item.name] = parse[item.type](blob);
-            })
-            .catch((error) => {
-                loadFailedList.push({
-                    name: item.name,
-                    reason: error,
-                    body: item,
-                });
-            })
-            .finally(() => {
-                rescounter++;
+        if (assets[item.name] && assets[item.name].loaded) {
+            loadFailedList.push({
+                name: item.name,
+                reason: Error(
+                    "this object crashed with the same name of item of already loaded"
+                ),
+                body: {
+                    new: item,
+                    loaded: assets[item.name],
+                },
             });
+        } else {
+            fetch(item.url)
+                .then((response) => response.blob())
+                .then((blob) => {
+                    assets[item.name] = parse[item.type](blob);
+                    assets[item.name].loaded = true;
+                })
+                .catch((error) => {
+                    loadFailedList.push({
+                        name: item.name,
+                        reason: error,
+                        body: item,
+                    });
+                })
+                .finally(() => {
+                    rescounter++;
+                });
+        }
     }
 }
-
 async function startMainScript() {
     await loadAssets();
     const main = new Worker("./runtime/main.ts");
     // Send data to main script
-    main.postMessage({ assets });
+    // main.postMessage({ assets });
 }
 
 startMainScript();

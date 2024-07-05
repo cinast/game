@@ -1,4 +1,4 @@
-import { assets } from "../enter";
+import { assets } from "./enter";
 import * as ui from "../source/utils/ui";
 import * as ut from "../source/utils/utils";
 

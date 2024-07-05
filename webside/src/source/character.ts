@@ -1,5 +1,6 @@
 import { basicObject } from "./basic";
 import { eventObjet } from "./events";
+import { Layer } from "./layer";
 import { randID, K } from "./utils/utils";
 interface char_ability {
     speed: number;
@@ -18,7 +19,7 @@ const defualt_char_ability: char_ability = {
     defense: 0,
 };
 
-export class Character<op = {}> extends basicObject {
+export class Character extends basicObject {
     BaseType = "Character";
     x: number = 0.0;
     y: number = 0.0;
@@ -67,24 +68,20 @@ export class Character<op = {}> extends basicObject {
             thisEv[evID] = replace;
         }
     }
-    constructor(
-        {
-            ability,
-            id = randID(),
-            tag,
-        }: {
-            ability?: char_ability;
-            id?: string;
-            tag?: Record<K, K>;
-        },
-        other?: op
-    ) {
+    constructor({
+        ability,
+        id = randID(),
+        tag,
+    }: {
+        ability?: char_ability;
+        id?: string;
+        tag?: Record<K, K>;
+    }) {
         super({ BaseType: "Character", id, tag, type: "Character" });
         this.abilty = ability ?? defualt_char_ability;
-        Object.assign(this, other);
     }
 }
-export class clonedCharacter<op = {}> extends Character {
+export class clonedCharacter extends Character {
     isClone: boolean = true;
     cloneNumber: bigint;
     set cloneFrom(char: Character | undefined) {
@@ -100,37 +97,10 @@ export class clonedCharacter<op = {}> extends Character {
             ability?: char_ability;
             id?: string;
             tag?: Record<K, K>;
-        },
-        other?: op
+        }
     ) {
         super({ ability, id, tag });
         this.cloneNumber = baseChara.hasCloned;
         this.cloneFrom = baseChara;
-        Object.assign(this, other);
     }
-}
-export class Layer {
-    readonly id: string;
-    readonly BaseType: string = "layer";
-    type: string = "nomal";
-    tag: string[] = [];
-    name: string = "";
-    layerIndex = 0;
-    // content: ImageData;
-    parent: Character | undefined = undefined;
-    constructor(type?: string, size?: number, id?: string) {
-        this.id = id ?? randID();
-        this.type = type ?? "";
-    }
-    moveto(index: number) {
-        if (this.parent === undefined) return;
-        let l = this.parent.layerset;
-        l.splice(index, 0, l.splice(this.layerIndex, 1)[0]);
-    }
-    delete() {
-        return this.parent == undefined
-            ? new TypeError()
-            : this.parent.layerset.splice(this.layerIndex, 1)[0];
-    }
-    concatLayer() {}
 }

@@ -1,3 +1,4 @@
+import { sense } from "./sense";
 import { randID, sleep, sleepUntil } from "./utils/utils";
 
 export class world {
@@ -28,13 +29,6 @@ export class world {
     get time(): bigint {
         return BigInt(new Date().getMilliseconds()) - this.starttime;
     }
-
-    paused: boolean = true;
-    start() {
-        this.paused = false;
-    }
-    #runstack: Function[] = [];
-    #onrun: gameCollection;
     // set lastcounter(v){
 
     // }
@@ -42,11 +36,6 @@ export class world {
     //     return BigInt()
     // }
     // lastcounter:bigint = 0n
-    run() {
-        while (this.#runstack.length > 0) {
-            (this.#runstack.shift() as Function)();
-            sleepUntil(() => this.paused);
-        }
-    }
+
     delete() {}
 }

@@ -1,5 +1,5 @@
-import { PageTurnVisitable } from "./source/utils/ui";
-import { XHRrequest, parse } from "./source/utils/utils";
+import { PageTurnVisitable } from "../source/utils/ui";
+import { XHRrequest, parse } from "../source/utils/utils";
 
 // Assets manager
 export interface AssetListItem {
@@ -17,8 +17,8 @@ export interface LoadErroredItem {
     body:
         | AssetListItem
         | AssetListItem[]
-        | Record<K, AssetListItem>
-        | Record<K, AssetListItem[]>;
+        | Record<k, AssetListItem>
+        | Record<k, AssetListItem[]>;
 }
 
 export const assets: Record<string, AssetListItem> = {};

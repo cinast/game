@@ -9,11 +9,11 @@ export const baseurl = "https://github.com/cinast/game/blob/main/";
 export type K = string | number | symbol;
 
 /**
- * @deprecated
+ *
  * resource progressing function list
  * chooce your way
  */
-export const parse = {
+export const parse: Record<K, Function> = {
     // pre:(blob:Blob)=>{FileReader(blob)},
     // aduio:(aduio,bind?)=>{
     // },

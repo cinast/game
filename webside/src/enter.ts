@@ -1,51 +1,65 @@
 import { PageTurnVisitable } from "./source/utils/ui";
 import { XHRrequest, parse } from "./source/utils/utils";
 
-// assets manager
-/** you'd better not touch this {} */
-let assets: {} = {};
-let asseetslist: {
+// Assets manager
+interface Asset {
+    content: any;
+    type: string;
+    loaded: boolean;
+}
+
+interface AssetListItem {
     name: string;
     type: string;
     url: string;
     loadsucceed: boolean;
-}[] = [];
-let loadFailedList: {
+}
+
+interface LoadFailedItem {
     name: string;
-    reson: Error | string | any;
-    body: (typeof asseetslist)[number];
-}[] = [];
+    reason: Error | string | any;
+    body: AssetListItem;
+}
 
-async function enter() {
-    //get resource
+const assets: Record<string, Asset> = {};
+const assetsList: AssetListItem[] = [];
+const loadFailedList: LoadFailedItem[] = [];
+
+async function loadAssets() {
+    try {
+        const response = await fetch("../assets/assets.json");
+        const assetsConfig = await response.json();
+        assetsList.push(...assetsConfig);
+    } catch (error) {
+        console.error("Failed to load assets config:", error);
+        return;
+    }
+
     PageTurnVisitable("loading", true);
-    let rescounter: number = 0;
 
-    for (const item of asseetslist) {
-        const request = fetch(item.url, {
+    let rescounter = 0;
+
+    for (const item of assetsList) {
+        fetch(item.url, {
             method: "GET",
-            mode: "cors", // no-cors, *cors, same-origin
-            cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-            credentials: "same-origin", // include, *same-origin, omit
+            mode: "cors",
+            cache: "no-cache",
+            credentials: "same-origin",
             headers: {
                 "Content-Type": "application/json",
             },
-            redirect: "follow", // manual, *follow, error
-            referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-            // body: JSON.stringify(data)
-        });
-        request.catch((error) => {
-            loadFailedList.push({
-                name: item.name,
-                reson: error,
-                body: item,
-            });
-        });
-        request
-            .then((response) => {
-                let blob = response.blob();
-                blob.then((result) => {
-                    assets[item.name] = parse[item.type](result);
+            redirect: "follow",
+            referrerPolicy: "no-referrer",
+        })
+            .then((response) => response.blob())
+            .then((blob) => {
+                assets[item.name] = parse[item.type](blob);
+            })
+            .catch((error) => {
+                loadFailedList.push({
+                    name: item.name,
+                    reason: error,
+                    body: item,
                 });
             })
             .finally(() => {
@@ -54,11 +68,11 @@ async function enter() {
     }
 }
 
-let main = new Worker("./runtime/main.ts");
-switch (key) {
-    case value:
-        break;
-
-    default:
-        break;
+async function startMainScript() {
+    await loadAssets();
+    const main = new Worker("./runtime/main.ts");
+    // Send data to main script
+    main.postMessage({ assets });
 }
+
+startMainScript();

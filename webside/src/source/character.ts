@@ -1,6 +1,6 @@
 import { basicObject } from "./basic";
 import { eventObjet } from "./events";
-import { randID, T } from "./utils/utils";
+import { randID, K } from "./utils/utils";
 interface char_ability {
     speed: number;
     image: number;
@@ -9,6 +9,14 @@ interface char_ability {
     defense: number;
     [key: string]: K | bigint;
 }
+
+const defualt_char_ability: char_ability = {
+    speed: 0,
+    image: 0,
+    health: 0,
+    attack: 0,
+    defense: 0,
+};
 
 export class Character<op = {}> extends basicObject {
     BaseType = "Character";
@@ -26,8 +34,8 @@ export class Character<op = {}> extends basicObject {
     visitable: boolean = true;
     rotation: number = 0.0;
     isClone: boolean = false;
-    cloneNumber: number = 0;
-    hasCloned: number = 0;
+    cloneNumber: bigint = 0n;
+    hasCloned: bigint = 0n;
     clones: clonedCharacter[] = [];
     CloneFrom: Character | undefined = undefined;
     effects = {};
@@ -39,7 +47,7 @@ export class Character<op = {}> extends basicObject {
     }
     clone() {
         this.hasCloned++;
-        let cl = new clonedCharacter(this);
+        let cl = new clonedCharacter(this, {});
         this.clones.push(cl);
         return cl;
     }
@@ -59,20 +67,46 @@ export class Character<op = {}> extends basicObject {
             thisEv[evID] = replace;
         }
     }
-    constructor({ id = randID(), tag }: { id?: string; tag?: T }, other?: op) {
-        super({ id, tag }, other);
+    constructor(
+        {
+            ability,
+            id = randID(),
+            tag,
+        }: {
+            ability?: char_ability;
+            id?: string;
+            tag?: Record<K, K>;
+        },
+        other?: op
+    ) {
+        super({ BaseType: "Character", id, tag, type: "Character" });
+        this.abilty = ability ?? defualt_char_ability;
+        Object.assign(this, other);
     }
 }
-export class clonedCharacter extends Character {
+export class clonedCharacter<op = {}> extends Character {
     isClone: boolean = true;
     cloneNumber: bigint;
     set cloneFrom(char: Character | undefined) {
         if (this.cloneFrom?.BaseType == "Character") this.cloneFrom = char;
     }
-    constructor(baseChara: Character | clonedCharacter) {
-        super();
+    constructor(
+        baseChara: Character | clonedCharacter,
+        {
+            ability,
+            id = randID(),
+            tag,
+        }: {
+            ability?: char_ability;
+            id?: string;
+            tag?: Record<K, K>;
+        },
+        other?: op
+    ) {
+        super({ ability, id, tag });
         this.cloneNumber = baseChara.hasCloned;
         this.cloneFrom = baseChara;
+        Object.assign(this, other);
     }
 }
 export class Layer {

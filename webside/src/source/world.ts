@@ -3,7 +3,7 @@ import { randID, sleep, sleepUntil } from "./utils/utils";
 export class world {
     readonly id: string = randID();
     tag: string[] = [];
-    characters: Record<string, objectCollection> = {};
+    Characters: Record<string, objectCollection> = {};
     sense: Record<string, senseCollection> = {};
 
     constructor(opinions?: {
@@ -19,7 +19,7 @@ export class world {
 
         if (opinions?.addtions) {
             opinions.addtions.forEach((i) => {
-                this.sense[i.name || i.id] = i;
+                this.sense[i.name ?? i.id] = i;
             });
         }
     }

@@ -32,7 +32,7 @@ export function sleepUntil(condition: () => boolean): Promise<void> {
 }
 
 export function random(max: number, min?: number) {
-    min = min || 0;
+    min = min ?? 0;
     if (max < min) max ^= min;
     return Math.random() * (max - min) + min;
 }
@@ -63,7 +63,7 @@ export function store() {}
  */
 export function XHRrequest(url: string, method: string, async?: boolean) {
     let request = new XMLHttpRequest();
-    request.open(method, url, async || false);
+    request.open(method, url, async ?? false);
     return request;
 }
 

@@ -1,7 +1,6 @@
 import { basicObject } from "./basic";
 import { eventObjet } from "./events";
-import { randID } from "./utils/utils";
-
+import { randID, T } from "./utils/utils";
 interface char_ability {
     speed: number;
     image: number;
@@ -11,8 +10,8 @@ interface char_ability {
     [key: string]: K | bigint;
 }
 
-export class character extends basicObject {
-    BaseType = "character";
+export class Character<op = {}> extends basicObject {
+    BaseType = "Character";
     x: number = 0.0;
     y: number = 0.0;
     name: string = "";
@@ -30,7 +29,7 @@ export class character extends basicObject {
     cloneNumber: number = 0;
     hasCloned: number = 0;
     clones: clonedCharacter[] = [];
-    CloneFrom: character | undefined = undefined;
+    CloneFrom: Character | undefined = undefined;
     effects = {};
     layerset: Layer[] = [];
     eventList: Record<string, eventObjet> = {};
@@ -44,8 +43,8 @@ export class character extends basicObject {
         this.clones.push(cl);
         return cl;
     }
-    set cloneFrom(char: character | undefined) {
-        if (!this.isClone && this.CloneFrom?.BaseType !== "character") return;
+    set cloneFrom(char: Character | undefined) {
+        if (!this.isClone && this.CloneFrom?.BaseType !== "Character") return;
         this.CloneFrom = char;
     }
     addEvListener(type: string, callback: Function) {
@@ -60,13 +59,17 @@ export class character extends basicObject {
             thisEv[evID] = replace;
         }
     }
-}
-export class clonedCharacter extends character {
-    isClone: boolean = true;
-    set cloneFrom(char: character | undefined) {
-        if (this.CloneFrom?.BaseType == "character") this.CloneFrom = char;
+    constructor({ id = randID(), tag }: { id?: string; tag?: T }, other?: op) {
+        super({ id, tag }, other);
     }
-    constructor(baseChara: character | clonedCharacter) {
+}
+export class clonedCharacter extends Character {
+    isClone: boolean = true;
+    cloneNumber: bigint;
+    set cloneFrom(char: Character | undefined) {
+        if (this.cloneFrom?.BaseType == "Character") this.cloneFrom = char;
+    }
+    constructor(baseChara: Character | clonedCharacter) {
         super();
         this.cloneNumber = baseChara.hasCloned;
         this.cloneFrom = baseChara;
@@ -80,10 +83,10 @@ export class Layer {
     name: string = "";
     layerIndex = 0;
     // content: ImageData;
-    parent: character | undefined = undefined;
+    parent: Character | undefined = undefined;
     constructor(type?: string, size?: number, id?: string) {
-        this.id = id || randID();
-        this.type = type || "";
+        this.id = id ?? randID();
+        this.type = type ?? "";
     }
     moveto(index: number) {
         if (this.parent === undefined) return;

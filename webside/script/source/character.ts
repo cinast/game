@@ -22,7 +22,6 @@ export const defualt_char_ability: char_ability = {
 };
 
 export class Character extends basicObject {
-    BaseType = "Character";
     x: number = 0.0;
     y: number = 0.0;
     name: string = "";
@@ -64,7 +63,7 @@ export class Character extends basicObject {
         return cl;
     }
     set cloneFrom(char: Character | undefined) {
-        if (!this.isClone && this.CloneFrom?.BaseType !== "Character") return;
+        if (!this.isClone && this.CloneFrom instanceof Character) return;
         this.CloneFrom = char;
     }
     addEvListener(type: string, callback: Function) {
@@ -88,7 +87,10 @@ export class clonedCharacter extends Character {
     isClone: boolean = true;
     cloneNumber: bigint;
     set cloneFrom(char: Character | undefined) {
-        if (this.cloneFrom?.BaseType == "Character") this.cloneFrom = char;
+        if (this instanceof Character) {
+            this.cloneFrom = char;
+            char?.clones.push(this);
+        }
     }
     constructor(
         baseChara: Character | clonedCharacter,

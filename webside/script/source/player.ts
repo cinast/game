@@ -1,7 +1,6 @@
 import { char_ability, Character, clonedCharacter } from "./character";
 
 class Player extends Character {
-    type: string = "player";
     name: string = "";
     abilty: char_ability = {
         agile: 1,

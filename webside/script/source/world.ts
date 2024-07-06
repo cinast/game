@@ -29,13 +29,6 @@ export class World {
     get time(): bigint {
         return BigInt(new Date().getMilliseconds()) - this.starttime;
     }
-    // set lastcounter(v){
-
-    // }
-    // get lastcounter():bigint{
-    //     return BigInt()
-    // }
-    // lastcounter:bigint = 0n
 
     delete() {}
 }

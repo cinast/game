@@ -3,7 +3,10 @@ import { K, randID } from "./utils";
 export const pages = (() => {
     let dict: Record<K, Element> = {};
     for (const e of document.querySelectorAll("page")) {
-        dict[e.attributes["name"] ?? `<unnamed page#${randID()}>`] = e;
+        dict[
+            e.attributes.getNamedItem("pagename")?.value ??
+                `<unnamed page#${randID()}>`
+        ] = e;
     }
     return dict;
 })() as Record<K, HTMLElement>;

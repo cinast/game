@@ -6,5 +6,8 @@
   "scripts": {
     "start": "./script/enter.ts",
     "stop": ""
+  },
+  "devDependencies": {
+    "@types/jquery": "^3.5.30"
   }
 }

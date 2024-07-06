@@ -1,4 +1,30 @@
 import { K, randID } from "./utils";
+
+const uiComponentFolder = "/webside/page/pages/";
+const uiComponentList: Record<
+    K,
+    {
+        path: string;
+        assembledAt: string;
+    }
+> = {
+    load: {
+        path: "loading.html",
+        assembledAt: "pageset",
+    },
+};
+
+export function pageInital() {
+    for (const [key, value] of Object.entries(uiComponentList)) {
+        $.ajax({
+            url: uiComponentFolder + value.path, // assuming you want to concatenate the folder path
+            success: function (data) {
+                $(value.path).html(data);
+            },
+        });
+    }
+}
+
 // ui control
 export const pages = (() => {
     let dict: Record<K, Element> = {};

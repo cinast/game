@@ -1,7 +1,7 @@
 import { Character } from "./character";
 import { randID } from "./utils/utils";
 
-export class sense {
+export class Sense {
     readonly id: string = randID();
     readonly BaseType: string = "";
     type: string = "";

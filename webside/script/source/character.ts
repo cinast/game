@@ -2,18 +2,20 @@ import { basicObject } from "./basic";
 import { eventObjet } from "./events";
 import { Layer } from "./layer";
 import { randID, K } from "./utils/utils";
-interface char_ability {
-    speed: number;
-    image: number;
+export interface char_ability {
+    agile: number;
+    movespeed: number;
+    wisdom: number;
     health: number;
     attack: number;
     defense: number;
     [key: string]: K | bigint;
 }
 
-const defualt_char_ability: char_ability = {
-    speed: 0,
-    image: 0,
+export const defualt_char_ability: char_ability = {
+    agile: 0,
+    movespeed: 0,
+    wisdom: 0,
     health: 0,
     attack: 0,
     defense: 0,
@@ -26,8 +28,17 @@ export class Character extends basicObject {
     name: string = "";
     globalSize: number = 1.0;
     abilty: char_ability = {
-        speed: 0,
-        image: 0,
+        agile: 0,
+        movespeed: 0,
+        wisdom: 0,
+        health: 0,
+        attack: 0,
+        defense: 0,
+    };
+    ability_base_bound: char_ability = {
+        agile: 0,
+        movespeed: 0,
+        wisdom: 0,
         health: 0,
         attack: 0,
         defense: 0,
@@ -48,7 +59,7 @@ export class Character extends basicObject {
     }
     clone() {
         this.hasCloned++;
-        let cl = new clonedCharacter(this, {});
+        let cl = new clonedCharacter(this);
         this.clones.push(cl);
         return cl;
     }
@@ -68,16 +79,8 @@ export class Character extends basicObject {
             thisEv[evID] = replace;
         }
     }
-    constructor({
-        ability,
-        id = randID(),
-        tag,
-    }: {
-        ability?: char_ability;
-        id?: string;
-        tag?: Record<K, K>;
-    }) {
-        super({ BaseType: "Character", id, tag, type: "Character" });
+    constructor(ability?: char_ability, id?: string) {
+        super(id);
         this.abilty = ability ?? defualt_char_ability;
     }
 }
@@ -89,17 +92,10 @@ export class clonedCharacter extends Character {
     }
     constructor(
         baseChara: Character | clonedCharacter,
-        {
-            ability,
-            id = randID(),
-            tag,
-        }: {
-            ability?: char_ability;
-            id?: string;
-            tag?: Record<K, K>;
-        }
+        ability?: char_ability,
+        id?: string
     ) {
-        super({ ability, id, tag });
+        super(ability, id);
         this.cloneNumber = baseChara.hasCloned;
         this.cloneFrom = baseChara;
     }

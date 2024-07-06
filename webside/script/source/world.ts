@@ -1,7 +1,7 @@
-import { sense } from "./sense";
+import { Sense } from "./sense";
 import { randID, sleep, sleepUntil } from "./utils/utils";
 
-export class world {
+export class World {
     readonly id: string = randID();
     tag: string[] = [];
     Characters: Record<string, objectCollection> = {};
@@ -10,7 +10,7 @@ export class world {
     constructor(opinions?: {
         time?: number | bigint;
         init?: boolean;
-        addtions?: sense[];
+        addtions?: Sense[];
     }) {
         if (opinions?.time) {
             this.starttime = BigInt(opinions.time);

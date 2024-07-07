@@ -2,13 +2,13 @@
 
 ## 定位指北
 
-- [enterance - `website\page\game.html`](website\page\game.html)
+- [enterance - `website/page/game.html`](website/page/game.html)
 
 - [codeaera - `/website`](/website)
 
 - [script.start - `/website/script/runtime/enter.ts`](/website/script/runtime/enter.ts)
 
-- [script.utils - `website\script\source\utils`](website\script\source\utils)
+- [script.utils - `website/script/source/utils`](website/script/source/utils)
 
 ## 代码规范
 

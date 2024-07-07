@@ -1,13 +1,11 @@
 here's secret porject of  
 *a web game*
 
-idk how name it
-so it unamed()
+It's a unnamed game for now, because i haven't think up it's new name yet...
 
+## Development Guide
+See [the Development Guide](doc) at `/doc`
 
-## guide
-see [doc](doc) at `/doc`
-
-## enterence
+## Game Entrance
 - [game.html](page/game.html)  
 - [entere.ts](script/enter.ts)

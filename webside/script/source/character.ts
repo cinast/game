@@ -1,4 +1,4 @@
-import { basicObject } from "./basic";
+import { gameBasicObject } from "./basic";
 import { eventObjet } from "./events";
 import { Layer } from "./layer";
 import { randID, K } from "./utils/utils";
@@ -21,11 +21,7 @@ export const defualt_char_ability: char_ability = {
     defense: 0,
 };
 
-export class Character extends basicObject {
-    x: number = 0.0;
-    y: number = 0.0;
-    name: string = "";
-    globalSize: number = 1.0;
+export class Character extends gameBasicObject {
     abilty: char_ability = {
         agile: 0,
         movespeed: 0,
@@ -42,16 +38,14 @@ export class Character extends basicObject {
         attack: 0,
         defense: 0,
     };
-    visitable: boolean = true;
-    rotation: number = 0.0;
+
     isClone: boolean = false;
     cloneNumber: bigint = 0n;
     hasCloned: bigint = 0n;
     clones: clonedCharacter[] = [];
     CloneFrom: Character | undefined = undefined;
     effects = {};
-    layerset: Layer[] = [];
-    eventList: Record<string, eventObjet> = {};
+
     moveto(x: number, y: number) {
         this.x = x;
         this.y = y;
@@ -66,18 +60,7 @@ export class Character extends basicObject {
         if (!this.isClone && this.CloneFrom instanceof Character) return;
         this.CloneFrom = char;
     }
-    addEvListener(type: string, callback: Function) {
-        let ev = new eventObjet(type, callback);
-        this.eventList[ev.id] = ev;
-        return ev.id;
-    }
-    deteleEvListener(evID: string, replace?: eventObjet) {
-        let thisEv = this.eventList;
-        delete thisEv[evID];
-        if (replace instanceof eventObjet) {
-            thisEv[evID] = replace;
-        }
-    }
+
     constructor(ability?: char_ability, id?: string) {
         super(id);
         this.abilty = ability ?? defualt_char_ability;

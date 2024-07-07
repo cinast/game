@@ -18,7 +18,3 @@ function newFloor(seed: string | number, height: number, width: number) {
 
     Object.assign(globalWorld.sense, floor);
 }
-//ok
-/*  我记得有一种地图生成算法叫做波函数坍缩算法，不是让你真的模拟波函数，
-    而是模拟波函数的特点，可以的话试试 :D
-    */

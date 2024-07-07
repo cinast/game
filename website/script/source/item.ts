@@ -1,21 +1,21 @@
 import { gameBasicObject } from "./basic";
-import { eventObjet } from "./events";
+import { eventObject } from "./events";
 
 export class Item extends gameBasicObject {
     name: string = "";
     description: string = "";
     weight: number = 0.0;
     isUsable: boolean = true;
-    effect: Record<k, eventObjet> = {
-        onkeep: new eventObjet("onkeep", () => {}),
-        onhold: new eventObjet("onhold", () => {}),
-        onuse: new eventObjet("onhold", () => {}),
+    effect: Record<k, eventObject> = {
+        onkeep: new eventObject("onkeep", () => {}),
+        onhold: new eventObject("onhold", () => {}),
+        onuse: new eventObject("onhold", () => {}),
     };
     constructor(
         name: string,
         description: string,
         weight: number,
-        effect: Record<k, eventObjet>,
+        effect: Record<k, eventObject>,
         useable: boolean
     ) {
         super();

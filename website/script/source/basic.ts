@@ -1,4 +1,4 @@
-import { eventObjet } from "./events";
+import { eventObject } from "./events";
 import { Layer } from "./layer";
 import { randID } from "./utils/utils";
 
@@ -17,16 +17,16 @@ export class gameBasicObject {
     visitable: boolean = true;
     rotation: number = 0.0;
     layerset: Layer[] = [];
-    eventList: Record<string, eventObjet> = {};
+    eventList: Record<string, eventObject> = {};
     addEvListener(type: string, callback: Function) {
-        let ev = new eventObjet(type, callback);
+        let ev = new eventObject(type, callback);
         this.eventList[ev.id] = ev;
         return ev.id;
     }
-    deteleEvListener(evID: string, replace?: eventObjet) {
+    deteleEvListener(evID: string, replace?: eventObject) {
         let thisEv = this.eventList;
         delete thisEv[evID];
-        if (replace instanceof eventObjet) {
+        if (replace instanceof eventObject) {
             thisEv[evID] = replace;
         }
     }

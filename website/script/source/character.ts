@@ -1,5 +1,5 @@
 import { gameBasicObject } from "./basic";
-import { eventObjet } from "./events";
+import { eventObject } from "./events";
 import { Layer } from "./layer";
 import { randID, K } from "./utils/utils";
 export interface char_ability {

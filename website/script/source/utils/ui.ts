@@ -14,7 +14,7 @@ const uiComponentList: Record<
     },
 };
 
-export function pageInital() {
+export function pageInitial() {
     for (const [key, value] of Object.entries(uiComponentList)) {
         $.ajax({
             url: uiComponentFolder + value.path, // assuming you want to concatenate the folder path
@@ -40,7 +40,7 @@ export const pages = (() => {
 /**
  * shown page or not
  */
-export function PageTurnVisitable(name: K, v: boolean) {
+export function PageTurnVisible(name: K, v: boolean) {
     pages[name].style.visibility = v ? "visible" : "hidden";
 }
 
@@ -48,7 +48,7 @@ export function PageTurnVisitable(name: K, v: boolean) {
  * shown page or not
  * put names into the dict and set switch
  */
-export function PagesTurnVisitable(list: { [k in K]: boolean }) {
+export function PagesTurnVisible(list: { [k in K]: boolean }) {
     for (let i in list) {
         pages[i].style.visibility = list[i] ? "visible" : "hidden";
     }

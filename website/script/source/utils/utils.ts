@@ -10,8 +10,8 @@ export type K = string | number | symbol;
 
 /**
  *
- * resource progressing function list
- * chooce your way
+ * resource processing function list
+ * choose your way
  */
 export const parse: Record<K, Function> = {
     // pre:(blob:Blob)=>{FileReader(blob)},
@@ -57,8 +57,8 @@ export function store() {}
 /**
  * it not full-prepare now
  *
- * set `retry` to limt trying number
- * param `fail` only trig once when request fail,
+ * set `retry` to limit trying number
+ * param `fail` only trigger once when request fail,
  * `failcount` will under retry
  */
 export function XHRrequest(url: string, method: string, async?: boolean) {
@@ -69,7 +69,7 @@ export function XHRrequest(url: string, method: string, async?: boolean) {
 
 /**
  * get resource list form github, *\/assets/assets.json*
- * if failed, it'll remind you
+ * if failed, it'll notify you
  */
 export function getResourseList() {
     // assets = JSON.parse(

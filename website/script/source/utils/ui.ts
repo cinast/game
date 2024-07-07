@@ -1,6 +1,6 @@
 import { K, randID } from "./utils";
 
-const uiComponentFolder = "/webside/page/pages/";
+const uiComponentFolder = "/website/page/pages/";
 const uiComponentList: Record<
     K,
     {

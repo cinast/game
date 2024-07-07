@@ -1,13 +1,13 @@
 {
-  "dependencies": {
-    "tsc": "^2.0.4",
-    "typescript": "^5.5.3"
-  },
-  "scripts": {
-    "start": "./script/enter.ts",
-    "stop": ""
-  },
-  "devDependencies": {
-    "@types/jquery": "^3.5.30"
-  }
+    "dependencies": {
+        "tsc": "^2.0.4",
+        "typescript": "^5.5.3"
+    },
+    "scripts": {
+        "start": "/website/script/runtime/enter.ts",
+        "stop": ""
+    },
+    "devDependencies": {
+        "@types/jquery": "^3.5.30"
+    }
 }

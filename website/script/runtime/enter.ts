@@ -16,8 +16,7 @@
  * @author cinast(*cosider*)  paskaw(*beams123*)
  *
  */
-// jsdoc 在ts可以用，而且爽
-// jsdoc可以和 ts一样限制类型，还能加各种标识
+
 import { PageTurnVisitable } from "../source/utils/ui";
 import { XHRrequest, parse } from "../source/utils/utils";
 

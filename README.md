@@ -7,5 +7,5 @@ It's a unnamed game for now, because i haven't think up it's new name yet...
 See [the Development Guide](doc) at `/doc`
 
 ## Game Entrance
-- [game.html](page/game.html)  
-- [entere.ts](script/enter.ts)
+- [Game page](page/game.html)  
+- [Entrance script](script/enter.ts)

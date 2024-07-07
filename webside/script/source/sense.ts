@@ -50,7 +50,7 @@ export class BlockUnit extends gameBasicObject {
  *  blocks under or is ground
  */
 export class Ground extends BlockUnit {
-    laysOn = "Ground";
+    // laysOn = "Ground";
 }
 
 /**

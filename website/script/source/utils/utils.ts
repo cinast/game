@@ -48,6 +48,21 @@ export function randID() {
     return randint(1e10).toString(16);
 }
 
+/**
+ * limt a **number** with open interval
+ */
+export function clamp(value: number, min: number, max: number): number {
+    return Math.min(Math.max(value, min), max);
+}
+
+/**
+ * limt a **bogint** with open interval
+ */
+export function clamp_bint(value: bigint, min: bigint, max: bigint): bigint {
+    let x = value > min ? value : min;
+    return x < max ? x : max;
+}
+
 export function read() {
     localStorage.getItem("x62o");
 }
@@ -76,4 +91,42 @@ export function getResourseList() {
     //     function(){
     //     }
     // )
+}
+
+/**
+ * Deep copy a nested object
+ * @from https://www.delftstack.com/zh/howto/typescript/typescript-cloning-an-object/#typescript-%e4%b8%ad%e7%9a%84%e5%85%8b%e9%9a%86%e6%9c%ba%e5%88%b6
+ */
+function deepCopy<T>(instance: T): T {
+    if (instance == null) {
+        return instance;
+    }
+
+    // handle Dates
+    if (instance instanceof Date) {
+        return new Date(instance.getTime()) as any;
+    }
+
+    // handle Array types
+    if (instance instanceof Array) {
+        var cloneArr = [] as any[];
+        (instance as any[]).forEach((value) => {
+            cloneArr.push(value);
+        });
+        // for nested objects
+        return cloneArr.map((value: any) => deepCopy<any>(value)) as any;
+    }
+    // handle objects
+    if (instance instanceof Object) {
+        var copyInstance = { ...(instance as { [key: string]: any }) } as {
+            [key: string]: any;
+        };
+        for (var attr in instance) {
+            if ((instance as Object).hasOwnProperty(attr))
+                copyInstance[attr] = deepCopy<any>(instance[attr]);
+        }
+        return copyInstance as T;
+    }
+    // handling primitive data types
+    return instance;
 }

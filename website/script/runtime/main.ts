@@ -15,6 +15,5 @@ function newFloor(seed: string | number, height: number, width: number) {
             floor[i].push(new BlockUnit());
         }
     }
-
     Object.assign(globalWorld.sense, floor);
 }

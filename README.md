@@ -1,10 +1,34 @@
-here's secret porject of  
-*a web game*
+#
 
-It's a unnamed game for now, because i haven't think up it's new name yet...
+here's secret porject of  
+_a web game_
+
+```js
+/**
+ *
+ *       xx
+ *     x  xx         xxxx
+ *         xxx     xx    x
+ *          xxx   xx
+ *           xxx xx      dungeon
+ *            xxxx
+ *           xx  xxx
+ *      x  xx      xxx
+ *       xx           xx
+ *
+ */
+```
+
+```json
+{
+    "name": "xxxx dungeon",
+    "version": " 1.0.0",
+    "author": ["cinast(cosider)", "paskaw(beams123)"]
+}
+```
 
 ## Development Guide
-See [the Development Guide](doc) at `/doc`
+See [the Development Guide](doc/devguide.md) at `/doc`
 
 ## Game Entrance
 - [Game page](page/game.html)  

@@ -17,48 +17,54 @@ export class Sense {
         col: 0n,
         row: 0n,
     };
+
+    content: any;
+
     addCharacter(...Character: Character[]) {
         Character.forEach((c) => {
             this.Characters = { ...this.Characters, [c.name]: c };
         });
     }
     remove() {}
+
+    constructor() {}
 }
 
-type BlockCollection = BlockUnit | Ground;
-
+export class floor extends Sense {
+    type: string = "floor";
+    /**
+     * if not set it, it defualtly 20*20
+     */
+    scale: { col: bigint; row: bigint } = {
+        col: 20n,
+        row: 20n,
+    };
+    content: BlockUnit[][] = [[]];
+    constructor(
+        height: bigint,
+        width: bigint,
+        // fillwith?: BlockCollection,
+        seed?: string | number
+    ) {
+        super();
+        this.scale.row = width;
+        this.scale.col = height;
+        if (!seed) {
+            for (let i = 0; i < height; i++) {
+                this.content.push([]);
+                for (let j = 0; j < width; i++) {
+                    this.content[i].push(new BlockUnit(`${i},${j}`));
+                }
+            }
+        } else {
+            /** to be continued */
+        }
+    }
+}
 /**
  *  basic unit of block
  */
 export class BlockUnit extends gameBasicObject {
-    passable: boolean = true;
-    laysOn: BlockCollection | undefined;
-    covers: {
-        blocks: BlockUnit[];
-        chars: Character[];
-        items: Item[];
-    } = {
-        blocks: [],
-        chars: [],
-        items: [],
-    };
+    covers: (Character | Item)[] = [];
+    clear(targets: string) {}
 }
-
-// basic typed block group
-
-/**
- *  blocks under or is ground
- */
-export class Ground extends BlockUnit {
-    // laysOn = "Ground";
-}
-
-/**
- *  blocks on Land
- */
-export class Land extends BlockUnit {}
-
-/**
- *  blocks in | over air
- */
-export class Air extends BlockUnit {}

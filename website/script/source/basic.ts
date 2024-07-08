@@ -6,7 +6,7 @@ import { randID } from "./utils/utils";
  *  every object comprising senses, etc. chars, block, item
  */
 export class gameBasicObject {
-    readonly id: string;
+    id: string;
     type: string = "";
     tag: Record<k, K> = {};
     layerIndex: number = 0;

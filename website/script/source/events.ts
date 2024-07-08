@@ -1,5 +1,5 @@
 import { randID } from "./utils/utils";
-export class eventObjet {
+export class eventObject {
     readonly id: string;
     type: string = "";
     tag: string[] = [];

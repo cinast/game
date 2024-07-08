@@ -1,5 +1,5 @@
 import { gameBasicObject } from "./basic";
-import { eventObjet } from "./events";
+import { eventObject } from "./events";
 import { Layer } from "./layer";
 import { randID, K } from "./utils/utils";
 export interface char_ability {
@@ -61,9 +61,8 @@ export class Character extends gameBasicObject {
         this.CloneFrom = char;
     }
 
-    constructor(ability?: char_ability, id?: string) {
+    constructor(id?: string) {
         super(id);
-        this.abilty = ability ?? defualt_char_ability;
     }
 }
 export class clonedCharacter extends Character {
@@ -75,13 +74,9 @@ export class clonedCharacter extends Character {
             char?.clones.push(this);
         }
     }
-    constructor(
-        baseChara: Character | clonedCharacter,
-        ability?: char_ability,
-        id?: string
-    ) {
-        super(ability, id);
-        this.cloneNumber = baseChara.hasCloned;
+    constructor(baseChara?: Character | clonedCharacter, id?: string) {
+        super(id);
+        this.cloneNumber = baseChara?.hasCloned ?? -1n;
         this.cloneFrom = baseChara;
     }
 }

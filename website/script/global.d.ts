@@ -6,3 +6,4 @@ declare type K = k | bigint;
 declare type objectCollection = Character | clonedCharacter;
 declare type senseCollection = sense;
 declare type gameCollection = omit<objectCollection, senseCollection>;
+declare type BlockCollection = BlockUnit | Ground;

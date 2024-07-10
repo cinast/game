@@ -1,6 +1,4 @@
-// export class game{
-
-// }
+export const ThisGame = {};
 
 // export function (){
 

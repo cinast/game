@@ -3,8 +3,8 @@ import { randID } from "./utils/utils";
 import { gameBasicObject } from "./basic";
 import { Item } from "./item";
 
-export class Sense {
-    readonly id: string = randID();
+export class Scene {
+    id: string = `Scene#${randID()}`;
     type: string = "";
     name: string = "";
     tag: string[] = [];
@@ -19,7 +19,7 @@ export class Sense {
     };
 
     content: any;
-
+    connectTo: Record<k,senseCollection>;
     addCharacter(...Character: Character[]) {
         Character.forEach((c) => {
             this.Characters = { ...this.Characters, [c.name]: c };
@@ -27,10 +27,16 @@ export class Sense {
     }
     remove() {}
 
-    constructor() {}
+    constructor(name: string = `${randID()}`, connectTo?: Record<k,senseCollection & >) {
+        this.name = name;
+        this.connectTo = connectTo;
+    }
 }
 
-export class floor extends Sense {
+export class specialScene extends Scene {}
+
+export class Floor extends Scene {
+    id: string = `Floor#${randID()}`;
     type: string = "floor";
     /**
      * if not set it, it defualtly 20*20
@@ -44,23 +50,26 @@ export class floor extends Sense {
         height: bigint,
         width: bigint,
         // fillwith?: BlockCollection,
-        seed?: string | number
+        seed?: string | number,
+        connectTo?: Record<k,senseCollection>
     ) {
-        super();
+        super("", connectTo);
         this.scale.row = width;
         this.scale.col = height;
         if (!seed) {
             for (let i = 0; i < height; i++) {
                 this.content.push([]);
                 for (let j = 0; j < width; i++) {
-                    this.content[i].push(new BlockUnit(`${i},${j}`));
+                    this.content[i].push(new BlockUnit(`block[${i},${j}]`));
                 }
             }
         } else {
             /** to be continued */
         }
+        this.connectTo = connectTo
     }
 }
+
 /**
  *  basic unit of block
  */

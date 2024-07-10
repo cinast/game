@@ -1,21 +1,25 @@
 import { gameBasicObject } from "./basic";
 import { eventObject } from "./events";
-import { clamp, randID } from "./utils/utils";
+import { randID } from "./utils/utils";
 
 /**
- *  Anything can be interact or be used, included  equipment, food, books, etc.
- *  but `Characters`, `buildiings` or *likes* are **not in list**
+ * Anything can be interact or be used, distinguish from `Items`
+ * included wall, door, boxes, etc.
  */
-export class Item extends gameBasicObject {
+export class Buildiings extends gameBasicObject {
     id: string = "item#" + randID();
     name: string = randID();
     description: string = "";
     weight: number = 0.0;
     isUsable: boolean = true;
     effect: Record<string, eventObject> = {
-        onkeep: new eventObject("onkeep", () => {}),
-        onhold: new eventObject("onhold", () => {}),
-        onuse: new eventObject("onhold", () => {}),
+        onstandOn: new eventObject("onstandOn", () => {}),
+        /** doors likes use only */
+        onpush: new eventObject("onpush", () => {}),
+        /** dox likes use only */
+        onopen: new eventObject("onopen", () => {}),
+        /** traps likes use only */
+        ontrigeSth: new eventObject("ontrigeSth", () => {}),
     };
 
     number: number = 1;

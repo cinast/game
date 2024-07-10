@@ -17,13 +17,11 @@ _a web game_
  *       xx           xx
  *
  */
-```
 
-```json
-{
-    "name": "xxxx dungeon",
-    "version": " 1.0.0",
-    "author": ["cinast(cosider)", "paskaw(beams123)"]
+detail gobal.project {
+    name: "xxxx dungeon",
+    version: " 1.0.0",
+    author: ["cinast(cosider)", "paskaw(beams123)"]
 }
 ```
 

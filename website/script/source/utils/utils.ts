@@ -37,15 +37,36 @@ export function random(max: number, min?: number) {
     return Math.random() * (max - min) + min;
 }
 
-export function randint(max: number, min?: number) {
-    return random(max, min);
+export function randint(
+    max: number,
+    min?: number,
+    mod: "ceil" | "floor" | "round" | "trunc" = "round"
+) {
+    const result = {
+        ceil: (v: number) => Math.ceil(v),
+        floor: (v: number) => Math.floor(v),
+        round: (v: number) => Math.round(v),
+        trunc: (v: number) => Math.trunc(v),
+    };
+    return result[mod](random(max, min));
+}
+
+/**
+ *
+ */
+export function randBint(
+    max: number,
+    min?: number,
+    mod: "ceil" | "floor" | "round" | "trunc" = "round"
+) {
+    return BigInt(random(max, min));
 }
 
 /**
  * no hash (laugh
  */
-export function randID() {
-    return randint(1e10).toString(16);
+export function randID(base: number = 16) {
+    return randint(1e10).toString(base);
 }
 
 /**

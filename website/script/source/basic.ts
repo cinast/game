@@ -1,6 +1,6 @@
 import { eventObject } from "./events";
 import { Layer } from "./layer";
-import { randID } from "./utils/utils";
+import { NestedObject, randID } from "./utils/utils";
 
 /**
  *  every object comprising senses, etc. chars, block, item
@@ -17,7 +17,7 @@ export class gameBasicObject {
     visitable: boolean = true;
     rotation: number = 0.0;
     layerset: Layer[] = [];
-    eventList: Record<string, eventObject> = {};
+    eventList: NestedObject<string, eventObject> = {};
     addEvListener(type: string, callback: Function) {
         let ev = new eventObject(type, callback);
         this.eventList[ev.id] = ev;

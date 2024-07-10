@@ -1,6 +1,6 @@
 import { gameBasicObject } from "./basic";
 import { eventObject } from "./events";
-import { clamp, randID } from "./utils/utils";
+import { clamp, NestedObject, randID } from "./utils/utils";
 
 /**
  *  Anything can be interact or be used, included  equipment, food, books, etc.
@@ -12,10 +12,12 @@ export class Item extends gameBasicObject {
     description: string = "";
     weight: number = 0.0;
     isUsable: boolean = true;
-    effect: Record<string, eventObject> = {
-        onkeep: new eventObject("onkeep", () => {}),
-        onhold: new eventObject("onhold", () => {}),
-        onuse: new eventObject("onhold", () => {}),
+    eventList = {
+        effect: {
+            onkeep: new eventObject("onkeep", () => {}),
+            onhold: new eventObject("onhold", () => {}),
+            onuse: new eventObject("onuse", () => {}),
+        },
     };
 
     number: number = 1;
@@ -48,7 +50,7 @@ export class Item extends gameBasicObject {
 
             // if sameItem's number is or under 0, remove it
             if (sameItem.number === 0) {
-                sameItem.detele();
+                sameItem.delete();
             }
         }
     }
@@ -59,7 +61,7 @@ export class Item extends gameBasicObject {
         return stackoffed;
     }
 
-    detele() {
+    delete() {
         // h e l p    m e
     }
 
@@ -67,7 +69,7 @@ export class Item extends gameBasicObject {
         name: string,
         description: string,
         weight: number,
-        effect: Record<string, eventObject>,
+        effect: NestedObject<string, eventObject>,
         useable: boolean = true
     ) {
         super();
@@ -75,6 +77,6 @@ export class Item extends gameBasicObject {
         this.description = description;
         this.weight = weight;
         this.isUsable = useable;
-        this.effect = Object.assign(effect);
+        this.eventList.effect = effect;
     }
 }

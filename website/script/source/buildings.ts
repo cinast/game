@@ -5,6 +5,8 @@ import { randID } from "./utils/utils";
 /**
  * Anything can be interact or be used, distinguish from `Items`
  * included wall, door, boxes, etc.
+ * @deprecated
+ * @notice no completed now
  */
 export class Buildiings extends gameBasicObject {
     id: string = "item#" + randID();

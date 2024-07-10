@@ -151,3 +151,9 @@ function deepCopy<T>(instance: T): T {
     // handling primitive data types
     return instance;
 }
+
+export type NestedObject<K, V> = {
+    [key: K]: V | NestedObject<V, K>;
+} & {
+    [key: K]: V;
+};

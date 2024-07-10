@@ -25,6 +25,9 @@ detail gobal.project {
 }
 ```
 
-## guide
+## Development Guide
+See [the Development Guide](doc/devguide.md) at `/doc`
 
-see [doc](doc/dev%20guide.md) at `/doc/dev guide.md`
+## Game Entrance
+- [Game page](page/game.html)  
+- [Entrance script](script/enter.ts)

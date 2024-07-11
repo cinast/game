@@ -8,7 +8,7 @@ import {
 import { gameBasicObject } from "./basic";
 import { Item } from "./item";
 import { eventObject } from "./events";
-import { Buildiings } from "./buildings";
+import { Buildiing } from "./buildings";
 
 export class Scene {
     id: string = `Scene#${randID()}`;
@@ -26,9 +26,9 @@ export class Scene {
     };
 
     content: any;
-    connectTo: NestedObject_partial<string, senseCollection> & {
-        enterance: NestedObject_and_partialItself<string, Buildiings>;
-        exits: NestedObject_and_partialItself<string, Buildiings>;
+    connectTo: NestedObject_partial<string, sceneCollection> & {
+        enterance: NestedObject_and_partialItself<string, Buildiing>;
+        exits: NestedObject_and_partialItself<string, Buildiing>;
     } = {
         enterance: {},
         exits: {},
@@ -56,12 +56,9 @@ export class Scene {
 
     constructor(
         name: string = `${randID()}`,
-        connectTo: NestedObject<string, senseCollection> & {
-            enterance: NestedObject_and_partialItself<string, Buildiings>;
-            exits: NestedObject_and_partialItself<string, Buildiings>;
-        } = {
-            enterance: {},
-            exits: {},
+        connectTo: NestedObject<string, sceneCollection> & {
+            enterance: NestedObject_and_partialItself<string, Buildiing>;
+            exits: NestedObject_and_partialItself<string, Buildiing>;
         }
     ) {
         this.name = name;
@@ -82,12 +79,12 @@ export class Floor extends Scene {
         row: 20n,
     };
     content: any;
-    connectTo: NestedObject_partial<string, senseCollection> & {
-        enterance: NestedObject_and_partialItself<string, Buildiings>;
-        exits: NestedObject_and_partialItself<string, Buildiings>;
-        floorTo: NestedObject_and_partialItself<string, Buildiings> & {
-            next: Partial<Buildiings>;
-            prev: Partial<Buildiings>;
+    connectTo: NestedObject_partial<string, sceneCollection> & {
+        enterance: NestedObject_and_partialItself<string, Buildiing>;
+        exits: NestedObject_and_partialItself<string, Buildiing>;
+        floorTo: NestedObject_and_partialItself<string, Buildiing> & {
+            next: Partial<Buildiing>;
+            prev: Partial<Buildiing>;
         };
     } = {
         enterance: {},
@@ -102,12 +99,12 @@ export class Floor extends Scene {
         width: bigint,
         // fillwith?: BlockCollection,
         seed?: string | number,
-        connectTo: NestedObject_partial<string, senseCollection> & {
-            enterance: NestedObject_and_partialItself<string, Buildiings>;
-            exits: NestedObject_and_partialItself<string, Buildiings>;
-            floorTo: NestedObject_and_partialItself<string, Buildiings> & {
-                next: Partial<Buildiings>;
-                prev: Partial<Buildiings>;
+        connectTo: NestedObject_partial<string, sceneCollection> & {
+            enterance: NestedObject_and_partialItself<string, Buildiing>;
+            exits: NestedObject_and_partialItself<string, Buildiing>;
+            floorTo: NestedObject_and_partialItself<string, Buildiing> & {
+                next: Partial<Buildiing>;
+                prev: Partial<Buildiing>;
             };
         } = {
             enterance: {},
@@ -118,6 +115,8 @@ export class Floor extends Scene {
             },
         }
     ) {
+        let 
+        connectTo.floorTo
         super("", connectTo);
         this.scale.row = width;
         this.scale.col = height;

@@ -5,7 +5,7 @@ export class World {
     readonly id: string = randID();
     tag: string[] = [];
     Characters: Record<string, objectCollection> = {};
-    sense: Floor[] = [];
+    scene: Floor[] = [];
 
     constructor(opinions?: { time: number; init?: boolean }) {
         if (opinions?.time) this.starttime = opinions.time;

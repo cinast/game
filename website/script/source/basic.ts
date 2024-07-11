@@ -3,7 +3,7 @@ import { Layer } from "./layer";
 import { NestedObject, randID } from "./utils/utils";
 
 /**
- *  every object comprising senses, etc. chars, block, item
+ *  every object comprising scenes, etc. chars, block, item
  */
 export class gameBasicObject {
     id: string;

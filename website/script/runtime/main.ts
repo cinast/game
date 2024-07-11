@@ -21,6 +21,6 @@ function worldInit() {
         let floor = randFloor();
         floor.name = "floor" + i;
         floor.connectTo;
-        globalWorld.sense.push();
+        globalWorld.scene.push();
     }
 }

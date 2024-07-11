@@ -8,7 +8,7 @@ import {
 import { gameBasicObject } from "./basic";
 import { Item } from "./item";
 import { eventObject } from "./events";
-import { Buildiing } from "./buildings";
+import { Buildiing, FloorTransfer } from "./buildings";
 
 export class Scene {
     id: string = `Scene#${randID()}`;
@@ -115,8 +115,9 @@ export class Floor extends Scene {
             },
         }
     ) {
-        let 
-        connectTo.floorTo
+        let up = new FloorTransfer("toPrevFloor");
+        let down = new FloorTransfer("ToNextFloor");
+        connectTo.floorTo;
         super("", connectTo);
         this.scale.row = width;
         this.scale.col = height;

@@ -1,6 +1,7 @@
 import { gameBasicObject } from "./basic";
+import { Character } from "./character";
 import { eventObject } from "./events";
-import { Scene } from "./scene";
+import { Floor, Scene } from "./scene";
 import {
     NestedObject,
     NestedObject_and_partialItself,
@@ -31,11 +32,11 @@ export class Buildiing extends gameBasicObject {
         interacts: NestedObject<string, eventObject>;
     } = {
         interacts: {
-            onstandOn: new eventObject("onstandOn", () => {}),
-            /** dox likes use only */
-            onopen: new eventObject("onopen", () => {}),
-            /** traps likes use only */
-            ontrigeSth: new eventObject("ontrigeSth", () => {}),
+            // onstandOn: new eventObject("onstandOn", () => {}),
+            // /** dox likes use only */
+            // onopen: new eventObject("onopen", () => {}),
+            // /** traps likes use only */
+            // ontrigeSth: new eventObject("ontrigeSth", () => {}),
         },
     };
 
@@ -45,13 +46,21 @@ export class Buildiing extends gameBasicObject {
 
     constructor(
         name: string,
-        description: string,
-        effect: NestedObject<string, eventObject>
+        passable: NestedObject<string, boolean> & {
+            above: boolean;
+            across: boolean;
+            below: boolean;
+        } = {
+            above: false,
+            across: false,
+            below: false,
+        },
+        interacts: NestedObject<string, eventObject>
     ) {
         super();
         this.name = name;
-        this.description = description;
-        this.eventList.interacts = Object.assign(effect);
+        this.passable = passable;
+        this.eventList.interacts = interacts;
     }
 }
 
@@ -69,10 +78,44 @@ export class Door extends Buildiing {
 /**
  * enterance or exit of every scenes
  */
-export class EnteranceLike extends Door {
-    connectTo: NestedObject_partial<string, sceneCollection> & {
-        in: Partial<sceneCollection>;
+export class Transfer extends Door {
+    name: string = "Transfer#" + randID();
+    passable: NestedObject<string, boolean> & {
+        above: boolean;
+        across: boolean;
+        below: boolean;
     } = {
-        in: {},
+        above: true,
+        across: true,
+        below: false,
     };
+
+    connectTo: NestedObject_partial<string, sceneCollection> & {
+        enter: Partial<sceneCollection>;
+    } = {
+        enter: {},
+    };
+
+    eventList: NestedObject<string, eventObject> & {
+        interacts: NestedObject<string, eventObject>;
+    } = {
+        interacts: {
+            /**
+             * @deprecated
+             */
+            onenter: new eventObject(
+                "onenter",
+                (entity: characterCollection) => {
+                    gobalGame.currentScene = this.connectTo.enter;
+                }
+            ),
+        },
+    };
+
+    constructor(name: "ToNextFloor" | "toPrevFloor", to?: sceneCollection) {
+        super(name, _, {});
+        this.connectTo.enter = to;
+    }
 }
+
+export class FloorTransfer extends Transfer {}

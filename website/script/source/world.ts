@@ -4,7 +4,7 @@ import { randID, sleep, sleepUntil } from "./utils/utils";
 export class World {
     readonly id: string = randID();
     tag: string[] = [];
-    Characters: Record<string, objectCollection> = {};
+    Characters: Record<string, characterCollection> = {};
     scene: Floor[] = [];
 
     constructor(opinions?: { time: number; init?: boolean }) {

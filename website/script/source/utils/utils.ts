@@ -152,8 +152,12 @@ function deepCopy<T>(instance: T): T {
     return instance;
 }
 
-export type NestedObject<K, V> = {
-    [key: K]: V | NestedObject<V, K>;
-} & {
-    [key: K]: V;
+// export type NestedObject<K, V> = {
+//     [key: K]: V | NestedObject<V, K>;
+// } & {
+//     [key: K]: V;
+// };
+
+export type NestedObject<K extends string | number | symbol, V> = {
+    [key in K]: V | NestedObject<K, V>;
 };

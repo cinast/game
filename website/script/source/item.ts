@@ -12,7 +12,7 @@ export class Item extends gameBasicObject {
     description: string = "";
     weight: number = 0.0;
     isUsable: boolean = true;
-    eventList = {
+    eventList: NestedObject<string, eventObject> = {
         effect: {
             onkeep: new eventObject("onkeep", () => {}),
             onhold: new eventObject("onhold", () => {}),

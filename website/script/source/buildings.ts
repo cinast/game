@@ -90,8 +90,8 @@ export class Transfer extends Door {
         below: false,
     };
 
-    connectTo: NestedObject_partial<string, sceneCollection> & {
-        enter: Partial<sceneCollection>;
+    connectTo: NestedObject_partial<string, Scene> & {
+        enter: Partial<Scene>;
     } = {
         enter: {},
     };
@@ -103,18 +103,15 @@ export class Transfer extends Door {
             /**
              * @deprecated
              */
-            onenter: new eventObject(
-                "onenter",
-                (entity: characterCollection) => {
-                    gobalGame.currentScene = this.connectTo.enter;
-                }
-            ),
+            onenter: new eventObject("onenter", (entity: Character) => {
+                gobalGame.currentScene = this.connectTo.enter;
+            }),
         },
     };
 
-    constructor(name: "ToNextFloor" | "toPrevFloor", to?: sceneCollection) {
+    constructor(name: "ToNextFloor" | "toPrevFloor", to?: Scene) {
         super(name, _, {});
-        this.connectTo.enter = to;
+        this.connectTo.enter = to ?? {};
     }
 }
 

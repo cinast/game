@@ -2,6 +2,7 @@ import { gameBasicObject } from "./basic";
 import { eventObject } from "./events";
 import { Layer } from "./layer";
 import { randID, K } from "./utils/utils";
+
 export interface char_ability {
     agile: number;
     movespeed: number;

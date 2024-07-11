@@ -8,7 +8,7 @@ import {
 import { gameBasicObject } from "./basic";
 import { Item } from "./item";
 import { eventObject } from "./events";
-import { Buildiing, FloorTransfer } from "./buildings";
+import { Buildiing, FloorTransfer, Transfer } from "./buildings";
 
 export class Scene {
     id: string = `Scene#${randID()}`;
@@ -26,9 +26,9 @@ export class Scene {
     };
 
     content: any;
-    connectTo: NestedObject_partial<string, sceneCollection> & {
-        enterance: NestedObject_and_partialItself<string, Buildiing>;
-        exits: NestedObject_and_partialItself<string, Buildiing>;
+    connectTo: NestedObject_partial<string, Transfer> & {
+        enterance: NestedObject_and_partialItself<string, Transfer>;
+        exits: NestedObject_and_partialItself<string, Transfer>;
     } = {
         enterance: {},
         exits: {},
@@ -56,9 +56,9 @@ export class Scene {
 
     constructor(
         name: string = `${randID()}`,
-        connectTo: NestedObject<string, sceneCollection> & {
-            enterance: NestedObject_and_partialItself<string, Buildiing>;
-            exits: NestedObject_and_partialItself<string, Buildiing>;
+        connectTo: NestedObject_partial<string, Transfer> & {
+            enterance: NestedObject_and_partialItself<string, Transfer>;
+            exits: NestedObject_and_partialItself<string, Transfer>;
         }
     ) {
         this.name = name;
@@ -79,16 +79,26 @@ export class Floor extends Scene {
         row: 20n,
     };
     content: any;
-    connectTo: NestedObject_partial<string, sceneCollection> & {
-        enterance: NestedObject_and_partialItself<string, Buildiing>;
-        exits: NestedObject_and_partialItself<string, Buildiing>;
-        floorTo: NestedObject_and_partialItself<string, Buildiing> & {
-            next: Partial<Buildiing>;
-            prev: Partial<Buildiing>;
+    connectTo: NestedObject_partial<string, Transfer> & {
+        enterance: NestedObject_and_partialItself<string, Transfer>;
+        exits: NestedObject_and_partialItself<string, Transfer>;
+        /**
+         * quick link to get enterance that to up or down floor
+         */
+        floorTo: NestedObject_and_partialItself<string, Transfer> & {
+            next: Partial<Transfer>;
+            prev: Partial<Transfer>;
         };
     } = {
-        enterance: {},
-        exits: {},
+        enterance: {
+            /**
+             *
+             */
+            fromPrev: {},
+        },
+        exits: {
+            toNextFloor: {},
+        },
         floorTo: {
             next: {},
             prev: {},
@@ -97,14 +107,14 @@ export class Floor extends Scene {
     constructor(
         height: bigint,
         width: bigint,
-        // fillwith?: BlockCollection,
+        // fillwith?: BlockUnit,
         seed?: string | number,
-        connectTo: NestedObject_partial<string, sceneCollection> & {
-            enterance: NestedObject_and_partialItself<string, Buildiing>;
-            exits: NestedObject_and_partialItself<string, Buildiing>;
-            floorTo: NestedObject_and_partialItself<string, Buildiing> & {
-                next: Partial<Buildiing>;
-                prev: Partial<Buildiing>;
+        connectTo: NestedObject_partial<string, Transfer> & {
+            enterance: NestedObject_and_partialItself<string, Transfer>;
+            exits: NestedObject_and_partialItself<string, Transfer>;
+            floorTo: NestedObject_and_partialItself<string, Transfer> & {
+                next: Partial<Transfer>;
+                prev: Partial<Transfer>;
             };
         } = {
             enterance: {},
@@ -117,7 +127,8 @@ export class Floor extends Scene {
     ) {
         let up = new FloorTransfer("toPrevFloor");
         let down = new FloorTransfer("ToNextFloor");
-        connectTo.floorTo;
+        connectTo.floorTo.next = down;
+        connectTo.floorTo.prev = up;
         super("", connectTo);
         this.scale.row = width;
         this.scale.col = height;
@@ -138,6 +149,15 @@ export class Floor extends Scene {
  *  basic unit of block
  */
 export class BlockUnit extends gameBasicObject {
-    covers: (Character | Item)[] = [];
+    covers: NestedObject_partial<
+        string,
+        (Character & Buildiing)[] | (Character & Buildiing)
+    > & {
+        characters: Character[];
+        buildings: Buildiing[];
+    } = {
+        characters: [],
+        buildings: [],
+    };
     clear(targets: string) {}
 }

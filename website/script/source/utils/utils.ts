@@ -152,12 +152,22 @@ function deepCopy<T>(instance: T): T {
     return instance;
 }
 
-// export type NestedObject<K, V> = {
-//     [key: K]: V | NestedObject<V, K>;
-// } & {
-//     [key: K]: V;
-// };
+/**
 
+A nested object where every key (typeof K) at any depth has the same structure as the upper level, and every branch's last node is of type V. */
 export type NestedObject<K extends string | number | symbol, V> = {
     [key in K]: V | NestedObject<K, V>;
 };
+/**
+
+A partial nested object where every key (typeof K) at any depth has the same structure as the upper level, and every branch's last node can be either V or undefined, but not other types. */
+export type NestedObject_partial<K extends string | number | symbol, V> = {
+    [key in K]: Partial<V> | NestedObject<K, V>;
+};
+/**
+
+A nested object that is both NestedObject<K, V> and Partial<V>, ensuring that every key (typeof K) at any depth has the same structure as the upper level, and every branch's last node is of type V, with optional properties. */
+export type NestedObject_and_partialItself<
+    K extends string | number | symbol,
+    V
+> = NestedObject<K, V> & Partial<V>;

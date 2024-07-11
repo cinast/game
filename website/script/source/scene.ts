@@ -1,7 +1,14 @@
 import { Character } from "./character";
-import { randID } from "./utils/utils";
+import {
+    NestedObject,
+    NestedObject_and_partialItself,
+    NestedObject_partial,
+    randID,
+} from "./utils/utils";
 import { gameBasicObject } from "./basic";
 import { Item } from "./item";
+import { eventObject } from "./events";
+import { Buildiings } from "./buildings";
 
 export class Scene {
     id: string = `Scene#${randID()}`;
@@ -19,7 +26,13 @@ export class Scene {
     };
 
     content: any;
-    connectTo: Record<k,senseCollection>;
+    connectTo: NestedObject_partial<string, senseCollection> & {
+        enterance: NestedObject_and_partialItself<string, Buildiings>;
+        exits: NestedObject_and_partialItself<string, Buildiings>;
+    } = {
+        enterance: {},
+        exits: {},
+    };
     addCharacter(...Character: Character[]) {
         Character.forEach((c) => {
             this.Characters = { ...this.Characters, [c.name]: c };
@@ -27,7 +40,30 @@ export class Scene {
     }
     remove() {}
 
-    constructor(name: string = `${randID()}`, connectTo?: Record<k,senseCollection & >) {
+    eventList: NestedObject<string, eventObject> = {};
+    addEvListener(type: string, callback: Function) {
+        let ev = new eventObject(type, callback);
+        this.eventList[ev.id] = ev;
+        return ev.id;
+    }
+    deteleEvListener(evID: string, replace?: eventObject) {
+        let thisEv = this.eventList;
+        delete thisEv[evID];
+        if (replace instanceof eventObject) {
+            thisEv[evID] = replace;
+        }
+    }
+
+    constructor(
+        name: string = `${randID()}`,
+        connectTo: NestedObject<string, senseCollection> & {
+            enterance: NestedObject_and_partialItself<string, Buildiings>;
+            exits: NestedObject_and_partialItself<string, Buildiings>;
+        } = {
+            enterance: {},
+            exits: {},
+        }
+    ) {
         this.name = name;
         this.connectTo = connectTo;
     }
@@ -45,13 +81,42 @@ export class Floor extends Scene {
         col: 20n,
         row: 20n,
     };
-    content: BlockUnit[][] = [[]];
+    content: any;
+    connectTo: NestedObject_partial<string, senseCollection> & {
+        enterance: NestedObject_and_partialItself<string, Buildiings>;
+        exits: NestedObject_and_partialItself<string, Buildiings>;
+        floorTo: NestedObject_and_partialItself<string, Buildiings> & {
+            next: Partial<Buildiings>;
+            prev: Partial<Buildiings>;
+        };
+    } = {
+        enterance: {},
+        exits: {},
+        floorTo: {
+            next: {},
+            prev: {},
+        },
+    };
     constructor(
         height: bigint,
         width: bigint,
         // fillwith?: BlockCollection,
         seed?: string | number,
-        connectTo?: Record<k,senseCollection>
+        connectTo: NestedObject_partial<string, senseCollection> & {
+            enterance: NestedObject_and_partialItself<string, Buildiings>;
+            exits: NestedObject_and_partialItself<string, Buildiings>;
+            floorTo: NestedObject_and_partialItself<string, Buildiings> & {
+                next: Partial<Buildiings>;
+                prev: Partial<Buildiings>;
+            };
+        } = {
+            enterance: {},
+            exits: {},
+            floorTo: {
+                next: {},
+                prev: {},
+            },
+        }
     ) {
         super("", connectTo);
         this.scale.row = width;
@@ -66,7 +131,6 @@ export class Floor extends Scene {
         } else {
             /** to be continued */
         }
-        this.connectTo = connectTo
     }
 }
 

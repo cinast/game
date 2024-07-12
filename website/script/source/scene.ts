@@ -25,9 +25,22 @@ export class Scene {
         row: 0n,
     };
 
+    /**
+     * what inside
+     */
     content: any;
+
+    /**
+     * gets in or goes to, allow custom transfers
+     */
     connectTo: NestedObject_partial<string, Transfer> & {
+        /**
+         * where u get in
+         */
         enterance: NestedObject_and_partialItself<string, Transfer>;
+        /**
+         * get out of here
+         */
         exits: NestedObject_and_partialItself<string, Transfer>;
     } = {
         enterance: {},
@@ -79,11 +92,14 @@ export class Floor extends Scene {
         row: 20n,
     };
     content: any;
+
     connectTo: NestedObject_partial<string, Transfer> & {
         enterance: NestedObject_and_partialItself<string, Transfer>;
+
         exits: NestedObject_and_partialItself<string, Transfer>;
         /**
-         * quick link to get enterance that to up or down floor
+         * get enterance that to up or down floor.
+         * In some cases, they may appear at `enteraance`, `exit` and here at meantime
          */
         floorTo: NestedObject_and_partialItself<string, Transfer> & {
             next: Partial<Transfer>;
@@ -91,9 +107,6 @@ export class Floor extends Scene {
         };
     } = {
         enterance: {
-            /**
-             *
-             */
             fromPrev: {},
         },
         exits: {

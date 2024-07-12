@@ -114,43 +114,43 @@ export function getResourseList() {
     // )
 }
 
-/**
- * Deep copy a nested object
- * @from https://www.delftstack.com/zh/howto/typescript/typescript-cloning-an-object/#typescript-%e4%b8%ad%e7%9a%84%e5%85%8b%e9%9a%86%e6%9c%ba%e5%88%b6
- */
-function deepCopy<T>(instance: T): T {
-    if (instance == null) {
-        return instance;
-    }
+// /**
+//  * Deep copy a nested object
+//  * @from https://www.delftstack.com/zh/howto/typescript/typescript-cloning-an-object/#typescript-%e4%b8%ad%e7%9a%84%e5%85%8b%e9%9a%86%e6%9c%ba%e5%88%b6
+//  */
+// function deepCopy<T>(instance: T): T {
+//     if (instance == null) {
+//         return instance;
+//     }
 
-    // handle Dates
-    if (instance instanceof Date) {
-        return new Date(instance.getTime()) as any;
-    }
+//     // handle Dates
+//     if (instance instanceof Date) {
+//         return new Date(instance.getTime()) as any;
+//     }
 
-    // handle Array types
-    if (instance instanceof Array) {
-        var cloneArr = [] as any[];
-        (instance as any[]).forEach((value) => {
-            cloneArr.push(value);
-        });
-        // for nested objects
-        return cloneArr.map((value: any) => deepCopy<any>(value)) as any;
-    }
-    // handle objects
-    if (instance instanceof Object) {
-        var copyInstance = { ...(instance as { [key: string]: any }) } as {
-            [key: string]: any;
-        };
-        for (var attr in instance) {
-            if ((instance as Object).hasOwnProperty(attr))
-                copyInstance[attr] = deepCopy<any>(instance[attr]);
-        }
-        return copyInstance as T;
-    }
-    // handling primitive data types
-    return instance;
-}
+//     // handle Array types
+//     if (instance instanceof Array) {
+//         var cloneArr = [] as any[];
+//         (instance as any[]).forEach((value) => {
+//             cloneArr.push(value);
+//         });
+//         // for nested objects
+//         return cloneArr.map((value: any) => deepCopy<any>(value)) as any;
+//     }
+//     // handle objects
+//     if (instance instanceof Object) {
+//         var copyInstance = { ...(instance as { [key: string]: any }) } as {
+//             [key: string]: any;
+//         };
+//         for (var attr in instance) {
+//             if ((instance as Object).hasOwnProperty(attr))
+//                 copyInstance[attr] = deepCopy<any>(instance[attr]);
+//         }
+//         return copyInstance as T;
+//     }
+//     // handling primitive data types
+//     return instance;
+// }
 
 /**
 
@@ -159,15 +159,36 @@ export type NestedObject<K extends string | number | symbol, V> = {
     [key in K]: V | NestedObject<K, V>;
 };
 /**
-
-A partial nested object where every key (typeof K) at any depth has the same structure as the upper level, and every branch's last node can be either V or undefined, but not other types. */
+A partial nested object where every key (typeof K) at any depth has the same structure as the upper level, and every branch's last node can be either V or undefined, but not other types. 
+*/
 export type NestedObject_partial<K extends string | number | symbol, V> = {
     [key in K]: Partial<V> | NestedObject<K, V>;
 };
 /**
-
-A nested object that is both NestedObject<K, V> and Partial<V>, ensuring that every key (typeof K) at any depth has the same structure as the upper level, and every branch's last node is of type V, with optional properties. */
+A nested object that is both NestedObject<K, V> and Partial<V>, ensuring that every key (typeof K) at any depth has the same structure as the upper level, and every branch's last node is of type V, with optional properties. 
+*/
 export type NestedObject_and_partialItself<
     K extends string | number | symbol,
     V
 > = NestedObject<K, V> & Partial<V>;
+
+// from: htts://ououe.com/posts/typescript-object-deep-path
+type NestedPath<T extends "array" | "object", P, C = undefined> = `${P &
+    string}${T extends "array" ? `[${number}]` : ""}${C extends string
+    ? `.${C}`
+    : ""}`;
+
+type DeepNested<V, K = ""> = V extends object[]
+    ? NestedPath<"array", K, DeepPath<V[number]> | undefined>
+    : V extends unknown[]
+    ? NestedPath<"array", K>
+    : V extends object
+    ? NestedPath<"object", K, DeepPath<V>>
+    : never;
+
+type DeepPath<T extends object> = {
+    [Q in keyof T]-?: Q | DeepNested<NonNullable<T[Q]>, Q>;
+}[keyof T];
+
+export type attrTreePath<T extends object> = DeepPath<T>;
+// -------

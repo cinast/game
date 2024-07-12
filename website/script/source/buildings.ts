@@ -10,7 +10,7 @@ import {
 } from "./utils/utils";
 
 /**
- * Anything can be interact or be used, distinguish from `Items`
+ * Anything can be interact or be used, distinguish from `Items` \
  * included wall, door, boxes, etc.
  */
 export class Buildiing extends gameBasicObject {

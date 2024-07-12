@@ -17,7 +17,7 @@ const uiComponentList: Record<
 export function pageInitial() {
     for (const [key, value] of Object.entries(uiComponentList)) {
         $.ajax({
-            url: uiComponentFolder + value.path, // assuming you want to concatenate the folder path
+            url: uiComponentFolder + value.path,
             success: function (data) {
                 $(value.path).html(data);
             },
@@ -45,7 +45,7 @@ export function PageTurnVisible(name: K, v: boolean) {
 }
 
 /**
- * shown page or not
+ * shown page or not \
  * put names into the dict and set switch
  */
 export function PagesTurnVisible(list: { [k in K]: boolean }) {

@@ -14,13 +14,22 @@ function randFloor(): Floor {
     return new Floor(randBint(300, 10), randBint(300, 10), randID());
 }
 
-let totalfloors = randint(20, 100);
-
-function worldInit() {
-    for (let i = 0; i < totalfloors; i++) {
+function randConnectedFloors(number:number): Floor[] {
+    let floorsets:Floor[] = []
+    function recurseLinking(next:Floor) {
         let floor = randFloor();
         floor.name = "floor" + i;
         floor.connectTo;
-        globalWorld.scene.push();
+}
+}
+
+let totalfloors = randint(20, 100);
+
+function worldInit() {
+    function (params:type) {
+            let floor = randFloor();
+            floor.name = "floor" + i;
+            floor.connectTo;
+            globalWorld.scene.push();
     }
 }

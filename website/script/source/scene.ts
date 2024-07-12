@@ -1,5 +1,6 @@
 import { Character } from "./character";
 import {
+    attrTreePath,
     NestedObject,
     NestedObject_and_partialItself,
     NestedObject_partial,
@@ -31,7 +32,7 @@ export class Scene {
     content: any;
 
     /**
-     * gets in or goes to, allow custom transfers
+     * gets in or goes to, allow custom transfers groups `{a:(b{c:tran}})`
      */
     connectTo: NestedObject_partial<string, Transfer> & {
         /**
@@ -46,6 +47,42 @@ export class Scene {
         enterance: {},
         exits: {},
     };
+
+    addTransfer(t: Transfer, at: attrTreePath<typeof this.connectTo>) {}
+
+    /**
+     * from target scene to this scene
+     *
+     * if `enter` either `exit` nothing, funtion will connect them defualtly by transfers witch on  `enterance.~#entrfloor` at `.exit` and `.enterance` \
+     * or, connect by trans you input
+     * @itemname: `enterance[Tarscene.id]`
+     */
+    connectWith(
+        ...scenes: {
+            scene: Scene;
+            /**
+             * ``
+             */
+            enterPort?: Transfer;
+            exitPort?: Transfer;
+            isbidirectional?: boolean;
+        }[]
+    ) {
+        scenes.forEach((i) => {
+            if (i.exitPort) {
+                // tar -> this
+                i.exitPort.connectTo.enter = this;
+                this.connectTo.enterance[i.scene.id] = i.exitPort;
+
+                // this -> tar
+                if (i.isbidirectional) {
+                }
+            } else {
+                this.connectTo.enterance;
+            }
+        });
+    }
+
     addCharacter(...Character: Character[]) {
         Character.forEach((c) => {
             this.Characters = { ...this.Characters, [c.name]: c };
@@ -98,7 +135,7 @@ export class Floor extends Scene {
 
         exits: NestedObject_and_partialItself<string, Transfer>;
         /**
-         * get enterance that to up or down floor.
+         * get enterance that to up or down floor. \
          * In some cases, they may appear at `enteraance`, `exit` and here at meantime
          */
         floorTo: NestedObject_and_partialItself<string, Transfer> & {

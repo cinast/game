@@ -3,7 +3,7 @@ import { eventObject } from "./events";
 import { clamp, NestedObject, randID } from "./utils/utils";
 
 /**
- *  Anything can be interact or be used, included  equipment, food, books, etc.
+ *  Anything can be interact or be used, included  equipment, food, books, etc. \
  *  but `Characters`, `buildiings` or *likes* are **not in list**
  */
 export class Item extends gameBasicObject {

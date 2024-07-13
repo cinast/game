@@ -43,7 +43,7 @@
     },
     "type": "commonjs",
     "scripts": {
-        "start": "tsc .\\source\\runtime\\enter.ts",
+        "start": "tsc ./source/runtime/enter.ts",
         "stop": ""
     },
     "devDependencies": {

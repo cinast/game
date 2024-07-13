@@ -17,8 +17,8 @@
  *
  */
 
-import { PageTurnVisitable } from "../source/utils/ui";
-import { XHRrequest, parse } from "../source/utils/utils";
+// import { PageTurnVisitable } from "./ui";
+import { XHRrequest, parse } from "../utils/utils";
 
 // Assets manager
 export interface AssetListItem {
@@ -36,8 +36,8 @@ export interface LoadErroredItem {
     body:
         | AssetListItem
         | AssetListItem[]
-        | Record<k, AssetListItem>
-        | Record<k, AssetListItem[]>;
+        | Record<K, AssetListItem>
+        | Record<K, AssetListItem[]>;
 }
 
 export const assets: Record<string, AssetListItem> = {};
@@ -54,7 +54,7 @@ async function loadAssets() {
         return;
     }
 
-    PageTurnVisitable("loading", true);
+    // PageTurnVisitable("loading", true);
 
     let rescounter = 0;
 

@@ -1,8 +1,8 @@
 const version = "0.0.0";
 const baseurl = "https://github.com/cinast/game/blob/main/";
 
-type k = string | number | symbol;
-type K = k | bigint;
+type K = string | number | symbol;
+type k = K | bigint;
 
 const gobalGame: {
     Floors: Floor[];

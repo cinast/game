@@ -1,7 +1,5 @@
-import { gameBasicObject } from "./basic";
-import { eventObject } from "./events";
-import { Layer } from "./layer";
-import { randID, K } from "./utils/utils";
+import { gameBasicObject } from "@src/core/basic";
+import { K } from "@src/utils/utils";
 
 export interface char_ability {
     agile: number;

@@ -1,9 +1,8 @@
 console.log("-main-");
 
 import { assets } from "./enter";
-import { randBint,randID,randint } from "@router/runtime"
-import { Floor, World } from "@router/gamecore"
-
+import { randBint, randID, randint } from "@router/runtime";
+import { Floor, World } from "@router/gamecore";
 
 let rc = new Worker("./rander");
 
@@ -13,23 +12,23 @@ function randFloor(): Floor {
     return new Floor(randBint(300, 10), randBint(300, 10), randID());
 }
 
-function randConnectedFloors(number:number): Floor[] {
-    let floorsets:Floor[] = []
-    function recurseLinking(next:Floor) {
-        let floor = randFloor();
-        floor.name = "floor" + i;
-        floor.transfers;
-}
-return 
-}
+// function randConnectedFloors(number:number): Floor[] {
+//     let floorsets:Floor[] = []
+//     function recurseLinking(next:Floor) {
+//         let floor = randFloor();
+//         floor.name = "floor" + i;
+//         floor.transfers;
+// }
+// return
+// }
 
 let totalfloors = randint(20, 100);
 
-function worldInit() {
-    function (params:type) {
-            let floor = randFloor();
-            floor.name = "floor" + i;
-            floor.transfers;
-            globalWorld.scene.push();
-    }
-}
+// function worldInit() {
+//     function (params:type) {
+//             let floor = randFloor();
+//             floor.name = "floor" + i;
+//             floor.transfers;
+//             globalWorld.scene.push();
+//     }
+// }

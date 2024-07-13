@@ -1,4 +1,4 @@
-import { randID } from "./utils/utils";
+import { randID } from "@src/utils/utils";
 export class eventObject {
     readonly id: string;
     type: string = "";

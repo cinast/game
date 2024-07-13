@@ -4,10 +4,10 @@ import {
     NestedObject,
     NestedObject_partial,
     randID,
-} from "../utils/utils";
-import { gameBasicObject } from "./basic";
+} from "@src/utils/utils";
+import { gameBasicObject } from "@src/core/basic";
 import { Item } from "./item";
-import { eventObject } from "./events";
+import { eventObject } from "@src/core/events";
 import { Buildiing, FloorTransfer, Transfer } from "./buildings";
 
 export class Scene {

@@ -18,7 +18,7 @@
  */
 
 // import { PageTurnVisitable } from "./ui";
-import { XHRrequest, parse } from "../utils/utils";
+import { XHRrequest, parse } from "@src/utils/utils";
 
 // Assets manager
 export interface AssetListItem {

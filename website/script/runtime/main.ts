@@ -19,7 +19,7 @@ function randConnectedFloors(number:number): Floor[] {
     function recurseLinking(next:Floor) {
         let floor = randFloor();
         floor.name = "floor" + i;
-        floor.connectTo;
+        floor.transfers;
 }
 }
 
@@ -29,7 +29,7 @@ function worldInit() {
     function (params:type) {
             let floor = randFloor();
             floor.name = "floor" + i;
-            floor.connectTo;
+            floor.transfers;
             globalWorld.scene.push();
     }
 }

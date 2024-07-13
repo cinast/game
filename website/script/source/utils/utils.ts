@@ -164,13 +164,6 @@ A partial nested object where every key (typeof K) at any depth has the same str
 export type NestedObject_partial<K extends string | number | symbol, V> = {
     [key in K]: Partial<V> | NestedObject<K, V>;
 };
-/**
-A nested object that is both NestedObject<K, V> and Partial<V>, ensuring that every key (typeof K) at any depth has the same structure as the upper level, and every branch's last node is of type V, with optional properties. 
-*/
-export type NestedObject_and_partialItself<
-    K extends string | number | symbol,
-    V
-> = NestedObject<K, V> & Partial<V>;
 
 // from: htts://ououe.com/posts/typescript-object-deep-path
 type NestedPath<T extends "array" | "object", P, C = undefined> = `${P &
@@ -186,7 +179,7 @@ type DeepNested<V, K = ""> = V extends object[]
     ? NestedPath<"object", K, DeepPath<V>>
     : never;
 
-type DeepPath<T extends object> = {
+export type DeepPath<T extends object> = {
     [Q in keyof T]-?: Q | DeepNested<NonNullable<T[Q]>, Q>;
 }[keyof T];
 

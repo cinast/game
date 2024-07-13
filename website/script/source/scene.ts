@@ -2,7 +2,6 @@ import { Character } from "./character";
 import {
     attrTreePath,
     NestedObject,
-    NestedObject_and_partialItself,
     NestedObject_partial,
     randID,
 } from "./utils/utils";
@@ -34,54 +33,26 @@ export class Scene {
     /**
      * gets in or goes to, allow custom transfers groups `{a:(b{c:tran}})`
      */
-    connectTo: NestedObject_partial<string, Transfer> & {
+    transfers: NestedObject_partial<string, Transfer> & {
         /**
          * where u get in
          */
-        enterance: NestedObject_and_partialItself<string, Transfer>;
+        enterance: NestedObject_partial<string, Transfer>;
         /**
          * get out of here
          */
-        exits: NestedObject_and_partialItself<string, Transfer>;
+        exits: NestedObject_partial<string, Transfer>;
     } = {
         enterance: {},
         exits: {},
     };
 
-    addTransfer(t: Transfer, at: attrTreePath<typeof this.connectTo>) {}
+    connects: NestedObject_partial<string, Scene> = {};
 
     /**
-     * from target scene to this scene
-     *
-     * if `enter` either `exit` nothing, funtion will connect them defualtly by transfers witch on  `enterance.~#entrfloor` at `.exit` and `.enterance` \
-     * or, connect by trans you input
-     * @itemname: `enterance[Tarscene.id]`
+     * @deprecated
      */
-    connectWith(
-        ...scenes: {
-            scene: Scene;
-            /**
-             * ``
-             */
-            enterPort?: Transfer;
-            exitPort?: Transfer;
-            isbidirectional?: boolean;
-        }[]
-    ) {
-        scenes.forEach((i) => {
-            if (i.exitPort) {
-                // tar -> this
-                i.exitPort.connectTo.enter = this;
-                this.connectTo.enterance[i.scene.id] = i.exitPort;
-
-                // this -> tar
-                if (i.isbidirectional) {
-                }
-            } else {
-                this.connectTo.enterance;
-            }
-        });
-    }
+    // connectWith() {}
 
     addCharacter(...Character: Character[]) {
         Character.forEach((c) => {
@@ -107,12 +78,12 @@ export class Scene {
     constructor(
         name: string = `${randID()}`,
         connectTo: NestedObject_partial<string, Transfer> & {
-            enterance: NestedObject_and_partialItself<string, Transfer>;
-            exits: NestedObject_and_partialItself<string, Transfer>;
+            enterance: NestedObject_partial<string, Transfer>;
+            exits: NestedObject_partial<string, Transfer>;
         }
     ) {
         this.name = name;
-        this.connectTo = connectTo;
+        this.transfers = connectTo;
     }
 }
 
@@ -130,18 +101,9 @@ export class Floor extends Scene {
     };
     content: any;
 
-    connectTo: NestedObject_partial<string, Transfer> & {
-        enterance: NestedObject_and_partialItself<string, Transfer>;
-
-        exits: NestedObject_and_partialItself<string, Transfer>;
-        /**
-         * get enterance that to up or down floor. \
-         * In some cases, they may appear at `enteraance`, `exit` and here at meantime
-         */
-        floorTo: NestedObject_and_partialItself<string, Transfer> & {
-            next: Partial<Transfer>;
-            prev: Partial<Transfer>;
-        };
+    transfers: NestedObject_partial<string, Transfer> & {
+        enterance: NestedObject_partial<string, Transfer>;
+        exits: NestedObject_partial<string, Transfer>;
     } = {
         enterance: {
             fromPrev: {},
@@ -149,20 +111,46 @@ export class Floor extends Scene {
         exits: {
             toNextFloor: {},
         },
+    };
+
+    connects: NestedObject_partial<string, Scene> & {
+        /**
+         * get enterance that to up or down floor. \
+         * In some cases, they may appear at `enteraance`, `exit` and here at meantime
+         */
+        floorTo: NestedObject_partial<string, Floor> & {
+            next: Partial<Floor>;
+            prev: Partial<Floor>;
+        };
+    } = {
         floorTo: {
             next: {},
             prev: {},
         },
     };
+
+    /**
+     * from this florr to target floor
+     */
+    connectWith(tarFloor: Floor, isbidirectional: boolean = true) {
+        // this
+        let ext = this.transfers.exits[tarFloor.id];
+        ext = ext ?? new Transfer("ToNextFloor");
+        ext;
+        // tar
+        let ent = tarFloor.transfers.enterance[this.id];
+        ent = ent ?? new Transfer("FromPrevFloor", this);
+    }
+
     constructor(
         height: bigint,
         width: bigint,
         // fillwith?: BlockUnit,
         seed?: string | number,
         connectTo: NestedObject_partial<string, Transfer> & {
-            enterance: NestedObject_and_partialItself<string, Transfer>;
-            exits: NestedObject_and_partialItself<string, Transfer>;
-            floorTo: NestedObject_and_partialItself<string, Transfer> & {
+            enterance: NestedObject_partial<string, Transfer>;
+            exits: NestedObject_partial<string, Transfer>;
+            floorTo: NestedObject_partial<string, Transfer> & {
                 next: Partial<Transfer>;
                 prev: Partial<Transfer>;
             };
@@ -175,7 +163,7 @@ export class Floor extends Scene {
             },
         }
     ) {
-        let up = new FloorTransfer("toPrevFloor");
+        let up = new FloorTransfer("FromPrevFloor");
         let down = new FloorTransfer("ToNextFloor");
         connectTo.floorTo.next = down;
         connectTo.floorTo.prev = up;
@@ -194,7 +182,6 @@ export class Floor extends Scene {
         }
     }
 }
-
 /**
  *  basic unit of block
  */

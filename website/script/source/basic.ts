@@ -1,6 +1,6 @@
 import { eventObject } from "./events";
 import { Layer } from "./layer";
-import { NestedObject, randID } from "./utils/utils";
+import { attrTreePath, DeepPath, NestedObject, randID } from "./utils/utils";
 
 /**
  *  every object comprising scenes, etc. chars, block, item

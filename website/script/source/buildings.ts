@@ -2,12 +2,7 @@ import { gameBasicObject } from "./basic";
 import { Character } from "./character";
 import { eventObject } from "./events";
 import { Floor, Scene } from "./scene";
-import {
-    NestedObject,
-    NestedObject_and_partialItself,
-    NestedObject_partial,
-    randID,
-} from "./utils/utils";
+import { NestedObject, NestedObject_partial, randID } from "./utils/utils";
 
 /**
  * Anything can be interact or be used, distinguish from `Items` \
@@ -46,6 +41,7 @@ export class Buildiing extends gameBasicObject {
 
     constructor(
         name: string,
+        interacts: NestedObject<string, eventObject>,
         passable: NestedObject<string, boolean> & {
             above: boolean;
             across: boolean;
@@ -54,8 +50,7 @@ export class Buildiing extends gameBasicObject {
             above: false,
             across: false,
             below: false,
-        },
-        interacts: NestedObject<string, eventObject>
+        }
     ) {
         super();
         this.name = name;
@@ -80,6 +75,7 @@ export class Door extends Buildiing {
  */
 export class Transfer extends Door {
     name: string = "Transfer#" + randID();
+    thisScene?: Scene;
     passable: NestedObject<string, boolean> & {
         above: boolean;
         across: boolean;
@@ -90,29 +86,62 @@ export class Transfer extends Door {
         below: false,
     };
 
-    connectTo: NestedObject_partial<string, Scene> & {
-        enter: Partial<Scene>;
+    connectTo: NestedObject_partial<string, Transfer> & {
+        enter: Partial<Transfer>;
     } = {
         enter: {},
     };
 
     eventList: NestedObject<string, eventObject> & {
-        interacts: NestedObject<string, eventObject>;
+        interacts: NestedObject<string, eventObject> & {
+            onenter: eventObject;
+        };
     } = {
         interacts: {
-            /**
-             * @deprecated
-             */
             onenter: new eventObject("onenter", (entity: Character) => {
-                gobalGame.currentScene = this.connectTo.enter;
+                /** help */
             }),
         },
     };
 
-    constructor(name: "ToNextFloor" | "toPrevFloor", to?: Scene) {
-        super(name, _, {});
+    /**
+     * build connection between two transfers \
+     * even cross different scenes
+     */
+    connect(tr: Transfer, isBidirectional: boolean = false) {
+        this.connectTo.enter = tr;
+        if (isBidirectional) {
+            tr.connectTo.enter = this;
+        }
+    }
+
+    /**
+     * build connection between two transfers \
+     * even cross different scenes
+     */
+    static connect(
+        this: Transfer,
+        tar: Transfer,
+        isBidirectional: boolean = false
+    ) {
+        this.connectTo.enter = tar;
+        if (isBidirectional) {
+            tar.connectTo.enter = this;
+        }
+    }
+
+    constructor(
+        name: "ToNextFloor" | "FromPrevFloor",
+        thisScene?: Scene,
+        to?: Transfer
+    ) {
+        super(name, {});
+        this.thisScene = thisScene;
         this.connectTo.enter = to ?? {};
     }
 }
 
+/**
+ * @deprecated
+ */
 export class FloorTransfer extends Transfer {}

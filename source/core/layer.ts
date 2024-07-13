@@ -1,5 +1,5 @@
 import { Character } from "./character";
-import { randID } from "./utils/utils";
+import { randID } from "../utils/utils";
 
 export class Layer {
     readonly id: string;

@@ -4,7 +4,7 @@ import {
     NestedObject,
     NestedObject_partial,
     randID,
-} from "./utils/utils";
+} from "../utils/utils";
 import { gameBasicObject } from "./basic";
 import { Item } from "./item";
 import { eventObject } from "./events";

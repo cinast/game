@@ -1,10 +1,9 @@
 console.log("-main-");
 
 import { assets } from "./enter";
-import { World } from "../source/world";
-import { BlockUnit, Floor, Scene } from "../source/scene";
-import { randBint, randID, randint } from "../router/runtime";
-import { ThisGame } from "../source/utils/gameManage";
+import { randBint,randID,randint } from "@router/runtime"
+import { Floor, World } from "@router/gamecore"
+
 
 let rc = new Worker("./rander");
 
@@ -21,6 +20,7 @@ function randConnectedFloors(number:number): Floor[] {
         floor.name = "floor" + i;
         floor.transfers;
 }
+return 
 }
 
 let totalfloors = randint(20, 100);

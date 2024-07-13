@@ -1,6 +1,6 @@
 import { gameBasicObject } from "./basic";
 import { eventObject } from "./events";
-import { clamp, NestedObject, randID } from "./utils/utils";
+import { clamp, NestedObject, randID } from "../utils/utils";
 
 /**
  *  Anything can be interact or be used, included  equipment, food, books, etc. \

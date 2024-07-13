@@ -3,8 +3,9 @@
         "tsc": "^2.0.4",
         "typescript": "^5.5.3"
     },
+    "type": "commonjs",
     "scripts": {
-        "start": "/website/script/runtime/enter.ts",
+        "start": ".\\website\\script\\runtime\\enter.ts",
         "stop": ""
     },
     "devDependencies": {

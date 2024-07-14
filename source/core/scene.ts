@@ -26,6 +26,12 @@ export class Scene {
     content: any;
 
     /**
+     * you need give ways to extends instances
+     */
+    connectWith(...arg: any[]) {
+        return;
+    }
+    /**
      * gets in or goes to, allow custom transfers groups `{a:(b{c:tran}})`
      */
     transfers: NestedObject_partial<string, Transfer> & {
@@ -130,8 +136,8 @@ export class Floor extends Scene {
     connectWith(tarFloor: Floor, isbidirectional: boolean = true) {
         // this
         let ext = this.transfers.exits[tarFloor.id];
-        ext = ext ?? new Transfer("ToNextFloor");
-        ext;
+        ext = ext ?? new Transfer("ToNextFloor", tarFloor);
+
         // tar
         let ent = tarFloor.transfers.enterance[this.id];
         ent = ent ?? new Transfer("FromPrevFloor", this);

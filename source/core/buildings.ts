@@ -75,7 +75,7 @@ export class Door extends Buildiing {
  */
 export class Transfer extends Door {
     name: string = "Transfer#" + randID();
-    thisScene?: Scene;
+    // thisScene?: Scene;
     passable: NestedObject<string, boolean> & {
         above: boolean;
         across: boolean;
@@ -136,7 +136,7 @@ export class Transfer extends Door {
         to?: Transfer
     ) {
         super(name, {});
-        this.thisScene = thisScene;
+        // this.thisScene = thisScene;
         this.connectTo.enter = to ?? {};
     }
 }

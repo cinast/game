@@ -132,7 +132,7 @@ export class Transfer extends Door {
 
     constructor(
         name: "ToNextFloor" | "FromPrevFloor",
-        thisScene?: Scene,
+        // thisScene?: Scene,
         to?: Transfer
     ) {
         super(name, {});

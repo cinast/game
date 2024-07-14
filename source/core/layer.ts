@@ -1,4 +1,4 @@
-import { Character } from "./character";
+import { Character } from "@src/core/character";
 import { randID } from "@src/utils/utils";
 
 export class Layer {

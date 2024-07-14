@@ -1,6 +1,6 @@
 console.log("-main-");
 
-import { assets } from "./enter";
+import { assets } from "@runtime/enter";
 import { randBint, randID, randint } from "@router/runtime";
 import { Floor, World } from "@router/gamecore";
 

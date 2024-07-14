@@ -1,6 +1,6 @@
-import { Character } from "./character";
-import { Floor, Scene } from "./scene";
-import { randID, sleep, sleepUntil } from "./utils/utils";
+import { Character } from "@src/core/character";
+import { Floor, Scene } from "@src/core/scene";
+import { randID, sleep, sleepUntil } from "@src/utils/utils";
 
 export class World {
     readonly id: string = randID();

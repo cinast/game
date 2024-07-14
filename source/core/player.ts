@@ -1,4 +1,4 @@
-import { char_ability, Character, clonedCharacter } from "./character";
+import { char_ability, Character, clonedCharacter } from "@src/core/character";
 
 class Player extends Character {
     name: string = "";

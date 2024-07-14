@@ -1,14 +1,9 @@
-import { Character } from "./character";
-import {
-    attrTreePath,
-    NestedObject,
-    NestedObject_partial,
-    randID,
-} from "@src/utils/utils";
+import { Character } from "@src/core/character";
+import { NestedObject, NestedObject_partial, randID } from "@src/utils/utils";
 import { gameBasicObject } from "@src/core/basic";
 import { Item } from "./item";
 import { eventObject } from "@src/core/events";
-import { Buildiing, FloorTransfer, Transfer } from "./buildings";
+import { Buildiing, FloorTransfer, Transfer } from "@src/core/buildings";
 
 export class Scene {
     id: string = `Scene#${randID()}`;

@@ -18,7 +18,7 @@
  */
 
 // import { PageTurnVisitable } from "./ui";
-import { XHRrequest, parse } from "@src/utils/utils";
+import { parse } from "@src/utils/utils";
 
 // Assets manager
 export interface AssetListItem {
@@ -92,7 +92,7 @@ async function loadAssets() {
 }
 async function startMainScript() {
     await loadAssets();
-    const main = new Worker("./runtime/main.ts");
+    const main = new Worker("@runtime/");
     // Send data to main script
     // main.postMessage({ assets });
 }

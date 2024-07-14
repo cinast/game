@@ -1,6 +1,6 @@
-import { K, randID } from "./utils";
+import { K, randID } from "@src/utils/utils";
 
-const uiComponentFolder = "/website/page/pages/";
+const uiComponentFolder = "@page/pages/";
 const uiComponentList: Record<
     K,
     {

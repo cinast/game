@@ -2,10 +2,17 @@
 
 ## ls specification
 
--   ### `bugs:`
+use labels to declarate question type  
+note paths to file,like `path/to/file [row:col]`
 
-    > mark with `!bug` label
+-   ### `bugs`
+
+    mark with `!` label
 
 -   ### `uncompleted`
 
-    > mark with `*uncompleted` label
+    mark with `*` label
+
+-   ### `confused`
+
+    mark with `?` label

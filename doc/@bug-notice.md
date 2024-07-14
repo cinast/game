@@ -16,3 +16,11 @@ note paths to file,like `path/to/file [row:col]`
 -   ### `confused`
 
     mark with `?` label
+
+# list
+
+1. ## [`*`,`III`] Scene & Transfer connection <br> _[`core/scene.ts`](/source/core/scene.ts) & [`core/building.ts [76+]`](/source/core/buildings.ts)_
+
+    i m so trrrrrrrr
+
+2. ##

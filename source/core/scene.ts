@@ -142,7 +142,7 @@ export class Floor extends Scene {
         let ent = tarFloor.transfers.enterance[this.id];
         ent = ent ?? new Transfer("FromPrevFloor");
 
-        ext.connect(ent, ture);
+        ext.connect(ent, true);
     }
 
     constructor(

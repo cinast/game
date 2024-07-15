@@ -3,10 +3,10 @@ console.log("-main-");
 import { assets } from "@runtime/enter";
 import { randBint, randID, randint } from "@router/runtime";
 import { Floor, Transfer, World } from "@router/gamecore";
-import { escapeSelector } from "jquery";
 
-let rc = new Worker("./rander");
+// let rc = new Worker("./rander");
 
+const gameNavigater: {} = {};
 const globalWorld = new World();
 
 function randFloor(): Floor {
@@ -24,7 +24,10 @@ function randConnectedFloors(
      */
     countAt: number = 1
 ): Floor[] {
-    let ls: Floor[] = new Array(number).fill(randFloor());
+    let ls: Floor[] = new Array(number);
+
+    ls.map(() => randFloor());
+
     ls.map((f, i) => {
         if (i == 0) return;
         if (i < number) {

@@ -73,3 +73,6 @@ function worldInit() {
         }
     });
 }
+
+// on gamming
+let players;

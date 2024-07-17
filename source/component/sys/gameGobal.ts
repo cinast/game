@@ -1,7 +1,9 @@
 import { Item } from "@src/core/item";
+import { PlayerAccountInfo } from "@src-sys/account";
 
 interface gameNavigater {
     gamming: {
+        players: Player[];
         file: {
             /**
              * file id

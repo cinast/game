@@ -8,7 +8,8 @@ export interface PlayerAccountInfo {
         };
     };
     status: {
-        online: boolean;
+        // online: boolean;
+        code: "online" | "offline" | "playing";
     };
 }
 

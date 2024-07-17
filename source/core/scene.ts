@@ -135,11 +135,11 @@ export class Floor extends Scene {
      */
     connectWith(tarFloor: Floor, isbidirectional: boolean = true) {
         // this
-        let ext = this.transfers.exits[tarFloor.id];
+        let ext = this.transfers.exits[tarFloor.id] as Transfer;
         ext = ext ?? new Transfer("ToNextFloor");
 
         // tar
-        let ent = tarFloor.transfers.enterance[this.id];
+        let ent = tarFloor.transfers.enterance[this.id] as Transfer;
         ent = ent ?? new Transfer("FromPrevFloor");
 
         ext.connect(ent, true);

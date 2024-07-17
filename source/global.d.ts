@@ -9,16 +9,14 @@ type k = K | bigint;
  */
 const _ = undefined;
 
-// sys
-interface gameNavigater {
-    file: {
-        id: string,
+interface gameNavigator {
+    activedFile: {
+        id: string;
         /**
          * reset every ${{time}} mins
          */
-        hasSaved:boolean,
+        hasSaved: boolean;
+        lastSaveTime: number;
+        save: () => void;
     };
 }
-
-
-interface gameFile 

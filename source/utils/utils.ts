@@ -153,7 +153,6 @@ export function getResourseList() {
 // }
 
 /**
-
 A nested object where every key (typeof K) at any depth has the same structure as the upper level, and every branch's last node is of type V. */
 export type NestedObject<K extends string | number | symbol, V> = {
     [key in K]: V | NestedObject<K, V>;

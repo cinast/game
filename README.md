@@ -26,8 +26,14 @@ detail gobal.project {
 ```
 
 ## Development Guide
-See [the Development Guide](doc/devguide.md) at `/doc`
 
+See [the Development Guide](/doc/devguide.md) at `/doc`
+
+_for devlopr_ issuse?
+go [`@bug-notice.md`](/doc/@bug-notice.md)
+
+<!--
 ## Game Entrance
-- [Game page](page/game.html)  
-- [Entrance script](script/enter.ts)
+
+-   [Game page](page/game.html)
+-   [Entrance script](script/enter.ts) -->

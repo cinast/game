@@ -1,3 +1,4 @@
+import { gobalItemCollection } from "@src/component/sys/gameGobal";
 import { gameBasicObject } from "@src/core/basic";
 import { eventObject } from "@src/core/events";
 import { clamp, NestedObject, randID } from "@src/utils/utils";
@@ -22,6 +23,8 @@ export class Item extends gameBasicObject {
 
     number: number = 1;
     stackLimit: number = 10;
+
+    static random = gobalItemCollection;
 
     stackOn(sameItem: Item, numbers: number = sameItem.number) {
         // same type of item

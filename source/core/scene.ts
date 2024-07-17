@@ -13,11 +13,11 @@ export class Scene {
     Idnex = 0;
     Characters: Record<string, Character> = {};
     scale: {
-        col: bigint;
-        row: bigint;
+        col: number;
+        row: number;
     } = {
-        col: 0n,
-        row: 0n,
+        col: 0,
+        row: 0,
     };
 
     /**
@@ -96,11 +96,14 @@ export class Floor extends Scene {
     /**
      * if not set it, it defualtly 20*20
      */
-    scale: { col: bigint; row: bigint } = {
-        col: 20n,
-        row: 20n,
+    scale: {
+        col: number;
+        row: number;
+    } = {
+        col: 20,
+        row: 20,
     };
-    content: any;
+    content: BlockUnit[][] = [];
 
     transfers: NestedObject_partial<string, Transfer> & {
         enterance: NestedObject_partial<string, Transfer>;
@@ -146,8 +149,8 @@ export class Floor extends Scene {
     }
 
     constructor(
-        height: bigint,
-        width: bigint,
+        height: number,
+        width: number,
         // fillwith?: BlockUnit,
         seed?: string | number,
         connectTo: NestedObject_partial<string, Transfer> & {
@@ -189,15 +192,14 @@ export class Floor extends Scene {
  *  basic unit of block
  */
 export class BlockUnit extends gameBasicObject {
-    covers: NestedObject_partial<
-        string,
-        (Character & Buildiing)[] | (Character & Buildiing)
-    > & {
+    covers: NestedObject_partial<string, (Character & Buildiing & Item)[]> & {
         characters: Character[];
         buildings: Buildiing[];
+        item: Item[];
     } = {
         characters: [],
         buildings: [],
+        item: [],
     };
     clear(targets: string) {}
 }

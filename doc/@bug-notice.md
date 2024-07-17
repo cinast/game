@@ -47,9 +47,12 @@ n. ##`label` xxx
 
     p.: you guys really should do something to improve the work allocation and the effenciency of working
 
-    `replys`: \
+    ### `replys`
+
     c.: @p what parts you tought should be have
 
     p.: _@cinast_ : programming  
      _@pxstate_ : programming  
      _@paskaw_ : art designer, animator, programming
+
+    c.: all right

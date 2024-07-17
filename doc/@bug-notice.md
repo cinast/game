@@ -5,6 +5,14 @@
 use labels to declarate question type  
 note paths to file,like `path/to/file [row:col]`
 
+```markdown
+n. ##`label` xxx
+
+    > [path]()`
+
+    quest:xxxx
+```
+
 -   ### `bugs`
 
     mark with `!` label
@@ -29,8 +37,19 @@ note paths to file,like `path/to/file [row:col]`
 
     c.: i m so trrrrrrrr
 
-2. ## `U` `?` accoutSys | playerOnline | ...
+2. ## `U` `?` accoutSys | playerOnline or just interface
 
     > _[`sys/account.ts`](/source/component/sys/account.ts) & [`sys/gameGobal.ts`](/source/component/sys/gameGobal.ts)_
 
     c.: eeeeeem, too compex, i need ideas and help
+
+3. ## `U` The division of work & collabrate
+
+    p.: you guys really should do something to improve the work allocation and the effenciency of working
+
+    `replys`: \
+    c.: @p what parts you tought should be have
+
+    p.: _@cinast_ : programming  
+     _@pxstate_ : programming  
+     _@paskaw_ : art designer, animator, programming

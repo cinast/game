@@ -11,7 +11,7 @@ note paths to file,like `path/to/file [row:col]`
 
 -   ### `uncompleted`
 
-    mark with `*` label
+    mark with `U` label
 
 -   ### `confused`
 
@@ -19,12 +19,18 @@ note paths to file,like `path/to/file [row:col]`
 
 -   ### `completed`
 
-    mark with `-` label
+    mark with `C` label
 
 # list
 
-1. ## `-` `?` Scene & Transfer connection <br> _[`core/scene.ts`](/source/core/scene.ts) & [`core/building.ts [76+]`](/source/core/buildings.ts)_
+1. ## `C` `?` Scene & Transfer connection
 
-    i m so trrrrrrrr
+    > _[`core/scene.ts`](/source/core/scene.ts) & [`core/building.ts [76+]`](/source/core/buildings.ts)_
 
-2. ##
+    c.: i m so trrrrrrrr
+
+2. ## `U` `?` accoutSys | playerOnline | ...
+
+    > _[`sys/account.ts`](/source/component/sys/account.ts) & [`sys/gameGobal.ts`](/source/component/sys/gameGobal.ts)_
+
+    c.: eeeeeem, too compex, i need ideas and help

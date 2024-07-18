@@ -1,9 +1,9 @@
 import { Item } from "@src/core/item";
-import { leveledInfoProvision as pif } from "@src-sys/account";
+import { gammingInfoProvision, leveledInfoProvision as info } from "@src-sys/InfoProvision";
 
 export declare const gameNavigator: {
     gamming: {
-        players: pif.Pl(ayerInfoL1 & )[];
+        players: (info.PlayerInfoL1 & gammingInfoProvision)[];
         file: {
             /**
              * file id

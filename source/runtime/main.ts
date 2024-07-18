@@ -3,8 +3,7 @@ console.log("-main-");
 import { assets } from "@runtime/enter";
 import { randBint, randID, randint } from "@router/runtime";
 import { BlockUnit, Character, Floor, Item, Transfer, World } from "@router/gamecore";
-import { gameNavigator } from "@router/sys/syscore";
-import { levedInfoProvision } from "@src/component/sys/account";
+import { gameNavigator, leveledInfoProvision as info } from "@router/sys/syscore";
 
 // let rc = new Worker("./rander");
 
@@ -78,5 +77,6 @@ function worldInit() {
 // on gamming
 /**
  * 语义化探索中
+ * 大概了
  */
-let playerList: (PlayerInfoL1 & {})[] = gameNavigator.gamming.players;
+let playerList: typeof gameNavigator.gamming.players = gameNavigator.gamming.players;

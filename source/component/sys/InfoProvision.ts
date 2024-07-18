@@ -1,4 +1,4 @@
-import { PlayerCharacter } from "@src/core/player";
+import { PlayerCharacter, Scene } from "@router/gamecore";
 
 /**
  *  _\*a great info Provision managing method, i think\*_
@@ -83,7 +83,9 @@ export module leveledInfoProvision {
 export interface gammingInfoProvision {
     status: {
         onplay: {
-            characters: PlayerCharacter[];
+            characters: (PlayerCharacter & {
+                atScene: Scene;
+            })[];
             isOnTrun: boolean;
         };
     };

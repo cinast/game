@@ -1,6 +1,5 @@
 import { char_ability, Character, clonedCharacter } from "@src/core/character";
-
-class Player extends Character {
+export class PlayerCharacter extends Character {
     name: string = "";
     abilty: char_ability = {
         agile: 1,

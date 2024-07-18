@@ -1,9 +1,9 @@
 import { Item } from "@src/core/item";
-import { PlayerInfoL1 } from "@src-sys/account";
+import { leveledInfoProvision as pif } from "@src-sys/account";
 
 export declare const gameNavigator: {
     gamming: {
-        players: PlayerInfoL1[];
+        players: pif.Pl(ayerInfoL1 & )[];
         file: {
             /**
              * file id
@@ -20,7 +20,7 @@ export declare const gameNavigator: {
     };
 };
 
-interface lib {}
+export interface lib {}
 
 /**
  * get sth from loaded sets of items

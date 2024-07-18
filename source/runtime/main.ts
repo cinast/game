@@ -4,7 +4,7 @@ import { assets } from "@runtime/enter";
 import { randBint, randID, randint } from "@router/runtime";
 import { BlockUnit, Character, Floor, Item, Transfer, World } from "@router/gamecore";
 import { gameNavigator } from "@router/sys/syscore";
-import { PlayerInfoL1 } from "@src/component/sys/account";
+import { levedInfoProvision } from "@src/component/sys/account";
 
 // let rc = new Worker("./rander");
 

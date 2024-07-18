@@ -3,10 +3,11 @@ console.log("-main-");
 import { assets } from "@runtime/enter";
 import { randBint, randID, randint } from "@router/runtime";
 import { BlockUnit, Character, Floor, Item, Transfer, World } from "@router/gamecore";
+import { gameNavigator } from "@router/sys/syscore";
+import { PlayerInfoL1 } from "@src/component/sys/account";
 
 // let rc = new Worker("./rander");
 
-const gameNavigater: {} = {};
 const globalWorld = new World();
 
 function randFloor(): Floor {
@@ -75,4 +76,7 @@ function worldInit() {
 }
 
 // on gamming
-let players;
+/**
+ * 语义化探索中
+ */
+let playerList: (PlayerInfoL1 & {})[] = gameNavigator.gamming.players;

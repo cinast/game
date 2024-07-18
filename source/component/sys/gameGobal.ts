@@ -1,9 +1,9 @@
 import { Item } from "@src/core/item";
-import { PlayerAccountInfo } from "@src-sys/account";
+import { PlayerInfoL1 } from "@src-sys/account";
 
-interface gameNavigater {
+export declare const gameNavigator: {
     gamming: {
-        players: Player[];
+        players: PlayerInfoL1[];
         file: {
             /**
              * file id
@@ -14,11 +14,11 @@ interface gameNavigater {
     };
     sys: {
         lib: {
-            Default: lib;
+            // Default: lib | undefined;
             [key: string | number]: lib;
         };
     };
-}
+};
 
 interface lib {}
 

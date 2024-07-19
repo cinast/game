@@ -43,8 +43,8 @@
     },
     "type": "commonjs",
     "scripts": {
-        "pro": "tsc",
-        "start": "tsc && node @dist/runtime/enter.js"
+        "start": "tsc && node dist/runtime/enter.js",
+        "build": "npx tsc && npx tsc-alias"
     },
     "devDependencies": {
         "@types/jquery": "^3.5.30"

@@ -49,10 +49,6 @@ export class World {
         }
     }
 
-    constructor(opinions?: { time: number; init?: boolean }) {
-        if (opinions?.time) this.starttime = opinions.time;
-    }
-
     readonly starttime = new Date().getMilliseconds();
 
     get reallKeeppedTime() {
@@ -63,7 +59,13 @@ export class World {
 
     tickTimerList: Array<{ id: K; nextTickAt: number; body: Interval | Event }> = [];
 
+    taskStruck: Array<Function> = [];
+
     declare gatheSomething: (id: K) => any;
 
     delete() {}
+
+    constructor(opinions?: { time: number; init?: boolean }) {
+        if (opinions?.time) this.starttime = opinions.time;
+    }
 }

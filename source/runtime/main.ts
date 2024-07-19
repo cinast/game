@@ -76,23 +76,33 @@ function worldInit() {
 }
 
 // on gamming
+
 /**
  * 语义化探索中
  */
 let playerList: typeof gameNavigator.gamming.players = gameNavigator.gamming.players;
 
-globalWorld.intervalList.eachTick.push(
-    new Interval(1, () => {
-        //jump to
-        // if (globalWorld.tickTimerList[0]?.nextTickAt != globalWorld.tick) globalWorld.tick = globalWorld.tickTimerList[0].nextTickAt;
+// 小小模版
+// 先做逻辑
+let list = globalWorld.tickTimerList;
+let sturk = globalWorld.taskStruck;
+while (!gameNavigator.gamming.isPaused) {
+    // so next time [0] is comming task
+    list.sort((a, b) => a.nextTickAt - b.nextTickAt);
 
-        let list = globalWorld.tickTimerList.filter((i) => i.nextTickAt == globalWorld.tick);
-        list.forEach((thing) => {
-            const body = thing.body;
-            body.triged = true;
-            // body.callback.call()
-            body.triged = false;
-            if (body instanceof Interval) thing.nextTickAt += body.delay as number;
-        });
-    })
-);
+    //jump to
+    if (globalWorld.tickTimerList[0]?.nextTickAt != globalWorld.tick) globalWorld.tick = globalWorld.tickTimerList[0].nextTickAt;
+
+    list.filter((i) => i.nextTickAt == globalWorld.tick);
+    list.forEach((thing) => {
+        const body = thing.body;
+        body.triged = true;
+        globalWorld.taskStruck.push(body.callback);
+        body.triged = false;
+        if (body instanceof Interval) thing.nextTickAt += body.delay as number;
+    });
+    while (sturk.length > 0) {
+        let task = sturk.shift();
+        // task?.call()
+    }
+}

@@ -1,4 +1,4 @@
-import { Item, World } from "@router/gamecore";
+import { Character, Item, PlayerCharacter, World } from "@router/gamecore";
 import { gameFile, gammingInfoProvision, leveledInfoProvision as info } from "@src/router/sys/syscore";
 
 /**
@@ -27,6 +27,11 @@ export declare const gameNavigator: {
         turnToWho: number;
 
         players: (info.PlayerInfoL1 & gammingInfoProvision)[];
+        /**
+         * & {
+            addCharacters: (...characters: (Character | PlayerCharacter)[]) => void;
+        };
+         */
     };
     sys: {
         file: gameFile;

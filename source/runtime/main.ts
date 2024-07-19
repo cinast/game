@@ -2,7 +2,7 @@ console.log("-main-");
 
 import { assets } from "@runtime/enter";
 import { randBint, randID, randint } from "@router/runtime";
-import { BlockUnit, Character, Floor, Interval, Item, Transfer, World } from "@router/gamecore";
+import { BlockUnit, Character, Floor, Interval, Item, PlayerCharacter, Transfer, World } from "@router/gamecore";
 import { Event } from "@router/gamecore";
 import { gameNavigator, leveledInfoProvision as info } from "@router/sys/syscore";
 
@@ -76,7 +76,25 @@ function worldInit() {
 }
 
 // on gamming
-
+// *test*
+gameNavigator.gamming.players = [
+    {
+        // 我想试毒（）
+        name: "cosider",
+        id: "0a951",
+        status: {
+            onplay: {
+                characters: [
+                    Object.assign(new PlayerCharacter(), {
+                        atScene: globalWorld.scene[0],
+                    }),
+                ],
+                isOnTrun: false,
+                nextTick: 0,
+            },
+        },
+    },
+];
 /**
  * 语义化探索中
  */

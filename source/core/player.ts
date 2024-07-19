@@ -9,4 +9,8 @@ export class PlayerCharacter extends Character {
         attack: 0,
         defense: 0,
     };
+    /**
+     * playerid (template)
+     */
+    controlBy: string = "";
 }

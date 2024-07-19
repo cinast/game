@@ -1,6 +1,7 @@
-import { eventObject } from "@src/core/events";
+import { Event, Interval } from "@src/core/events";
 import { Layer } from "@src/core/layer";
 import { attrTreePath, DeepPath, NestedObject, randID } from "@src/utils/utils";
+import { specialTick } from "./world";
 
 /**
  *  every object comprising scenes, etc. chars, block, item
@@ -17,19 +18,37 @@ export class gameBasicObject {
     visitable: boolean = true;
     rotation: number = 0.0;
     layerset: Layer[] = [];
-    eventList: NestedObject<string, eventObject> = {};
+    eventList: NestedObject<string, Event> = {};
+    intervalList: NestedObject<string, Interval> = {};
+
     addEvListener(type: string, callback: Function) {
-        let ev = new eventObject(type, callback);
+        let ev = new Event(type, callback);
         this.eventList[ev.id] = ev;
         return ev.id;
     }
-    deteleEvListener(evID: string, replace?: eventObject) {
+
+    deteleEvListener(evID: string, replace?: Event) {
         let thisEv = this.eventList;
         delete thisEv[evID];
-        if (replace instanceof eventObject) {
+        if (replace instanceof Event) {
             thisEv[evID] = replace;
         }
     }
+
+    addInterval(delay: number | specialTick, callback: Function) {
+        let it = new Interval(delay, callback);
+        this.intervalList[it.id] = it;
+        return it.id;
+    }
+
+    deteleInterval(itID: string, replace?: Interval) {
+        let thisIt = this.eventList;
+        delete thisIt[itID];
+        if (replace instanceof Interval) {
+            thisIt[itID] = replace;
+        }
+    }
+
     constructor(id?: string) {
         this.id = id ?? randID();
     }

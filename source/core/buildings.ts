@@ -1,6 +1,6 @@
 import { gameBasicObject } from "@src/core/basic";
 import { Character } from "@src/core/character";
-import { eventObject } from "@src/core/events";
+import { Event } from "@src/core/events";
 import { Floor, Scene } from "@src/core/scene";
 import { NestedObject, NestedObject_partial, randID } from "@src/utils/utils";
 
@@ -23,8 +23,8 @@ export class Buildiing extends gameBasicObject {
         below: false,
     };
 
-    eventList: NestedObject<string, eventObject> & {
-        interacts: NestedObject<string, eventObject>;
+    eventList: NestedObject<string, Event> & {
+        interacts: NestedObject<string, Event>;
     } = {
         interacts: {
             // onstandOn: new eventObject("onstandOn", () => {}),
@@ -41,7 +41,7 @@ export class Buildiing extends gameBasicObject {
 
     constructor(
         name: string,
-        interacts: NestedObject<string, eventObject>,
+        interacts: NestedObject<string, Event>,
         passable: NestedObject<string, boolean> & {
             above: boolean;
             across: boolean;
@@ -61,11 +61,11 @@ export class Buildiing extends gameBasicObject {
 
 export class Door extends Buildiing {
     id: string = "Door#" + randID();
-    eventList: NestedObject<string, eventObject> & {
-        interacts: NestedObject<string, eventObject>;
+    eventList: NestedObject<string, Event> & {
+        interacts: NestedObject<string, Event>;
     } = {
         interacts: {
-            onpush: new eventObject("onpush", () => {}),
+            onpush: new Event("onpush", () => {}),
         },
     };
 }
@@ -92,13 +92,13 @@ export class Transfer extends Door {
         enter: {},
     };
 
-    eventList: NestedObject<string, eventObject> & {
-        interacts: NestedObject<string, eventObject> & {
-            onenter: eventObject;
+    eventList: NestedObject<string, Event> & {
+        interacts: NestedObject<string, Event> & {
+            onenter: Event;
         };
     } = {
         interacts: {
-            onenter: new eventObject("onenter", (entity: Character) => {
+            onenter: new Event("onenter", (entity: Character) => {
                 /** help */
             }),
         },
@@ -119,11 +119,7 @@ export class Transfer extends Door {
      * build connection between two transfers \
      * even cross different scenes
      */
-    static connect(
-        this: Transfer,
-        tar: Transfer,
-        isBidirectional: boolean = false
-    ) {
+    static connect(this: Transfer, tar: Transfer, isBidirectional: boolean = false) {
         this.connectTo.enter = tar;
         if (isBidirectional) {
             tar.connectTo.enter = this;

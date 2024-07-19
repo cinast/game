@@ -1,6 +1,6 @@
 import { gobalItemCollection } from "@src/component/sys/gameGobal";
 import { gameBasicObject } from "@src/core/basic";
-import { eventObject } from "@src/core/events";
+import { Event } from "@src/core/events";
 import { clamp, NestedObject, randID } from "@src/utils/utils";
 
 /**
@@ -13,11 +13,17 @@ export class Item extends gameBasicObject {
     description: string = "";
     weight: number = 0.0;
     isUsable: boolean = true;
-    eventList: NestedObject<string, eventObject> = {
+    eventList: NestedObject<string, Event> & {
         effect: {
-            onkeep: new eventObject("onkeep", () => {}),
-            onhold: new eventObject("onhold", () => {}),
-            onuse: new eventObject("onuse", () => {}),
+            onkeep: Event;
+            onhold: Event;
+            onuse: Event;
+        };
+    } = {
+        effect: {
+            onkeep: new Event("onkeep", () => {}),
+            onhold: new Event("onhold", () => {}),
+            onuse: new Event("onuse", () => {}),
         },
     };
 
@@ -31,19 +37,11 @@ export class Item extends gameBasicObject {
         if (this.id === sameItem.id) {
             // opinion setted?
             if (numbers) {
-                numbers = clamp(
-                    numbers,
-                    0,
-                    Math.min(sameItem.number, this.stackLimit - this.number)
-                );
+                numbers = clamp(numbers, 0, Math.min(sameItem.number, this.stackLimit - this.number));
             } else {
                 // if not overflow, add sameItem's number to this item's number
                 if (this.number < this.stackLimit) {
-                    numbers = clamp(
-                        sameItem.number,
-                        0,
-                        this.stackLimit - this.number
-                    );
+                    numbers = clamp(sameItem.number, 0, this.stackLimit - this.number);
                 }
             }
             // update this item's number
@@ -68,18 +66,12 @@ export class Item extends gameBasicObject {
         // h e l p    m e
     }
 
-    constructor(
-        name: string,
-        description: string,
-        weight: number,
-        effect: NestedObject<string, eventObject>,
-        useable: boolean = true
-    ) {
+    constructor(name: string, description: string, weight: number, effect: NestedObject<string, Event>, useable: boolean = true) {
         super();
         this.name = name;
         this.description = description;
         this.weight = weight;
         this.isUsable = useable;
-        this.eventList.effect = effect;
+        Object.assign(this.eventList.effect, effect);
     }
 }

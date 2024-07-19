@@ -61,17 +61,27 @@ n. ##`label` xxx
 
     ### `replys`
 
-        c.: @p what parts you tought should be have
+            c.: @p what parts you tought should be have
 
-        p.: _@cinast_ : programming
-            _@pxstate_ : programming
-            _@paskaw_ : art designer, animator, programming
+            p.: _@cinast_ : programming
+                _@pxstate_ : programming
+                _@paskaw_ : art designer, animator, programming
 
-    c.: all right
-    but r u sure to so much job
+            c.: all right
+                but r u sure to so much job
 
 4.  ### `U` `extends 2` palyer info provision interface L4 template
 
         c.: i suddenly thought out an idea,
             make player infos into parts, lilke importing modules
             and then we can assemble them in certain ways, what an great idea!
+
+5.  ## `?` `!(?)` I am not sure if this can do
+
+    > _[`core/item.ts [81]`](/source/core/item.ts)_
+
+        c.: emmm, can _assgin_ fn add and cover target by source?
+
+    > _[`core/world.ts [11]`](/source/core/world.ts)_
+
+        c.: ...

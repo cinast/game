@@ -2,8 +2,9 @@ import { Character } from "@src/core/character";
 import { NestedObject, NestedObject_partial, randID } from "@src/utils/utils";
 import { gameBasicObject } from "@src/core/basic";
 import { Item } from "./item";
-import { eventObject } from "@src/core/events";
+import { Event, Interval } from "@src/core/events";
 import { Buildiing, FloorTransfer, Transfer } from "@src/core/buildings";
+import { specialTick } from "@src/router/gamecore";
 
 export class Scene {
     id: string = `Scene#${randID()}`;
@@ -62,17 +63,34 @@ export class Scene {
     }
     remove() {}
 
-    eventList: NestedObject<string, eventObject> = {};
+    eventList: NestedObject<string, Event> = {};
+    intervalList: NestedObject<string, Interval> = {};
+
     addEvListener(type: string, callback: Function) {
-        let ev = new eventObject(type, callback);
+        let ev = new Event(type, callback);
         this.eventList[ev.id] = ev;
         return ev.id;
     }
-    deteleEvListener(evID: string, replace?: eventObject) {
+
+    deteleEvListener(evID: string, replace?: Event) {
         let thisEv = this.eventList;
         delete thisEv[evID];
-        if (replace instanceof eventObject) {
+        if (replace instanceof Event) {
             thisEv[evID] = replace;
+        }
+    }
+
+    addInterval(delay: number | specialTick, callback: Function) {
+        let it = new Interval(delay, callback);
+        this.intervalList[it.id] = it;
+        return it.id;
+    }
+
+    deteleInterval(itID: string, replace?: Interval) {
+        let thisIt = this.eventList;
+        delete thisIt[itID];
+        if (replace instanceof Interval) {
+            thisIt[itID] = replace;
         }
     }
 

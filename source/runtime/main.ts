@@ -56,9 +56,7 @@ function worldInit() {
                 // void block
                 block.type == "void" ||
                 // if not reachable (i think)
-                block.covers.buildings.filter((i) => {
-                    if (!i.passable) return i;
-                }).length != 0 // has one or more
+                block.covers.buildings.some((i) => !i.passable)
             )
                 continue;
             if (randint(1, 0, "trunc")) {
@@ -72,6 +70,8 @@ function worldInit() {
             }
         }
     });
+
+    // globalWorld.
 }
 
 // on gamming

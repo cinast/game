@@ -54,9 +54,16 @@ export class World {
     }
 
     readonly starttime = new Date().getMilliseconds();
-    get time() {
+
+    get reallKeeppedTime() {
         return new Date().getMilliseconds() - this.starttime;
     }
+
+    tick: number = 0;
+
+    tickTimerList: Array<{ id: K; nextTickAt: number; body: Interval | Event }> = [];
+
+    declare gatheSomething: (id: K) => any;
 
     delete() {}
 }

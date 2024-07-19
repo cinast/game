@@ -2,7 +2,8 @@ console.log("-main-");
 
 import { assets } from "@runtime/enter";
 import { randBint, randID, randint } from "@router/runtime";
-import { BlockUnit, Character, Floor, Item, Transfer, World } from "@router/gamecore";
+import { BlockUnit, Character, Floor, Interval, Item, Transfer, World } from "@router/gamecore";
+import { Event } from "@router/gamecore";
 import { gameNavigator, leveledInfoProvision as info } from "@router/sys/syscore";
 
 // let rc = new Worker("./rander");
@@ -77,8 +78,21 @@ function worldInit() {
 // on gamming
 /**
  * 语义化探索中
- * 大概了
  */
 let playerList: typeof gameNavigator.gamming.players = gameNavigator.gamming.players;
 
-globalWorld.intervalList;
+globalWorld.intervalList.eachTick.push(
+    new Interval(1, () => {
+        //jump to
+        // if (globalWorld.tickTimerList[0]?.nextTickAt != globalWorld.tick) globalWorld.tick = globalWorld.tickTimerList[0].nextTickAt;
+
+        let list = globalWorld.tickTimerList.filter((i) => i.nextTickAt == globalWorld.tick);
+        list.forEach((thing) => {
+            const body = thing.body;
+            body.triged = true;
+            // body.callback.call()
+            body.triged = false;
+            if (body instanceof Interval) thing.nextTickAt += body.delay as number;
+        });
+    })
+);

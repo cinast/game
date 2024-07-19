@@ -87,6 +87,7 @@ export interface gammingInfoProvision {
                 atScene: Scene;
             })[];
             isOnTrun: boolean;
+            nextTick: number;
         };
     };
 }

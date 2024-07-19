@@ -1,6 +1,6 @@
 import { Event, Interval } from "@src/core/events";
 import { Layer } from "@src/core/layer";
-import { attrTreePath, DeepPath, NestedObject, randID } from "@src/utils/utils";
+import { attrTreePath, DeepPath, NestedObject, NestedObject_partial, randID } from "@src/utils/utils";
 import { specialTick } from "./world";
 
 /**
@@ -18,8 +18,8 @@ export class gameBasicObject {
     visitable: boolean = true;
     rotation: number = 0.0;
     layerset: Layer[] = [];
-    eventList: NestedObject<string, Event> = {};
-    intervalList: NestedObject<string, Interval> = {};
+    eventList: NestedObject_partial<string, Event | Event[]> = {};
+    intervalList: NestedObject_partial<string, Interval | Interval[]> = {};
 
     addEvListener(type: string, callback: Function) {
         let ev = new Event(type, callback);

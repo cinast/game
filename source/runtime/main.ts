@@ -80,3 +80,5 @@ function worldInit() {
  * 大概了
  */
 let playerList: typeof gameNavigator.gamming.players = gameNavigator.gamming.players;
+
+globalWorld.intervalList;

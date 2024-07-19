@@ -63,8 +63,8 @@ export class Scene {
     }
     remove() {}
 
-    eventList: NestedObject<string, Event> = {};
-    intervalList: NestedObject<string, Interval> = {};
+    eventList: NestedObject_partial<string, Event | Event[]> = {};
+    intervalList: NestedObject_partial<string, Interval | Interval[]> = {};
 
     addEvListener(type: string, callback: Function) {
         let ev = new Event(type, callback);

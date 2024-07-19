@@ -1,5 +1,5 @@
 import { Event, Floor, Scene, Character, Interval } from "@src/router/gamecore";
-import { NestedObject, randID, sleep, sleepUntil } from "@src/utils/utils";
+import { NestedObject, NestedObject_partial, randID, sleep, sleepUntil } from "@src/utils/utils";
 
 export type specialTick = "";
 
@@ -10,8 +10,16 @@ export class World {
     Characters: Record<string, Character> = {};
     scene: Floor[] = [];
 
-    eventList: NestedObject<string, Event> = {};
-    intervalList: NestedObject<string, Interval> = {};
+    eventList: NestedObject_partial<string, Event | Event[]> & {
+        onStopped: Event;
+    } = {
+        onStopped: new Event("onStop[ed", () => {}),
+    };
+    intervalList: NestedObject_partial<string, Interval | Interval[]> & {
+        eachTick: Event[];
+    } = {
+        eachTick: [],
+    };
 
     addEvListener(type: string, callback: Function) {
         let ev = new Event(type, callback);

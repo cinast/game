@@ -23,7 +23,7 @@ export class Buildiing extends gameBasicObject {
         below: false,
     };
 
-    eventList: NestedObject<string, Event> & {
+    eeventList: NestedObject_partial<string, Event | Event[]> & {
         interacts: NestedObject<string, Event>;
     } = {
         interacts: {
@@ -61,7 +61,7 @@ export class Buildiing extends gameBasicObject {
 
 export class Door extends Buildiing {
     id: string = "Door#" + randID();
-    eventList: NestedObject<string, Event> & {
+    eeventList: NestedObject_partial<string, Event | Event[]> & {
         interacts: NestedObject<string, Event>;
     } = {
         interacts: {
@@ -92,7 +92,7 @@ export class Transfer extends Door {
         enter: {},
     };
 
-    eventList: NestedObject<string, Event> & {
+    eeventList: NestedObject_partial<string, Event | Event[]> & {
         interacts: NestedObject<string, Event> & {
             onenter: Event;
         };

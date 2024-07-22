@@ -121,7 +121,7 @@ export class Floor extends Scene {
         col: 20,
         row: 20,
     };
-    content: BlockUnit[][] = [];
+    content: BlockUnit[][];
 
     transfers: NestedObject_partial<string, Transfer> & {
         enterance: NestedObject_partial<string, Transfer>;
@@ -194,20 +194,14 @@ export class Floor extends Scene {
         super("", connectTo);
         this.scale.row = width;
         this.scale.col = height;
-        if (!seed) {
-            for (let i = 0; i < height; i++) {
-                this.content.push([]);
-                for (let j = 0; j < width; i++) {
-                    this.content[i].push(new BlockUnit(`block[${i},${j}]`));
-                }
-            }
-        } else {
-            /** to be continued */
+        this.content = new Array(width).fill(new Array(height).fill(new BlockUnit()));
+
+        if (seed) {
         }
     }
 }
 /**
- *  basic unit of block
+ *  base of every block of map
  */
 export class BlockUnit extends gameBasicObject {
     covers: NestedObject_partial<string, (Character & Buildiing & Item)[]> & {

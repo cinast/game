@@ -42,7 +42,7 @@ export class Character extends gameBasicObject {
     cloneNumber: bigint = 0n;
     hasCloned: bigint = 0n;
     clones: clonedCharacter[] = [];
-    CloneFrom: Character | undefined = undefined;
+    CloneFrom: Character | void = undefined;
     effects = {};
 
     moveto(x: number, y: number) {
@@ -55,7 +55,7 @@ export class Character extends gameBasicObject {
         this.clones.push(cl);
         return cl;
     }
-    set cloneFrom(char: Character | undefined) {
+    set cloneFrom(char: Character | void) {
         if (!this.isClone && this.CloneFrom instanceof Character) return;
         this.CloneFrom = char;
     }
@@ -67,7 +67,7 @@ export class Character extends gameBasicObject {
 export class clonedCharacter extends Character {
     isClone: boolean = true;
     cloneNumber: bigint;
-    set cloneFrom(char: Character | undefined) {
+    set cloneFrom(char: Character | void) {
         if (this instanceof Character) {
             this.cloneFrom = char;
             char?.clones.push(this);

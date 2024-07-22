@@ -64,6 +64,7 @@ gameNavigator.gamming.players = [
         },
     },
 ];
+
 /**
  * 语义化探索中
  */
@@ -71,25 +72,30 @@ let playerList: typeof gameNavigator.gamming.players = gameNavigator.gamming.pla
 
 // 小小模版
 // 先做逻辑
-let list = globalWorld.tickTimerList;
-let sturk = globalWorld.taskStruck;
+let tickList = globalWorld.tickTimerList;
+let taskStruck = globalWorld.taskStruck;
 while (!gameNavigator.gamming.isPaused) {
     // so next time [0] is comming task
-    list.sort((a, b) => a.nextTickAt - b.nextTickAt);
+    tickList.sort((a, b) => a.nextTickAt - b.nextTickAt);
 
     //jump to
     if (globalWorld.tickTimerList[0]?.nextTickAt != globalWorld.tick) globalWorld.tick = globalWorld.tickTimerList[0].nextTickAt;
 
-    list.filter((i) => i.nextTickAt == globalWorld.tick);
-    list.forEach((thing) => {
+    //get list of things need to do
+    let list = tickList.slice(-1, tickList.findIndex((f, i) => f.nextTickAt > globalWorld.tick) - 1);
+
+    list.forEach((thing, i) => {
+        globalWorld.tickTimerList[i].body.triged = true;
+
         const body = thing.body;
-        body.triged = true;
         globalWorld.taskStruck.push(body.callback);
-        body.triged = false;
         if (body instanceof Interval) thing.nextTickAt += body.delay as number;
     });
-    while (sturk.length > 0) {
-        let task = sturk.shift();
+
+    while (taskStruck.length > 0) {
+        globalWorld.tickTimerList.shift();
+
+        let task = taskStruck.shift();
         // task?.call()
     }
 }

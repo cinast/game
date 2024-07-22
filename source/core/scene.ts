@@ -66,7 +66,7 @@ export class Scene {
     eventList: NestedObject_partial<string, Event | Event[]> = {};
     intervalList: NestedObject_partial<string, Interval | Interval[]> = {};
 
-    addEvListener(type: string, callback: Function) {
+    addEvListener(type: string, callback: () => number | void) {
         let ev = new Event(type, callback);
         this.eventList[ev.id] = ev;
         return ev.id;
@@ -80,7 +80,7 @@ export class Scene {
         }
     }
 
-    addInterval(delay: number | specialTick, callback: Function) {
+    addInterval(delay: number | specialTick, callback: () => number | void) {
         let it = new Interval(delay, callback);
         this.intervalList[it.id] = it;
         return it.id;

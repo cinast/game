@@ -37,11 +37,7 @@ export function random(max: number, min?: number) {
     return Math.random() * (max - min) + min;
 }
 
-export function randint(
-    max: number,
-    min?: number,
-    mod: "ceil" | "floor" | "round" | "trunc" = "round"
-) {
+export function randint(max: number, min?: number, mod: "ceil" | "floor" | "round" | "trunc" = "round") {
     const result = {
         ceil: (v: number) => Math.ceil(v),
         floor: (v: number) => Math.floor(v),
@@ -54,11 +50,7 @@ export function randint(
 /**
  *
  */
-export function randBint(
-    max: number,
-    min?: number,
-    mod: "ceil" | "floor" | "round" | "trunc" = "round"
-) {
+export function randBint(max: number, min?: number, mod: "ceil" | "floor" | "round" | "trunc" = "round") {
     return BigInt(random(max, min));
 }
 
@@ -165,13 +157,12 @@ export type NestedObject_partial<K extends string | number | symbol, V> = {
 };
 
 // from: htts://ououe.com/posts/typescript-object-deep-path
-type NestedPath<T extends "array" | "object", P, C = undefined> = `${P &
-    string}${T extends "array" ? `[${number}]` : ""}${C extends string
-    ? `.${C}`
-    : ""}`;
+type NestedPath<T extends "array" | "object", P, C = undefined> = `${P & string}${T extends "array"
+    ? `[${number}]`
+    : ""}${C extends string ? `.${C}` : ""}`;
 
 type DeepNested<V, K = ""> = V extends object[]
-    ? NestedPath<"array", K, DeepPath<V[number]> | undefined>
+    ? NestedPath<"array", K, DeepPath<V[number]> | void>
     : V extends unknown[]
     ? NestedPath<"array", K>
     : V extends object

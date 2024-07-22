@@ -13,7 +13,11 @@ export class World {
     eventList: NestedObject_partial<string, Event | Event[]> & {
         onStopped: Event;
     } = {
-        onStopped: new Event("onStop[ed", () => {}),
+        onStopped: new Event(
+            "onStoped",
+            () => {},
+            () => this.isPaused
+        ),
     };
     intervalList: NestedObject_partial<string, Interval | Interval[]> & {
         eachTick: Event[];
@@ -21,7 +25,7 @@ export class World {
         eachTick: [],
     };
 
-    addEvListener(type: string, callback: Function) {
+    addEvListener(type: string, callback: () => number | void) {
         let ev = new Event(type, callback);
         this.eventList[ev.id] = ev;
         return ev.id;
@@ -35,7 +39,7 @@ export class World {
         }
     }
 
-    addInterval(delay: number | specialTick, callback: Function) {
+    addInterval(delay: number | specialTick, callback: () => number | void) {
         let it = new Interval(delay, callback);
         this.intervalList[it.id] = it;
         return it.id;
@@ -54,6 +58,8 @@ export class World {
     get reallKeeppedTime() {
         return new Date().getMilliseconds() - this.starttime;
     }
+
+    isPaused: boolean = false;
 
     tick: number = 0;
 

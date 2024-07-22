@@ -9,7 +9,7 @@ export class Layer {
     name: string = "";
     layerIndex = 0;
     // content: ImageData;
-    parent: Character | undefined = undefined;
+    parent: Character | void = undefined;
     constructor(type?: string, size?: number, id?: string) {
         this.id = id ?? randID();
         this.type = type ?? "";
@@ -20,9 +20,7 @@ export class Layer {
         l.splice(index, 0, l.splice(this.layerIndex, 1)[0]);
     }
     delete() {
-        return this.parent == undefined
-            ? new TypeError()
-            : this.parent.layerset.splice(this.layerIndex, 1)[0];
+        return this.parent == undefined ? new TypeError() : this.parent.layerset.splice(this.layerIndex, 1)[0];
     }
     concatLayer() {}
 }

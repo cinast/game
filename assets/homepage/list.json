@@ -1,0 +1,38 @@
+{
+    "img": {
+        "ui": [
+            {
+                "name": "",
+                "id": "",
+                "type": "",
+                "path": ""
+            }
+        ],
+        "backgroud": [
+            {
+                "name": "",
+                "id": "",
+                "type": "",
+                "path": ""
+            }
+        ]
+    },
+    "sound": {
+        "fx": [
+            {
+                "name": "",
+                "id": "",
+                "type": "",
+                "path": ""
+            }
+        ],
+        "misc": [
+            {
+                "name": "",
+                "id": "",
+                "type": "",
+                "path": ""
+            }
+        ]
+    }
+}

@@ -1,5 +1,5 @@
 const version = "0.0.0";
-const baseurl = "https://github.com/cinast/game/blob/main/";
+const remoteBaseURL = "https://github.com/cinast/game/blob/main/";
 
 type K = string | number | symbol;
 type k = K | bigint;

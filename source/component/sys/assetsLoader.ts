@@ -1,5 +1,5 @@
 import { NestedObject, parse } from "@src/utils/utils";
-import assets from "@assets/list.json";
+import totalList from "@assets/list.json";
 
 // Assets manager
 export interface AssetListItem {
@@ -14,25 +14,59 @@ export interface AssetListItem {
 export interface LoadErroredItem {
     name: string;
     reason: Error | string | any;
-    body: (typeof assets)[number];
+    body: {
+        name: string;
+        id: string;
+        type: string | "assets-group";
+        path: string;
+    };
 }
 
 export const loadFailedList: LoadErroredItem[] = [];
-export const assetsList: Record<string, AssetListItem> = {};
+export const assetsList: NestedObject<string, Array<AssetListItem>> = {
+    img: {
+        ui: [],
+        backgroud: [],
+    },
+    sound: {
+        fx: [],
+        misc: [],
+    },
+};
 
 export async function loadAssets() {
-    assets.forEach(async (item) => {
-        const promise = import(item.url);
+    for (const item in totalList) {
+        //ts 的矢山写法（怒）
+        const tar = totalList[item as keyof typeof totalList];
+        const promise = import(tar.path);
 
         promise.catch((err) => {
             loadFailedList.push({
-                name: item.name,
+                name: item,
+                body: {
+                    name: item,
+                    id: tar.id,
+                    type: "assetsgroup",
+                    path: tar.path,
+                },
                 reason: err,
-                body: item,
             });
         });
-        promise.then((resource) => {
-            assetsList[item.url] = resource;
+        promise.then(() => {
+            promise.then(async (item) => {
+                const promise = import(item.url);
+
+                promise.catch((err) => {
+                    loadFailedList.push({
+                        name: item.name,
+                        reason: err,
+                        body: item,
+                    });
+                });
+                promise.then((resource) => {
+                    assetsList[item.url] = resource;
+                });
+            });
         });
-    });
+    }
 }

@@ -1,7 +1,14 @@
-[
-    {
-        "name":"",
-        "type":"",
-        "url":""
+{
+    "loading": {
+        "path": "./loading/list.json",
+        "id": ""
+    },
+    "homepage": {
+        "path": "./homepage/list.json",
+        "id": ""
+    },
+    "gamming": {
+        "path": "./gamming/list.json",
+        "id": ""
     }
-]
+}

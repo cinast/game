@@ -1,9 +1,10 @@
 console.log("-main-");
 
 import { randBint, randID, randint } from "@router/runtime";
+import { gameNavigator, leveledInfoProvision as info, loadAssets, loadFailedList, assetsList } from "@router/sys/syscore";
+
 import { BlockUnit, Character, Floor, Interval, Item, PlayerCharacter, Transfer, World } from "@router/gamecore";
 import { Event } from "@router/gamecore";
-import { gameNavigator, leveledInfoProvision as info } from "@router/sys/syscore";
 import { randConnectedFloors } from "@src/utils/floor";
 
 // let rc = new Worker("./rander");

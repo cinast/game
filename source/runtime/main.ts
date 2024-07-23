@@ -1,5 +1,7 @@
 console.log("-main-");
 
+import "pixi";
+
 import { randBint, randID, randint } from "@router/runtime";
 import { gameNavigator, leveledInfoProvision as info, loadAssets, loadFailedList, assetsList } from "@router/sys/syscore";
 

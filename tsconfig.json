@@ -38,7 +38,9 @@
             "@runtime/*": ["source/runtime/*"],
             "@pages/*": ["source/page/*"],
             "@dist/*": ["dist/*"],
-            "@assets/*": ["assets/*"]
+            "@assets/*": ["assets/*"],
+            "@lib/*": ["source/lib/*"],
+            "pixi": ["source/lib/pixi.8.2.5.mjs"]
         } /* Specify a set of entries that re-map imports to additional lookup locations. */,
         // "rootDirs": [],                                   /* Allow multiple folders to be treated as one when resolving modules. */
         // "typeRoots": [],                                  /* Specify multiple folders that act like './node_modules/@types'. */

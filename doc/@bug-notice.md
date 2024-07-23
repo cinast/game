@@ -89,3 +89,7 @@ n. ##`label` xxx
 6.  ## `?` `!(?)` unkown
 
     > _[`runtime/main.ts [93]`](/source/runtime/main.ts)_ > _[`runtime/main.ts [95]`](/source/runtime/main.ts)_
+
+7.  ## `?` Event.#callback
+
+    > _[`core/events.ts`](/source/core/events.ts)_

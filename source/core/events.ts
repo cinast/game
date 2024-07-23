@@ -15,15 +15,8 @@ export class Event {
      * you can call it right now, \
      * or wait until `this.predicater` gives you anwser
      */
-    #callback: () => number | void
+    callback: (...arg: any[]) => number | void;
 
-    get callback() {
-        return this.reExecutable ? this.#callback : () => void
-    }
-
-    // set callback(v) {
-
-    // }
     /**
      * check if is time to trig \
      * if you dont set it, defualt retrun is `true`
@@ -37,7 +30,7 @@ export class Event {
 
     constructor(
         type: string,
-        callback: () => number | void,
+        callback: (...arg: any[]) => number | void,
         predicate?: () => boolean,
         reExecutable: boolean = true,
         tag?: string[],
@@ -48,7 +41,7 @@ export class Event {
         this.tag = tag ?? [];
 
         this.reExecutable = reExecutable;
-        this.#callback = callback;
+        this.callback = callback;
         this.predicater = predicate ?? (() => true);
     }
 }
@@ -58,9 +51,9 @@ export class Interval {
     type: string = "";
     tag: string[] = [];
     delay: number | specialTick = 0;
-    callback: () => number | void
+    callback: (...arg: any[]) => number | void;
     triged: boolean = false;
-    constructor(delay: number | specialTick, callback: () => number | void, tag?: string[], id?: string) {
+    constructor(delay: number | specialTick, callback: (...arg: any[]) => number | void, tag?: string[], id?: string) {
         this.id = id ?? randID();
         this.tag = tag ?? [];
         this.delay = delay;

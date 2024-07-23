@@ -1,6 +1,5 @@
 console.log("-main-");
 
-import { assets } from "@runtime/enter";
 import { randBint, randID, randint } from "@router/runtime";
 import { BlockUnit, Character, Floor, Interval, Item, PlayerCharacter, Transfer, World } from "@router/gamecore";
 import { Event } from "@router/gamecore";

@@ -37,3 +37,8 @@ go [`@bug-notice.md`](/doc/@bug-notice.md)
 
 -   [Game page](page/game.html)
 -   [Entrance script](script/enter.ts) -->
+
+## Thanks to
+
+-   [`blackbox.ai`](https://www.blackbox.ai/) for programming help
+-   [`kenney.nl`](https://kenney.nl/) for assests & idea aid

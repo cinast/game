@@ -1,4 +1,4 @@
-
+import { error } from "jquery";
 
 /**
  * enjoy yourself, :D(
@@ -9,14 +9,12 @@ export const version = "0.0.0";
 export const baseurl = "https://github.com/cinast/game/blob/main/";
 
 export type K = string | number | symbol;
-export type v_is_t = <T>(V: any) => typeof V extends T ? typeof V : never;
-export const v_is_t = <T>(V:any): V is T => {const b  = false as V is T;return b} 
 /**
  *
  * resource processing function list
  * choose your way
  */
-export const parse: Record<K, Function> = {
+export const parse: Record<K, (...any: any[]) => any> = {
     // pre:(blob:Blob)=>{FileReader(blob)},
     // aduio:(aduio,bind?)=>{
     // },
@@ -85,6 +83,39 @@ export function read() {
 
 export function store() {}
 
+/**
+ * get the property you want by cretain funtion `predicate`
+ * @param obj the object you wanna sreach
+ * @param prefix the path start with
+ * @param predicate the function check if satisfy the condition, offen
+ * @returns list of results
+ */
+export function getItems(obj: any, predicate: (thisArg: any) => boolean, prefix: string = ""): { [key: string]: any } {
+    const result: { [key: string]: any } = {};
+
+    for (const key in obj) {
+        if (Object.prototype.hasOwnProperty.call(obj, key)) {
+            const propName = prefix ? `${prefix}.${key}` : key;
+            if (predicate(obj[key])) {
+                // Found an end item, add it to the result
+                result[propName] = obj[key];
+            } else if (typeof obj[key] === "object" && obj[key] !== null) {
+                // Recursively traverse the object
+                getItems(obj[key], predicate, propName);
+            }
+        }
+    }
+
+    return result;
+}
+
+/**
+ * get the property at the end of every property branch
+ * @param obj the object you wanna sreach
+ * @param prefix the path start with
+ * @param predicate the function check if satisfy the condition, offen
+ * @returns list of results
+ */
 export function getEndItems(obj: any, prefix: string = ""): { [key: string]: any } {
     const result: { [key: string]: any } = {};
 
@@ -101,27 +132,6 @@ export function getEndItems(obj: any, prefix: string = ""): { [key: string]: any
         }
     }
 
-    return result;
-}
-
-export function getItems<T = any>(
-    obj: any,
-    predicate: (O: typeof obj, i: keyof typeof O) => boolean,
-    prefix: string = ""
-): { [key: string]: any } {
-    const result: { [key: string]: T } = {};
-    
-    for (const key in obj) {
-        const propName = prefix ? `${prefix}.${key}` : key;
-        const item= obj[key] as v_is_t<T>(obj[key]) 
-        if (predicate(item,key)) {
-            // add to result
-            result[propName] = item;
-        } else if (typeof obj[key] === "object" && obj[key] !== null) {
-            // Recursively traverse the object
-            Object.assign(result, getEndItems(obj[key], propName));
-        }
-    }
     return result;
 }
 
@@ -156,3 +166,11 @@ export type DeepPath<T extends object> = {
 
 export type attrTreePath<T extends object> = DeepPath<T>;
 // -------
+
+export type hasPropertyOf<T, P> = P extends `${infer Head}.${infer Tail}`
+    ? Head extends keyof T
+        ? hasPropertyOf<T[Head], Tail>
+        : never
+    : P extends keyof T
+    ? T[P]
+    : never;

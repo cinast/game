@@ -1,4 +1,4 @@
-import { getEndItems, getItems, NestedObject, parse, v_is_t } from "@src/utils/utils";
+import { getItems, NestedObject, parse } from "@src/utils/utils";
 import totalList from "@assets/list.json";
 
 // Assets manager
@@ -46,6 +46,7 @@ export const loadFailedList: LoadErroredItem[] = [];
 export const assetsList: Record<string, AssetItem> = {};
 export const assetsGroups: NestedObject<string, Array<AssetItem>> = {};
 
+const resourcetypes = [""] as const;
 export async function loadAssets() {
     for (const item in totalList) {
         //ts 的矢山写法（怒）
@@ -67,30 +68,50 @@ export async function loadAssets() {
         });
 
         // get & regist tables
-        promise.then((list) => {
-            assetsGroups[item] = list;
-            Object.assign(
-                assetsList,
-                getItems(
-                    item,
-                    <>(obj, key) =>
-                        
-                )
-                // promise.then(async (item) => {
-                //     const promise = import(item.url);
+        promise.then((source) => {
+            assetsGroups[item] = source;
 
-                //     promise.catch((err) => {
-                //         loadFailedList.push({
-                //             name: item.name,
-                //             reason: err,
-                //             body: item,
-                //         });
-                //     });
-                //     promise.then((resource) => {
-                //         assetsList[item.url] = resource;
-                //     });
-                // });
-            );
+            try {
+                const table = source.img as NestedObject<
+                    string,
+                    {
+                        name: string;
+                        id: string;
+                        type: string;
+                        path: string;
+                    }[]
+                >;
+
+                const gotItems = getItems(
+                    table,
+                    (sort) => Array.isArray(sort) && sort.every((i) => (i?.type ? resourcetypes.includes(i.type) : false)),
+                    item
+                ) as Record<
+                    string,
+                    {
+                        name: string;
+                        id: string;
+                        type: string;
+                        path: string;
+                    }
+                >;
+
+                for (const i in gotItems) {
+                    const itemPromise = import(gotItems[i].path);
+                    itemPromise.catch((err) => console.error);
+                    itemPromise.then((sth) => {
+                        try {
+                            if (gotItems[i]) console.error(new Error(`assest#${i} already registed`));
+                            let data = parse[gotItems[i].type](sth);
+                            assetsList[i] = data;
+                        } catch (error) {
+                            console.error(error);
+                        }
+                    });
+                }
+            } catch (err) {
+                console.error(err);
+            }
         });
     }
 }

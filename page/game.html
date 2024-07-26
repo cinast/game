@@ -1,33 +1,163 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <style tag="component-set">
+            page.on {
+                visibility: visible;
+            }
 
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <style>
-        * {
-            margin: none;
-            padding: none;
-        }
+            page.off {
+                visibility: hidden;
+            }
+        </style>
+        <style tag="gobal-set">
+            :root {
+            }
 
-        :root {}
+            * {
+                padding: none;
+                margin: none;
+            }
 
-        body {
-            width: 100vw;
-            height: 100vh;
-        }
-    </style>
-    <script>
+            body {
+                width: 100vw;
+                height: 100vh;
+                background-color: #000;
+            }
 
-    </script>
-    <script src="/dist/">
+            resource * {
+                display: none;
+            }
 
-    </script>
-</head>
+            @media (prefers-color-scheme: light) {
+            }
 
-<body>
+            @media (prefers-color-scheme: dark) {
+            }
+        </style>
+        <style tag="page-public-styles">
+            website_icon {
+                width: 20px;
+                height: 20px;
+                border: #ee2 100%;
+            }
 
-</body>
+            .block {
+                width: 30px;
+                height: 30px;
+                background-color: #fff;
+                position: relative;
+                border: 5px #9cc;
+                display: flex;
+                flex-direction: row;
+                flex-wrap: nowrap;
+            }
+        </style>
+    </head>
 
+    <run>
+        <script>
+            let resource = document.querySelector("resource");
+            try {
+                let componentList = resource.querySelectorAll("component");
+                componentList.forEach((c) => {
+                    document
+                        .querySelectorAll(c.querySelector("meta[position]").getAttribute("position"))
+                        .forEach((e) =>
+                            e.appendChild(...c.querySelectorAll("in-component-style"), ...c.querySelector("display").childNodes)
+                        );
+                });
+            } catch (err) {
+                console.log(err);
+            }
+        </script>
+    </run>
+
+    <resource>
+        <components>
+            <component name="nav">
+                <meta positionAt="display" />
+                <style g="in-component-style">
+                    nav {
+                        top: 0;
+                        left: 0;
+                        position: fixed;
+                        width: 100vw;
+                        height: 50px;
+                        background-color: #fff;
+                        margin-bottom: 5px #dd2;
+                        z-index: 100;
+                    }
+
+                    nav div {
+                        display: inline-block;
+                        margin: 20px 20px;
+                        text-align: center center;
+                    }
+                </style>
+                <display>
+                    <nav>
+                        <span class="website_icon" data-icon=""></span>
+                        <div>a</div>
+                        <div>b</div>
+                        <div>
+                            <button></button>
+                        </div>
+                        <div>d</div>
+                        <div>e</div>
+                    </nav>
+                </display>
+            </component>
+
+            <component name="header">
+                <meta positionAt="display" />
+                <style g="in-component-style"></style>
+                <display>
+                    <header></header>
+                </display>
+            </component>
+
+            <component name="footer">
+                <meta positionAt="display" />
+                <style g="in-component-style"></style>
+                <display>
+                    <footer></footer>
+                </display>
+            </component>
+        </components>
+
+        <pageset id="gobal-page-set">
+            <page id="index">
+                <style g="in-page-style">
+                    .headline {
+                        width: 80px;
+                        height: 30px;
+                    }
+
+                    .block {
+                        position: relative;
+                        top: 20px;
+                        left: auto;
+                        width: fit-content;
+                        height: fit-content;
+                        min-width: 20px;
+                        min-height: 20px;
+                        z-index: 2;
+                        display: block;
+                    }
+                </style>
+                <display>
+                    <main>
+                        <div class="block headline" id="hello">hello</div>
+                    </main>
+                </display>
+            </page>
+        </pageset>
+    </resource>
+    <body>
+        <display onplay=""> </display>
+    </body>
 </html>

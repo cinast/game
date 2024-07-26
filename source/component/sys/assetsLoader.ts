@@ -1,8 +1,28 @@
-import { NestedObject, parse } from "@src/utils/utils";
+import { getEndItems, getItems, NestedObject, parse, v_is_t } from "@src/utils/utils";
 import totalList from "@assets/list.json";
 
 // Assets manager
-export interface AssetListItem {
+
+interface LoadedAssetsListItem {
+    name: string;
+    id: string;
+    type: string;
+    path: string;
+    // [key:string]:string
+}
+
+// 矢
+const LoadedAssetsListItem: LoadErroredItem = {
+    name: "",
+    reason: undefined,
+    body: {
+        name: "",
+        id: "",
+        type: "",
+        path: "",
+    },
+};
+interface AssetItem {
     content: any;
     name: string;
     loaded: boolean;
@@ -11,7 +31,7 @@ export interface AssetListItem {
     loadsucceed: boolean;
 }
 
-export interface LoadErroredItem {
+interface LoadErroredItem {
     name: string;
     reason: Error | string | any;
     body: {
@@ -23,7 +43,8 @@ export interface LoadErroredItem {
 }
 
 export const loadFailedList: LoadErroredItem[] = [];
-export const assetsList: NestedObject<string, Array<AssetListItem>> = {};
+export const assetsList: Record<string, AssetItem> = {};
+export const assetsGroups: NestedObject<string, Array<AssetItem>> = {};
 
 export async function loadAssets() {
     for (const item in totalList) {
@@ -31,6 +52,7 @@ export async function loadAssets() {
         const tar = totalList[item as keyof typeof totalList];
         const promise = import(tar.path);
 
+        // importing
         promise.catch((err) => {
             loadFailedList.push({
                 name: item,
@@ -43,37 +65,32 @@ export async function loadAssets() {
                 reason: err,
             });
         });
-        promise.then((list) => {
-            assetsList[item] = {
-                img: {
-                    ui: [],
-                    backgroud: [],
-                },
-                sound: {
-                    fx: [],
-                    misc: [],
-                },
-            };
-            // function r(i: string ) {
-            //     return Object.keys(assetsList) : i;
-            // }
-            // Object.keys(list).forEach((sets) => {
-            //     r(sets);
-            // });
-            // promise.then(async (item) => {
-            //     const promise = import(item.url);
 
-            //     promise.catch((err) => {
-            //         loadFailedList.push({
-            //             name: item.name,
-            //             reason: err,
-            //             body: item,
-            //         });
-            //     });
-            //     promise.then((resource) => {
-            //         assetsList[item.url] = resource;
-            //     });
-            // });
+        // get & regist tables
+        promise.then((list) => {
+            assetsGroups[item] = list;
+            Object.assign(
+                assetsList,
+                getItems(
+                    item,
+                    <>(obj, key) =>
+                        
+                )
+                // promise.then(async (item) => {
+                //     const promise = import(item.url);
+
+                //     promise.catch((err) => {
+                //         loadFailedList.push({
+                //             name: item.name,
+                //             reason: err,
+                //             body: item,
+                //         });
+                //     });
+                //     promise.then((resource) => {
+                //         assetsList[item.url] = resource;
+                //     });
+                // });
+            );
         });
     }
 }

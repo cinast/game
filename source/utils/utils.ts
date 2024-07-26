@@ -1,3 +1,5 @@
+
+
 /**
  * enjoy yourself, :D(
  * @author cinast Stexley
@@ -7,7 +9,8 @@ export const version = "0.0.0";
 export const baseurl = "https://github.com/cinast/game/blob/main/";
 
 export type K = string | number | symbol;
-
+export type v_is_t = <T>(V: any) => typeof V extends T ? typeof V : never;
+export const v_is_t = <T>(V:any): V is T => {const b  = false as V is T;return b} 
 /**
  *
  * resource processing function list
@@ -82,67 +85,45 @@ export function read() {
 
 export function store() {}
 
-/**
- * it not full-prepare now
- *
- * set `retry` to limit trying number
- * param `fail` only trigger once when request fail,
- * `failcount` will under retry
- */
-export function XHRrequest(url: string, method: string, async?: boolean) {
-    let request = new XMLHttpRequest();
-    request.open(method, url, async ?? false);
-    return request;
+export function getEndItems(obj: any, prefix: string = ""): { [key: string]: any } {
+    const result: { [key: string]: any } = {};
+
+    for (const key in obj) {
+        if (Object.prototype.hasOwnProperty.call(obj, key)) {
+            const propName = prefix ? `${prefix}.${key}` : key;
+            if (typeof obj[key] === "object" && obj[key] !== null) {
+                // Recursively traverse the object
+                Object.assign(result, getEndItems(obj[key], propName));
+            } else {
+                // Found an end item, add it to the result
+                result[propName] = obj[key];
+            }
+        }
+    }
+
+    return result;
 }
 
-/**
- * get resource list form github, *\/assets/assets.json*
- * if failed, it'll notify you
- */
-export function getResourseList() {
-    // assets = JSON.parse(
-    //     function(){
-    //     }
-    // )
+export function getItems<T = any>(
+    obj: any,
+    predicate: (O: typeof obj, i: keyof typeof O) => boolean,
+    prefix: string = ""
+): { [key: string]: any } {
+    const result: { [key: string]: T } = {};
+    
+    for (const key in obj) {
+        const propName = prefix ? `${prefix}.${key}` : key;
+        const item= obj[key] as v_is_t<T>(obj[key]) 
+        if (predicate(item,key)) {
+            // add to result
+            result[propName] = item;
+        } else if (typeof obj[key] === "object" && obj[key] !== null) {
+            // Recursively traverse the object
+            Object.assign(result, getEndItems(obj[key], propName));
+        }
+    }
+    return result;
 }
-
-// /**
-//  * Deep copy a nested object
-//  * @from https://www.delftstack.com/zh/howto/typescript/typescript-cloning-an-object/#typescript-%e4%b8%ad%e7%9a%84%e5%85%8b%e9%9a%86%e6%9c%ba%e5%88%b6
-//  */
-// function deepCopy<T>(instance: T): T {
-//     if (instance == null) {
-//         return instance;
-//     }
-
-//     // handle Dates
-//     if (instance instanceof Date) {
-//         return new Date(instance.getTime()) as any;
-//     }
-
-//     // handle Array types
-//     if (instance instanceof Array) {
-//         var cloneArr = [] as any[];
-//         (instance as any[]).forEach((value) => {
-//             cloneArr.push(value);
-//         });
-//         // for nested objects
-//         return cloneArr.map((value: any) => deepCopy<any>(value)) as any;
-//     }
-//     // handle objects
-//     if (instance instanceof Object) {
-//         var copyInstance = { ...(instance as { [key: string]: any }) } as {
-//             [key: string]: any;
-//         };
-//         for (var attr in instance) {
-//             if ((instance as Object).hasOwnProperty(attr))
-//                 copyInstance[attr] = deepCopy<any>(instance[attr]);
-//         }
-//         return copyInstance as T;
-//     }
-//     // handling primitive data types
-//     return instance;
-// }
 
 /**
 A nested object where every key (typeof K) at any depth has the same structure as the upper level, and every branch's last node is of type V. */

@@ -47,6 +47,7 @@ export const assetsList: Record<string, AssetItem> = {};
 export const assetsGroups: NestedObject<string, Array<AssetItem>> = {};
 
 const resourcetypes = [""] as const;
+
 export async function loadAssets() {
     for (const item in totalList) {
         //ts 的矢山写法（怒）
@@ -100,13 +101,9 @@ export async function loadAssets() {
                     const itemPromise = import(gotItems[i].path);
                     itemPromise.catch((err) => console.error);
                     itemPromise.then((sth) => {
-                        try {
-                            if (gotItems[i]) console.error(new Error(`assest#${i} already registed`));
-                            let data = parse[gotItems[i].type](sth);
-                            assetsList[i] = data;
-                        } catch (error) {
-                            console.error(error);
-                        }
+                        if (assetsList[i]) throw new Error(`assest#${i} already registed`);
+                        let data = parse[gotItems[i].type](sth);
+                        assetsList[i] = data;
                     });
                 }
             } catch (err) {

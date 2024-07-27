@@ -29,16 +29,16 @@ detail gobal.project {
 
 See [the Development Guide](/doc/devguide.md) at `/doc`
 
-_for devlopr_ issuse?
-go [`@bug-notice.md`](/doc/@bug-notice.md)
+—— _for devlopr_ ——  
+issuse? go [`@bug-notice.md`](/doc/@bug-notice.md)
 
-<!--
 ## Game Entrance
 
--   [Game page](page/game.html)
--   [Entrance script](script/enter.ts) -->
+-   [Game page](/page/game.html)
+-   [Entrance script](/source/runtime/enter.ts)
 
 ## Thanks to
 
 -   [`blackbox.ai`](https://www.blackbox.ai/) for programming help
 -   [`kenney.nl`](https://kenney.nl/) for assests & idea aid
+-   _YK 's [guide book](https://juejin.cn/post/7036300546839412750)_ for webpack deploy guide

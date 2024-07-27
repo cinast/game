@@ -14,7 +14,7 @@ import { PlayerCharacter, Scene } from "@router/gamecore";
  * - Balancing usage ~
  * @author cinast
  */
-export module leveledInfoProvision {
+export namespace leveledInfoProvision {
     /**
      * Level 1: Basic Information
      *

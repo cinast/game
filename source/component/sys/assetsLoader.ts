@@ -11,17 +11,6 @@ interface LoadedAssetsListItem {
     // [key:string]:string
 }
 
-// 矢
-const LoadedAssetsListItem: LoadErroredItem = {
-    name: "",
-    reason: undefined,
-    body: {
-        name: "",
-        id: "",
-        type: "",
-        path: "",
-    },
-};
 interface AssetItem {
     content: any;
     name: string;

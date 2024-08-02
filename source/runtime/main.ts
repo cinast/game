@@ -37,7 +37,7 @@ function worldInit() {
                 block.covers.characters.push(monster);
             }
             if (randint(1, 0, "trunc")) {
-                let item = Item.random(uuid.v4(16));
+                let item = Item.random(uuid.v4());
                 block.covers.item.push(...(Array.isArray(item) ? item : [item]));
             }
         }

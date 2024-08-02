@@ -1,4 +1,4 @@
-import { K, uuid.v4 } from "@src/utils/utils";
+import { K, uuid } from "@src/utils/utils";
 
 const uiComponentFolder = "@page/pages/";
 const uiComponentList: Record<
@@ -29,10 +29,7 @@ export function pageInitial() {
 export const pages = (() => {
     let dict: Record<K, Element> = {};
     for (const e of document.querySelectorAll("page")) {
-        dict[
-            e.attributes.getNamedItem("pagename")?.value ??
-                `<unnamed page#${uuid.v4()}>`
-        ] = e;
+        dict[e.attributes.getNamedItem("pagename")?.value ?? `<unnamed page#${uuid.v4()}>`] = e;
     }
     return dict;
 })() as Record<K, HTMLElement>;

@@ -1,7 +1,7 @@
 import { gobalItemCollection } from "@src/component/sys/gameGobal";
 import { gameBasicObject } from "@src/core/basic";
 import { Event } from "@src/core/events";
-import { clamp, NestedObject, NestedObject_partial, uuid.v4 } from "@src/utils/utils";
+import { clamp, NestedObject, NestedObject_partial, uuid } from "@src/utils/utils";
 
 /**
  *  Anything can be interact or be used, included  equipment, food, books, etc. \

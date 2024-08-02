@@ -1,5 +1,5 @@
 import { specialTick } from "@src/router/gamecore";
-import { uuid.v4 } from "@src/utils/utils";
+import { uuid } from "@src/utils/utils";
 
 export class Event {
     readonly id: string;

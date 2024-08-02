@@ -1,5 +1,5 @@
 import { Character } from "@src/core/character";
-import { uuid.v4 } from "@src/utils/utils";
+import { uuid } from "@src/utils/utils";
 
 export class Layer {
     readonly id: string;

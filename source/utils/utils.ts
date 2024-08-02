@@ -1,4 +1,5 @@
-import { error } from "jquery";
+import { uuid } from "uuid";
+export { uuid };
 
 /**
  * enjoy yourself, :D(
@@ -56,13 +57,6 @@ export function randBint(max: number, min?: number, mod: "ceil" | "floor" | "rou
 }
 
 /**
- * no hash (laugh
- */
-export function randID(base: number = 16) {
-    return randint(1e10).toString(base);
-}
-
-/**
  * limt a **number** with open interval
  */
 export function clamp(value: number, min: number, max: number): number {
@@ -87,7 +81,7 @@ export function store() {}
  * get the property you want by cretain funtion `predicate`
  * @param obj the object you wanna sreach
  * @param prefix the path start with
- * @param predicate the function check if satisfy the condition, offen
+ * @param predicate [required] the function check if satisfy the condition
  * @returns list of results
  */
 export function getItems(obj: any, predicate: (thisArg: any) => boolean, prefix: string = ""): { [key: string]: any } {
@@ -113,7 +107,6 @@ export function getItems(obj: any, predicate: (thisArg: any) => boolean, prefix:
  * get the property at the end of every property branch
  * @param obj the object you wanna sreach
  * @param prefix the path start with
- * @param predicate the function check if satisfy the condition, offen
  * @returns list of results
  */
 export function getEndItems(obj: any, prefix: string = ""): { [key: string]: any } {

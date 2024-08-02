@@ -1,8 +1,8 @@
 import { Floor } from "@src/router/gamecore";
-import { randID, randint } from "@src/router/runtime";
+import { uuid.v4, randint } from "@src/router/runtime";
 
 export function randFloor(): Floor {
-    return new Floor(randint(300, 10), randint(300, 10), randID());
+    return new Floor(randint(300, 10), randint(300, 10), uuid.v4());
 }
 
 /**

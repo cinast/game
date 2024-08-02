@@ -1,5 +1,5 @@
 import { Character } from "@src/core/character";
-import { NestedObject, NestedObject_partial, randID } from "@src/utils/utils";
+import { NestedObject, NestedObject_partial, uuid } from "@src/utils/utils";
 import { gameBasicObject } from "@src/core/basic";
 import { Item } from "./item";
 import { Event, Interval } from "@src/core/events";
@@ -7,12 +7,12 @@ import { Buildiing, FloorTransfer, Transfer } from "@src/core/buildings";
 import { specialTick } from "@src/router/gamecore";
 
 export class Scene {
-    id: string = `Scene#${randID()}`;
+    id: string = `Scene#${uuid.v4()}`;
     type: string = "";
     name: string = "";
     tag: string[] = [];
     Idnex = 0;
-    Characters: Record<string, Character> = {};
+    Characters: Set<Character> = new Set();
     scale: {
         col: number;
         row: number;
@@ -23,8 +23,14 @@ export class Scene {
 
     /**
      * what inside
+     * @deprecated
      */
     content: any;
+    /**
+     * need you to define
+     * @deprecated
+     */
+    refresh() {}
 
     /**
      * you need give ways to extends instances
@@ -66,36 +72,8 @@ export class Scene {
     eventList: NestedObject_partial<string, Event | Event[]> = {};
     intervalList: NestedObject_partial<string, Interval | Interval[]> = {};
 
-    addEvListener(type: string, callback: () => number | void) {
-        let ev = new Event(type, callback);
-        this.eventList[ev.id] = ev;
-        return ev.id;
-    }
-
-    deteleEvListener(evID: string, replace?: Event) {
-        let thisEv = this.eventList;
-        delete thisEv[evID];
-        if (replace instanceof Event) {
-            thisEv[evID] = replace;
-        }
-    }
-
-    addInterval(delay: number | specialTick, callback: () => number | void) {
-        let it = new Interval(delay, callback);
-        this.intervalList[it.id] = it;
-        return it.id;
-    }
-
-    deteleInterval(itID: string, replace?: Interval) {
-        let thisIt = this.eventList;
-        delete thisIt[itID];
-        if (replace instanceof Interval) {
-            thisIt[itID] = replace;
-        }
-    }
-
     constructor(
-        name: string = `${randID()}`,
+        name: string = `${uuid.v4()}`,
         connectTo: NestedObject_partial<string, Transfer> & {
             enterance: NestedObject_partial<string, Transfer>;
             exits: NestedObject_partial<string, Transfer>;
@@ -109,7 +87,7 @@ export class Scene {
 export class specialScene extends Scene {}
 
 export class Floor extends Scene {
-    id: string = `Floor#${randID()}`;
+    id: string = `Floor#${uuid.v4()}`;
     type: string = "floor";
     /**
      * if not set it, it defualtly 20*20
@@ -122,6 +100,9 @@ export class Floor extends Scene {
         row: 20,
     };
     content: BlockUnit[][];
+    refresh() {
+        this.Characters.forEach;
+    }
 
     transfers: NestedObject_partial<string, Transfer> & {
         enterance: NestedObject_partial<string, Transfer>;
@@ -192,9 +173,14 @@ export class Floor extends Scene {
         connectTo.floorTo.next = down;
         connectTo.floorTo.prev = up;
         super("", connectTo);
+
+        width = width > 0 ? width : 20;
+        height = height > 0 ? height : 20;
         this.scale.row = width;
         this.scale.col = height;
-        this.content = new Array(width).fill(new Array(height).fill(new BlockUnit()));
+        this.content = Object.assign(new Array(width).fill(new Array(height).fill(new BlockUnit())) as BlockUnit[][], {
+            refresh() {},
+        });
 
         if (seed) {
         }

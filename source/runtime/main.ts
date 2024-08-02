@@ -2,7 +2,7 @@ console.log("-main-");
 
 import "pixi";
 
-import { randBint, randID, randint } from "@router/runtime";
+import { randBint, uuid, randint } from "@router/runtime";
 import { gameNavigator, leveledInfoProvision as info, loadAssets, loadFailedList, assetsList } from "@router/sys/syscore";
 
 import { BlockUnit, Character, Floor, Interval, Item, PlayerCharacter, Transfer, World } from "@router/gamecore";
@@ -37,7 +37,7 @@ function worldInit() {
                 block.covers.characters.push(monster);
             }
             if (randint(1, 0, "trunc")) {
-                let item = Item.random(randID(16));
+                let item = Item.random(uuid.v4(16));
                 block.covers.item.push(...(Array.isArray(item) ? item : [item]));
             }
         }

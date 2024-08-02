@@ -1,14 +1,19 @@
 import { Event, Floor, Scene, Character, Interval } from "@src/router/gamecore";
-import { NestedObject, NestedObject_partial, randID, sleep, sleepUntil } from "@src/utils/utils";
+import { NestedObject, NestedObject_partial, uuid, sleep, sleepUntil } from "@src/utils/utils";
 
 export type specialTick = "";
 
 export class World {
-    readonly id: string = randID();
+    readonly id: string = uuid.v4();
     name: string = "";
     tag: Record<K, k> = {};
-    Characters: Record<string, Character> = {};
+    Characters: Set<Character> = new Set();
     scene: Floor[] = [];
+    refresh() {
+        this.scene.forEach((scene) => {
+            scene.content.refresh();
+        });
+    }
 
     eventList: NestedObject_partial<string, Event | Event[]> & {
         onStopped: Event;
@@ -24,34 +29,6 @@ export class World {
     } = {
         eachTick: [],
     };
-
-    addEvListener(type: string, callback: () => number | void) {
-        let ev = new Event(type, callback);
-        this.eventList[ev.id] = ev;
-        return ev.id;
-    }
-
-    deteleEvListener(evID: string, replace?: Event) {
-        let thisEv = this.eventList;
-        delete thisEv[evID];
-        if (replace instanceof Event) {
-            thisEv[evID] = replace;
-        }
-    }
-
-    addInterval(delay: number | specialTick, callback: () => number | void) {
-        let it = new Interval(delay, callback);
-        this.intervalList[it.id] = it;
-        return it.id;
-    }
-
-    deteleInterval(itID: string, replace?: Interval) {
-        let thisIt = this.eventList;
-        delete thisIt[itID];
-        if (replace instanceof Interval) {
-            thisIt[itID] = replace;
-        }
-    }
 
     readonly starttime = new Date().getMilliseconds();
 

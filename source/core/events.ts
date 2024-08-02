@@ -1,5 +1,5 @@
 import { specialTick } from "@src/router/gamecore";
-import { randID } from "@src/utils/utils";
+import { uuid.v4 } from "@src/utils/utils";
 
 export class Event {
     readonly id: string;
@@ -36,7 +36,7 @@ export class Event {
         tag?: string[],
         id?: string
     ) {
-        this.id = id ?? randID();
+        this.id = id ?? uuid.v4();
         this.type = type;
         this.tag = tag ?? [];
 
@@ -54,7 +54,7 @@ export class Interval {
     callback: (...arg: any[]) => number | void;
     triged: boolean = false;
     constructor(delay: number | specialTick, callback: (...arg: any[]) => number | void, tag?: string[], id?: string) {
-        this.id = id ?? randID();
+        this.id = id ?? uuid.v4();
         this.tag = tag ?? [];
         this.delay = delay;
         this.callback = callback;

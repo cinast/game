@@ -1,15 +1,15 @@
 import { gobalItemCollection } from "@src/component/sys/gameGobal";
 import { gameBasicObject } from "@src/core/basic";
 import { Event } from "@src/core/events";
-import { clamp, NestedObject, NestedObject_partial, randID } from "@src/utils/utils";
+import { clamp, NestedObject, NestedObject_partial, uuid.v4 } from "@src/utils/utils";
 
 /**
  *  Anything can be interact or be used, included  equipment, food, books, etc. \
  *  but `Characters`, `buildiings` or *likes* are **not in list**
  */
 export class Item extends gameBasicObject {
-    id: string = "item#" + randID();
-    name: string = randID();
+    id: string = "item#" + uuid.v4();
+    name: string = uuid.v4();
     description: string = "";
     weight: number = 0.0;
     isUsable: boolean = true;

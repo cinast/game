@@ -1,5 +1,5 @@
 import { Character } from "@src/core/character";
-import { randID } from "@src/utils/utils";
+import { uuid.v4 } from "@src/utils/utils";
 
 export class Layer {
     readonly id: string;
@@ -11,7 +11,7 @@ export class Layer {
     // content: ImageData;
     parent: Character | void = undefined;
     constructor(type?: string, size?: number, id?: string) {
-        this.id = id ?? randID();
+        this.id = id ?? uuid.v4();
         this.type = type ?? "";
     }
     moveto(index: number) {

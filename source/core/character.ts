@@ -1,41 +1,27 @@
-import { gameBasicObject } from "@src/core/basic";
-import { K } from "@src/utils/utils";
-
-export interface char_ability {
-    agile: number;
-    movespeed: number;
-    wisdom: number;
-    health: number;
-    attack: number;
-    defense: number;
-    [key: string]: K | bigint;
-}
-
-export const defualt_char_ability: char_ability = {
-    agile: 0,
-    movespeed: 0,
-    wisdom: 0,
-    health: 0,
-    attack: 0,
-    defense: 0,
-};
+import { K, NestedObject_partial } from "@src/utils/utils";
+import { Event, Interval } from "./events";
+import { gameBasicObject } from "./basic";
+import { specialTick } from "@src/router/gamecore";
 
 export class Character extends gameBasicObject {
-    abilty: char_ability = {
-        agile: 0,
-        movespeed: 0,
-        wisdom: 0,
+    status: {
+        health: number;
+        magic: number;
+        is_alive: alives;
+    } = {
         health: 0,
-        attack: 0,
-        defense: 0,
+        magic: 0,
+        is_alive: alives.alive,
     };
-    ability_base_bound: char_ability = {
-        agile: 0,
-        movespeed: 0,
-        wisdom: 0,
-        health: 0,
-        attack: 0,
-        defense: 0,
+
+    skill: Record<string, number> = {};
+
+    effect: {} = {
+        cursed: [],
+    };
+
+    action = {
+        walk(direction: direction | number) {},
     };
 
     isClone: boolean = false;
@@ -43,8 +29,22 @@ export class Character extends gameBasicObject {
     hasCloned: bigint = 0n;
     clones: clonedCharacter[] = [];
     CloneFrom: Character | void = undefined;
-    effects = {};
 
+    eventList: NestedObject_partial<string, Event | Event[]> = {
+        onJoin: [],
+        onTrun: [],
+        onUseSth: [],
+        onActs: {
+            Attack: [],
+            Defend: [],
+            Cast: [],
+            Kick: [],
+            Shout: [],
+            Walk: [],
+        },
+        onDeath: [],
+    };
+    /**  */
     moveto(x: number, y: number) {
         this.x = x;
         this.y = y;
@@ -79,3 +79,36 @@ export class clonedCharacter extends Character {
         this.cloneFrom = baseChara;
     }
 }
+
+enum alives {
+    alive = 0,
+    dying = -1,
+    dead = -2,
+    not_exist = -3,
+}
+
+enum direction {
+    front = "a",
+    right = "b",
+    back = "c",
+    left = "d",
+}
+
+export interface char_ability {
+    agile: number;
+    movespeed: number;
+    wisdom: number;
+    attack: number;
+    defense: number;
+    [key: string]: K | bigint;
+}
+
+export const defualt_char_ability: char_ability = {
+    agile: 0,
+    movespeed: 0,
+    wisdom: 0,
+    max_health: 0,
+    max_magic: 0,
+    attack: 0,
+    defense: 0,
+};

@@ -1,6 +1,6 @@
 import { Event, Interval } from "@src/core/events";
 import { Layer } from "@src/core/layer";
-import { attrTreePath, DeepPath, NestedObject, NestedObject_partial, randID } from "@src/utils/utils";
+import { attrTreePath, DeepPath, NestedObject, NestedObject_partial, uuid } from "@src/utils/utils";
 import { specialTick } from "./world";
 
 /**
@@ -21,35 +21,7 @@ export class gameBasicObject {
     eventList: NestedObject_partial<string, Event | Event[]> = {};
     intervalList: NestedObject_partial<string, Interval | Interval[]> = {};
 
-    addEvListener(type: string, callback: () => number | void) {
-        let ev = new Event(type, callback);
-        this.eventList[ev.id] = ev;
-        return ev.id;
-    }
-
-    deteleEvListener(evID: string, replace?: Event) {
-        let thisEv = this.eventList;
-        delete thisEv[evID];
-        if (replace instanceof Event) {
-            thisEv[evID] = replace;
-        }
-    }
-
-    addInterval(delay: number | specialTick, callback: () => number | void) {
-        let it = new Interval(delay, callback);
-        this.intervalList[it.id] = it;
-        return it.id;
-    }
-
-    deteleInterval(itID: string, replace?: Interval) {
-        let thisIt = this.eventList;
-        delete thisIt[itID];
-        if (replace instanceof Interval) {
-            thisIt[itID] = replace;
-        }
-    }
-
     constructor(id?: string) {
-        this.id = id ?? randID();
+        this.id = id ?? uuid.v4();
     }
 }

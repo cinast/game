@@ -1,4 +1,4 @@
-import { K, randID } from "@src/utils/utils";
+import { K, uuid.v4 } from "@src/utils/utils";
 
 const uiComponentFolder = "@page/pages/";
 const uiComponentList: Record<
@@ -31,7 +31,7 @@ export const pages = (() => {
     for (const e of document.querySelectorAll("page")) {
         dict[
             e.attributes.getNamedItem("pagename")?.value ??
-                `<unnamed page#${randID()}>`
+                `<unnamed page#${uuid.v4()}>`
         ] = e;
     }
     return dict;

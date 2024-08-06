@@ -9,19 +9,6 @@ export { uuid };
 export const version = "0.0.0";
 export const baseurl = "https://github.com/cinast/game/blob/main/";
 
-export type K = string | number | symbol;
-/**
- *
- * resource processing function list
- * choose your way
- */
-export const parse: Record<K, (...any: any[]) => any> = {
-    // pre:(blob:Blob)=>{FileReader(blob)},
-    // aduio:(aduio,bind?)=>{
-    // },
-    // image:(image:Blob)=>new
-} as const;
-
 export function sleep(ms: number): Promise<void> {
     return new Promise((resolve) => setTimeout(resolve, ms));
 }
@@ -70,12 +57,6 @@ export function clamp_bint(value: bigint, min: bigint, max: bigint): bigint {
     let x = value > min ? value : min;
     return x < max ? x : max;
 }
-
-export function read() {
-    localStorage.getItem("x62o");
-}
-
-export function store() {}
 
 /**
  * get the property you want by cretain funtion `predicate`
@@ -127,43 +108,3 @@ export function getEndItems(obj: any, prefix: string = ""): { [key: string]: any
 
     return result;
 }
-
-/**
-A nested object where every key (typeof K) at any depth has the same structure as the upper level, and every branch's last node is of type V. */
-export type NestedObject<K extends string | number | symbol, V> = {
-    [key in K]: V | NestedObject<K, V>;
-};
-/**
-A partial nested object where every key (typeof K) at any depth has the same structure as the upper level, and every branch's last node can be either V or undefined, but not other types. 
-*/
-export type NestedObject_partial<K extends string | number | symbol, V> = {
-    [key in K]: Partial<V> | NestedObject<K, V>;
-};
-
-// from: htts://ououe.com/posts/typescript-object-deep-path
-type NestedPath<T extends "array" | "object", P, C = undefined> = `${P & string}${T extends "array"
-    ? `[${number}]`
-    : ""}${C extends string ? `.${C}` : ""}`;
-
-type DeepNested<V, K = ""> = V extends object[]
-    ? NestedPath<"array", K, DeepPath<V[number]> | void>
-    : V extends unknown[]
-    ? NestedPath<"array", K>
-    : V extends object
-    ? NestedPath<"object", K, DeepPath<V>>
-    : never;
-
-export type DeepPath<T extends object> = {
-    [Q in keyof T]-?: Q | DeepNested<NonNullable<T[Q]>, Q>;
-}[keyof T];
-
-export type attrTreePath<T extends object> = DeepPath<T>;
-// -------
-
-export type hasPropertyOf<T, P> = P extends `${infer Head}.${infer Tail}`
-    ? Head extends keyof T
-        ? hasPropertyOf<T[Head], Tail>
-        : never
-    : P extends keyof T
-    ? T[P]
-    : never;

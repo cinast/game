@@ -31,8 +31,8 @@
         "paths": {
             "@src/*": ["source/*"],
             "@src/core/*": ["source/core/*"],
-            "@src/core/component/*": ["source/core/component/*"],
-            "@src-sys/*": ["source/component/sys/*"],
+            "@src/component/*": ["source/component/*"],
+            "@src-sys/component/*": ["source/component/sys/*"],
             "@src/utils/*": ["source/utils/*"],
             "@router/*": ["source/router/*"],
             "@runtime/*": ["source/runtime/*"],

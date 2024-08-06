@@ -1,5 +1,6 @@
-import { Event, Floor, Scene, Character, Interval } from "@src/router/gamecore";
-import { NestedObject, NestedObject_partial, uuid, sleep, sleepUntil } from "@src/utils/utils";
+import { uuid } from "@src/utils/utils";
+import { Event, Floor, Character, Interval } from "@src/router/gamecore";
+import { NestedObject_partial } from "@src/utils/types";
 
 export type specialTick = "";
 
@@ -11,7 +12,7 @@ export class World {
     scene: Floor[] = [];
     refresh() {
         this.scene.forEach((scene) => {
-            scene.content.refresh();
+            scene.refresh();
         });
     }
 

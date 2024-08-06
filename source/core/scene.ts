@@ -1,10 +1,12 @@
-import { Character } from "@src/core/character";
-import { NestedObject, NestedObject_partial, uuid } from "@src/utils/utils";
+import { uuid } from "@src/utils/utils";
+import { NestedObject_partial } from "@src/utils/types";
+
 import { gameBasicObject } from "@src/core/basic";
+import { Character } from "@src/core/character";
+
 import { Item } from "./item";
 import { Event, Interval } from "@src/core/events";
 import { Buildiing, FloorTransfer, Transfer } from "@src/core/buildings";
-import { specialTick } from "@src/router/gamecore";
 
 export class Scene {
     id: string = `Scene#${uuid.v4()}`;
@@ -23,21 +25,21 @@ export class Scene {
 
     /**
      * what inside
-     * @deprecated
+     * @implements
      */
     content: any;
     /**
-     * need you to define
-     * @deprecated
+     * @implements
      */
     refresh() {}
 
     /**
-     * you need give ways to extends instances
+     * @implements
      */
-    connectWith(...arg: any[]) {
-        return;
+    connectWith(...arg: any[]): void {
+        throw new Error("Method must be implemented by subclass");
     }
+
     /**
      * gets in or goes to, allow custom transfers groups `{a:(b{c:tran}})`
      */
@@ -84,7 +86,11 @@ export class Scene {
     }
 }
 
-export class specialScene extends Scene {}
+export class specialScene extends Scene {
+    connectWith(...arg: any[]) {
+        throw new Error("Method not implemented.");
+    }
+}
 
 export class Floor extends Scene {
     id: string = `Floor#${uuid.v4()}`;

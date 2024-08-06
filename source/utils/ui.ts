@@ -1,4 +1,4 @@
-import { K, uuid } from "@src/utils/utils";
+import { uuid } from "@src/utils/utils";
 
 const uiComponentFolder = "@page/pages/";
 const uiComponentList: Record<

@@ -2,11 +2,10 @@ console.log("-main-");
 
 import "pixi";
 
-import { randBint, uuid, randint } from "@router/runtime";
-import { gameNavigator, leveledInfoProvision as info, loadAssets, loadFailedList, assetsList } from "@router/sys/syscore";
+import { uuid, randint } from "@router/runtime";
+import { gameNavigator } from "@router/sys/syscore";
 
-import { BlockUnit, Character, Floor, Interval, Item, PlayerCharacter, Transfer, World } from "@router/gamecore";
-import { Event } from "@router/gamecore";
+import { Character, Interval, Item, PlayerCharacter, World } from "@router/gamecore";
 import { randConnectedFloors } from "@src/utils/floor";
 
 // let rc = new Worker("./rander");

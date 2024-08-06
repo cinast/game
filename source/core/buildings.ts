@@ -1,8 +1,9 @@
+import { uuid } from "@src/utils/utils";
+
 import { gameBasicObject } from "@src/core/basic";
 import { Character } from "@src/core/character";
 import { Event } from "@src/core/events";
-import { Floor, Scene } from "@src/core/scene";
-import { NestedObject, NestedObject_partial, uuid } from "@src/utils/utils";
+import { NestedObject, NestedObject_partial } from "@src/utils/types";
 
 /**
  * Anything can be interact or be used, distinguish from `Items` \

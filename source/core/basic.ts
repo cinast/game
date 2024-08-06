@@ -1,7 +1,8 @@
+import { uuid } from "@src/utils/utils";
+
 import { Event, Interval } from "@src/core/events";
 import { Layer } from "@src/core/layer";
-import { attrTreePath, DeepPath, NestedObject, NestedObject_partial, uuid } from "@src/utils/utils";
-import { specialTick } from "./world";
+import { NestedObject_partial } from "@src/utils/types";
 
 /**
  *  every object comprising scenes, etc. chars, block, item

@@ -1,7 +1,6 @@
-import { K, NestedObject_partial } from "@src/utils/utils";
-import { Event, Interval } from "./events";
+import { Event } from "./events";
 import { gameBasicObject } from "./basic";
-import { specialTick } from "@src/router/gamecore";
+import { NestedObject_partial } from "@src/utils/types";
 
 export class Character extends gameBasicObject {
     status: {

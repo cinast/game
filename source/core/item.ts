@@ -4,6 +4,7 @@ import { NestedObject, NestedObject_partial } from "@src/utils/types";
 import { gobalItemCollection } from "@src/component/sys/gameGobal";
 import { gameBasicObject } from "@src/core/basic";
 import { Event } from "@src/core/events";
+import { propRules } from "@src/utils/propRules";
 
 /**
  *  Anything can be interact or be used, included  equipment, food, books, etc. \
@@ -29,6 +30,8 @@ export class Item extends gameBasicObject {
         },
     };
 
+    // @propRules.noZero
+    // @propRules.noOver(this)
     number: number = 1;
     stackLimit: number = 10;
 

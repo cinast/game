@@ -4,6 +4,8 @@ import { gameBasicObject } from "@src/core/basic";
 import { Character } from "@src/core/character";
 import { Event } from "@src/core/events";
 import { NestedObject, NestedObject_partial } from "@src/utils/types";
+import { PlayerCharacter } from "./player";
+import { Item } from "./item";
 
 /**
  * Anything can be interact or be used, distinguish from `Items` \
@@ -24,7 +26,7 @@ export class Buildiing extends gameBasicObject {
         below: false,
     };
 
-    eeventList: NestedObject_partial<string, Event | Event[]> & {
+    eventList: NestedObject_partial<string, Event | Event[]> & {
         interacts: NestedObject<string, Event>;
     } = {
         interacts: {
@@ -62,7 +64,7 @@ export class Buildiing extends gameBasicObject {
 
 export class Door extends Buildiing {
     id: string = "Door#" + uuid.v4();
-    eeventList: NestedObject_partial<string, Event | Event[]> & {
+    eventList: NestedObject_partial<string, Event | Event[]> & {
         interacts: NestedObject<string, Event>;
     } = {
         interacts: {
@@ -93,7 +95,7 @@ export class Transfer extends Door {
         enter: {},
     };
 
-    eeventList: NestedObject_partial<string, Event | Event[]> & {
+    eventList: NestedObject_partial<string, Event | Event[]> & {
         interacts: NestedObject<string, Event> & {
             onenter: Event;
         };
@@ -104,6 +106,11 @@ export class Transfer extends Door {
             }),
         },
     };
+
+    spawn(entity: Character | PlayerCharacter | Item) {
+        entity.atScene?.atWorld?.spawn;
+        this.atScene;
+    }
 
     /**
      * build connection between two transfers \

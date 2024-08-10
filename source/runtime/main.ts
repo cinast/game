@@ -16,7 +16,7 @@ let totalfloors = randint(20, 100);
 
 function worldInit() {
     // generate floors
-    globalWorld.scene = randConnectedFloors(totalfloors);
+    randConnectedFloors(totalfloors).forEach((f, i) => globalWorld.scene.set(`floor${i}`, f));
 
     // generate details
     globalWorld.scene.forEach((floor) => {
@@ -34,15 +34,12 @@ function worldInit() {
                 let monster = new Character();
                 monster.type = "monster";
                 block.covers.characters.push(monster);
-            }
-            if (randint(1, 0, "trunc")) {
+            } else {
                 let item = Item.random(uuid.v4());
                 block.covers.item.push(...(Array.isArray(item) ? item : [item]));
             }
         }
     });
-
-    // globalWorld.
 }
 
 // on gamming
@@ -56,7 +53,7 @@ gameNavigator.gamming.players = [
             onplay: {
                 characters: [
                     Object.assign(new PlayerCharacter(), {
-                        atScene: globalWorld.scene[0],
+                        atScene: globalWorld.scene.get("main"),
                     }),
                 ],
                 isOnTrun: false,
@@ -85,18 +82,24 @@ while (!gameNavigator.gamming.isPaused) {
     //get list of things need to do
     let index = tickList.findIndex((f, i) => f.nextTickAt > globalWorld.tick);
 
-    tickList.every((thing, i) => {
+    for (let i = 0; i < tickList.length; i++) {
+        if (i > index) break;
+
+        const thing = tickList[i];
         const body = thing.body;
         body.triged = true;
 
         // taskStruck.push(body.callback);
 
         let nextTick = body.callback.call();
-        if (nextTick) thing.nextTickAt += nextTick;
+        if (nextTick) {
+            thing.nextTickAt += nextTick;
+        } else {
+            tickList.splice(i, 1);
+            continue;
+        }
         if (body instanceof Interval) thing.nextTickAt += body.delay as number;
-
-        return i < index;
-    });
+    }
 
     // while (taskStruck.length > 0) {
     //     // 矢

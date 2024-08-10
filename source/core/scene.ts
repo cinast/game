@@ -1,5 +1,5 @@
 import { uuid } from "@src/utils/utils";
-import { NestedObject_partial } from "@src/utils/types";
+import { NestedMap, NestedObject, NestedObject_partial } from "@src/utils/types";
 
 import { gameBasicObject } from "@src/core/basic";
 import { Character } from "@src/core/character";
@@ -7,57 +7,83 @@ import { Character } from "@src/core/character";
 import { Item } from "./item";
 import { Event, Interval } from "@src/core/events";
 import { Buildiing, FloorTransfer, Transfer } from "@src/core/buildings";
+import { PlayerCharacter, World } from "@src/router/gamecore";
 
 export class Scene {
     id: string = `Scene#${uuid.v4()}`;
     type: string = "";
     name: string = "";
     tag: string[] = [];
+    atWorld: World | undefined | null;
     Idnex = 0;
-    Characters: Set<Character> = new Set();
+    Characters: Map<K, Character> = new Map();
+
+    spawn(entity: Character | PlayerCharacter, atTransfer: Transfer) {
+        atTransfer.spawn(entity);
+    }
+
     scale: {
         col: number;
         row: number;
     } = {
-        col: 0,
-        row: 0,
+        col: 20,
+        row: 20,
     };
 
-    /**
-     * what inside
-     * @implements
-     */
-    content: any;
-    /**
-     * @implements
-     */
-    refresh() {}
-
-    /**
-     * @implements
-     */
-    connectWith(...arg: any[]): void {
-        throw new Error("Method must be implemented by subclass");
+    content: BlockUnit[][] = [];
+    refresh() {
+        this.Characters.forEach;
     }
 
     /**
      * gets in or goes to, allow custom transfers groups `{a:(b{c:tran}})`
      */
-    transfers: NestedObject_partial<string, Transfer> & {
+    transfers: NestedObject<K, NestedMap<K, Partial<Transfer>>> & {
         /**
          * where u get in
          */
-        enterance: NestedObject_partial<string, Transfer>;
+        enterances: Map<K, Transfer>;
         /**
          * get out of here
          */
-        exits: NestedObject_partial<string, Transfer>;
+        exits: Map<K, Transfer>;
     } = {
-        enterance: {},
-        exits: {},
+        enterances: new Map(),
+        exits: new Map(),
     };
 
-    connects: NestedObject_partial<string, Scene> = {};
+    connects: NestedObject<K, Map<K, Partial<Scene>>> & {
+        /**
+         * get enterance that to up or down floor. \
+         * In some cases, they may appear at `enteraance`, `exit` and here at meantime
+         */
+        floorTo: NestedObject<K, Map<K, Partial<Floor>>> & {
+            next: Map<K, Partial<Floor>>;
+            prev: Map<K, Partial<Floor>>;
+        };
+    } = {
+        floorTo: {
+            next: new Map(),
+            prev: new Map(),
+        },
+    };
+
+    /**
+     * from this florr to target floor
+     */
+    connectWith(target: Scene, isbidirectional: boolean = true) {
+        if (target instanceof Floor) {
+            // this
+            let ext = this.transfers.exits.get(target.id) as Transfer;
+            ext = ext ?? new Transfer("ToNextFloor");
+
+            // tar
+            let ent = target.transfers.enterances.get(this.id) as Transfer;
+            ent = ent ?? new Transfer("FromPrevFloor");
+
+            ext.connect(ent, true);
+        }
+    }
 
     /**
      * @deprecated
@@ -74,15 +100,8 @@ export class Scene {
     eventList: NestedObject_partial<string, Event | Event[]> = {};
     intervalList: NestedObject_partial<string, Interval | Interval[]> = {};
 
-    constructor(
-        name: string = `${uuid.v4()}`,
-        connectTo: NestedObject_partial<string, Transfer> & {
-            enterance: NestedObject_partial<string, Transfer>;
-            exits: NestedObject_partial<string, Transfer>;
-        }
-    ) {
+    constructor(name: string = `${uuid.v4()}`) {
         this.name = name;
-        this.transfers = connectTo;
     }
 }
 
@@ -96,7 +115,7 @@ export class Floor extends Scene {
     id: string = `Floor#${uuid.v4()}`;
     type: string = "floor";
     /**
-     * if not set it, it defualtly 20*20
+     * if not Map it, it defualtly 20*20
      */
     scale: {
         col: number;
@@ -110,31 +129,36 @@ export class Floor extends Scene {
         this.Characters.forEach;
     }
 
-    transfers: NestedObject_partial<string, Transfer> & {
-        enterance: NestedObject_partial<string, Transfer>;
-        exits: NestedObject_partial<string, Transfer>;
+    /**
+     * gets in or goes to, allow custom transfers groups `{a:(b{c:tran}})`
+     */
+    transfers: NestedObject<K, NestedMap<K, Partial<Transfer>>> & {
+        /**
+         * where u get in
+         */
+        enterances: Map<K, Transfer>;
+        /**
+         * get out of here
+         */
+        exits: Map<K, Transfer>;
     } = {
-        enterance: {
-            fromPrev: {},
-        },
-        exits: {
-            toNextFloor: {},
-        },
+        enterances: new Map().set("ToNextFloor", {}),
+        exits: new Map().set("FromPrevFloor", {}),
     };
 
-    connects: NestedObject_partial<string, Scene> & {
+    connects: NestedObject<K, Map<K, Partial<Scene>>> & {
         /**
          * get enterance that to up or down floor. \
          * In some cases, they may appear at `enteraance`, `exit` and here at meantime
          */
-        floorTo: NestedObject_partial<string, Floor> & {
-            next: Partial<Floor>;
-            prev: Partial<Floor>;
+        floorTo: NestedObject<K, Map<K, Partial<Floor>>> & {
+            next: Map<K, Partial<Floor>>;
+            prev: Map<K, Partial<Floor>>;
         };
     } = {
         floorTo: {
-            next: {},
-            prev: {},
+            next: new Map(),
+            prev: new Map(),
         },
     };
 
@@ -143,11 +167,11 @@ export class Floor extends Scene {
      */
     connectWith(tarFloor: Floor, isbidirectional: boolean = true) {
         // this
-        let ext = this.transfers.exits[tarFloor.id] as Transfer;
+        let ext = this.transfers.exits.get(tarFloor.id) as Transfer;
         ext = ext ?? new Transfer("ToNextFloor");
 
         // tar
-        let ent = tarFloor.transfers.enterance[this.id] as Transfer;
+        let ent = tarFloor.transfers.enterances.get(this.id) as Transfer;
         ent = ent ?? new Transfer("FromPrevFloor");
 
         ext.connect(ent, true);
@@ -157,28 +181,9 @@ export class Floor extends Scene {
         height: number,
         width: number,
         // fillwith?: BlockUnit,
-        seed?: string | number,
-        connectTo: NestedObject_partial<string, Transfer> & {
-            enterance: NestedObject_partial<string, Transfer>;
-            exits: NestedObject_partial<string, Transfer>;
-            floorTo: NestedObject_partial<string, Transfer> & {
-                next: Partial<Transfer>;
-                prev: Partial<Transfer>;
-            };
-        } = {
-            enterance: {},
-            exits: {},
-            floorTo: {
-                next: {},
-                prev: {},
-            },
-        }
+        seed?: string | number
     ) {
-        let up = new FloorTransfer("FromPrevFloor");
-        let down = new FloorTransfer("ToNextFloor");
-        connectTo.floorTo.next = down;
-        connectTo.floorTo.prev = up;
-        super("", connectTo);
+        super("");
 
         width = width > 0 ? width : 20;
         height = height > 0 ? height : 20;
@@ -196,7 +201,7 @@ export class Floor extends Scene {
  *  base of every block of map
  */
 export class BlockUnit extends gameBasicObject {
-    covers: NestedObject_partial<string, (Character & Buildiing & Item)[]> & {
+    covers: NestedObject<string, (Character | Buildiing | Item)[]> & {
         characters: Character[];
         buildings: Buildiing[];
         item: Item[];

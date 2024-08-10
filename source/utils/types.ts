@@ -8,11 +8,21 @@ export type NestedObject<K extends string | number | symbol, V> = {
     [key in K]: V | NestedObject<K, V>;
 };
 /**
-A partial nested object where every key (typeof K) at any depth has the same structure as the upper level, and every branch's last node can be either V or undefined, but not other types. 
-*/
+ * *`NestedObject`* partial ver.
+ */
 export type NestedObject_partial<K extends string | number | symbol, V> = {
     [key in K]: Partial<V> | NestedObject<K, V>;
 };
+
+/**
+ * *`NestedObject`* MappaL ver.
+ */
+export type NestedMap<K extends string | number | symbol, V> = Map<K, NestedMap<K, V>> | Map<K, V>;
+
+/**
+ * *`NestedObject`* partial MappaL ver.
+ */
+export type NestedMap_partial<K extends string | number | symbol, V> = Map<K, NestedMap<K, V>> | Partial<Map<K, V>>;
 
 // from: htts://ououe.com/posts/typescript-object-deep-path
 type NestedPath<T extends "array" | "object", P, C = undefined> = `${P & string}${T extends "array"

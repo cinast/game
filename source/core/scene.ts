@@ -6,7 +6,7 @@ import { Character } from "@src/core/character";
 
 import { Item } from "./item";
 import { Event, Interval } from "@src/core/events";
-import { Buildiing, FloorTransfer, Transfer } from "@src/core/buildings";
+import { Buildiing as Building, FloorTransfer, Transfer } from "@src/core/buildings";
 import { PlayerCharacter, World } from "@src/router/gamecore";
 
 export class Scene {
@@ -15,7 +15,7 @@ export class Scene {
     name: string = "";
     tag: string[] = [];
     atWorld: World | undefined | null;
-    Idnex = 0;
+    Index = 0;
     Characters: Map<K, Character> = new Map();
 
     spawn(entity: Character | PlayerCharacter, atTransfer: Transfer) {
@@ -42,20 +42,20 @@ export class Scene {
         /**
          * where u get in
          */
-        enterances: Map<K, Transfer>;
+        entrances: Map<K, Transfer>;
         /**
          * get out of here
          */
         exits: Map<K, Transfer>;
     } = {
-        enterances: new Map(),
+        entrances: new Map(),
         exits: new Map(),
     };
 
     connects: NestedObject<K, Map<K, Partial<Scene>>> & {
         /**
-         * get enterance that to up or down floor. \
-         * In some cases, they may appear at `enteraance`, `exit` and here at meantime
+         * get entrances that to up or down floor. \
+         * In some cases, they may appear at `entrances`, `exit` and here at meantime
          */
         floorTo: NestedObject<K, Map<K, Partial<Floor>>> & {
             next: Map<K, Partial<Floor>>;
@@ -69,7 +69,7 @@ export class Scene {
     };
 
     /**
-     * from this florr to target floor
+     * from this floor to target floor
      */
     connectWith(target: Scene, isbidirectional: boolean = true) {
         if (target instanceof Floor) {
@@ -78,7 +78,7 @@ export class Scene {
             ext = ext ?? new Transfer("ToNextFloor");
 
             // tar
-            let ent = target.transfers.enterances.get(this.id) as Transfer;
+            let ent = target.transfers.entrances.get(this.id) as Transfer;
             ent = ent ?? new Transfer("FromPrevFloor");
 
             ext.connect(ent, true);
@@ -115,7 +115,7 @@ export class Floor extends Scene {
     id: string = `Floor#${uuid.v4()}`;
     type: string = "floor";
     /**
-     * if not Map it, it defualtly 20*20
+     * if not Map it, default is 20*20
      */
     scale: {
         col: number;
@@ -136,20 +136,20 @@ export class Floor extends Scene {
         /**
          * where u get in
          */
-        enterances: Map<K, Transfer>;
+        entrances: Map<K, Transfer>;
         /**
          * get out of here
          */
         exits: Map<K, Transfer>;
     } = {
-        enterances: new Map().set("ToNextFloor", {}),
+        entrances: new Map().set("ToNextFloor", {}),
         exits: new Map().set("FromPrevFloor", {}),
     };
 
     connects: NestedObject<K, Map<K, Partial<Scene>>> & {
         /**
-         * get enterance that to up or down floor. \
-         * In some cases, they may appear at `enteraance`, `exit` and here at meantime
+         * get entrance that to up or down floor. \
+         * In some cases, they may appear at `entrance`, `exit` and here at meantime
          */
         floorTo: NestedObject<K, Map<K, Partial<Floor>>> & {
             next: Map<K, Partial<Floor>>;
@@ -163,15 +163,15 @@ export class Floor extends Scene {
     };
 
     /**
-     * from this florr to target floor
+     * from this floor to target floor
      */
     connectWith(tarFloor: Floor, isbidirectional: boolean = true) {
         // this
         let ext = this.transfers.exits.get(tarFloor.id) as Transfer;
         ext = ext ?? new Transfer("ToNextFloor");
 
-        // tar
-        let ent = tarFloor.transfers.enterances.get(this.id) as Transfer;
+        // transfers
+        let ent = tarFloor.transfers.get(this.id) as Transfer;
         ent = ent ?? new Transfer("FromPrevFloor");
 
         ext.connect(ent, true);
@@ -201,9 +201,9 @@ export class Floor extends Scene {
  *  base of every block of map
  */
 export class BlockUnit extends gameBasicObject {
-    covers: NestedObject<string, (Character | Buildiing | Item)[]> & {
+    covers: NestedObject<string, (Character | Building | Item)[]> & {
         characters: Character[];
-        buildings: Buildiing[];
+        buildings: Building[];
         item: Item[];
     } = {
         characters: [],

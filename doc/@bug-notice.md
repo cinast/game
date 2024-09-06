@@ -51,7 +51,7 @@ n. ##`label` xxx
 
 2.  ## `U` `with 4` accoutSys | playerOnline or just interface
 
-    > _[`sys/account.ts`](/source/component/sys/account.ts) & [`sys/gameGobal.ts`](/source/component/sys/gameGobal.ts)_
+    > _[`sys/account.ts`](/source/component/sys/account.ts) & [`sys/gameglobal.ts`](/source/component/sys/gameglobal.ts)_
 
         c.: eeeeeem, too compex, i need ideas and help
 

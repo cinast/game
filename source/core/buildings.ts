@@ -74,7 +74,7 @@ export class Door extends Buildiing {
 }
 
 /**
- * enterance or exit of every scenes
+ * entrances or exit of every scenes
  */
 export class Transfer extends Door {
     name: string = "Transfer#" + uuid.v4();

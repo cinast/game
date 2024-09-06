@@ -1,17 +1,17 @@
 import { Character, Item, PlayerCharacter, World } from "@router/gamecore";
-import { gameFile, gammingInfoProvision, leveledInfoProvision as info } from "@src/router/sys/syscore";
+import { gameFile, gamingInfoProvision, leveledInfoProvision as info } from "@src/router/sys/syscore";
 
 /**
  * @author cinast
- * gobal logics of how to build and run and ...
+ * global logics of how to build and run and ...
  */
 
 /**
  * the who can tell you about the infos of this game \
- * u can get gamming status, gaming file configure (lib used, file saved, etc.)
+ * u can get gaming status, gaming file configure (lib used, file saved, etc.)
  */
 export declare const gameNavigator: {
-    gamming: {
+    gaming: {
         thisWorld: World;
         isPaused: boolean;
         timer: {
@@ -26,7 +26,7 @@ export declare const gameNavigator: {
          */
         turnToWho: number;
 
-        players: (info.PlayerInfoL1 & gammingInfoProvision)[];
+        players: (info.PlayerInfoL1 & gamingInfoProvision)[];
         /**
          * & {
             addCharacters: (...characters: (Character | PlayerCharacter)[]) => void;
@@ -47,7 +47,7 @@ export interface lib {}
 /**
  * get sth from loaded sets of items
  */
-export declare const gobalItemCollection: (
+export declare const globalItemCollection: (
     sort?:
         | {
               tag: string | number;

@@ -3,7 +3,7 @@ export class PlayerCharacter extends Character {
     name: string = "";
     abilty: char_ability = {
         agile: 1,
-        movespeed: 1.0,
+        speed: 1.0,
         wisdom: 0,
         health: 0,
         attack: 0,

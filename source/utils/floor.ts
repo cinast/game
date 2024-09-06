@@ -22,23 +22,23 @@ export function randConnectedFloors(
 
     ls.map((f, i) => {
         if (i == 0) {
-            f.Idnex = countAt;
+            f.Index = countAt;
             return;
         }
         if (i < number) {
             f.connectWith(ls[i + 1], true);
-            f.connects.floorTo.next = ls[i + 1];
+            f.connects.floorTo.next.set(ls[i + 1].id, ls[i + 1]);
         }
         if (i > 0) {
-            f.Idnex = countAt + i;
-            f.connects.floorTo.prev = ls[i - 1];
+            f.Index = countAt + i;
+            f.connects.floorTo.prev.set(ls[i - 1].id, ls[i - 1]);
         }
     });
     return ls;
 }
 
 /**
- * generate floors list which evry floor have connected each other \
+ * generate floors list which every floor have connected each other \
  * last one goes to next one
  */
 export function connectedFloors(
@@ -51,16 +51,16 @@ export function connectedFloors(
     let ls: Floor[] = new Array(number).fill(new Floor(20, 20));
     ls.map((f, i) => {
         if (i == 0) {
-            f.Idnex = countAt;
+            f.Index = countAt;
             return;
         }
         if (i < number) {
             f.connectWith(ls[i + 1], true);
-            f.connects.floorTo.next = ls[i + 1];
+            f.connects.floorTo.next.set(ls[i + 1].id, ls[i + 1]);
         }
         if (i > 0) {
-            f.Idnex = countAt + i;
-            f.connects.floorTo.prev = ls[i - 1];
+            f.Index = countAt + i;
+            f.connects.floorTo.prev.set(ls[i - 1].id, ls[i - 1]);
         }
     });
     return ls;

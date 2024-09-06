@@ -8,7 +8,7 @@ import { gameNavigator } from "@router/sys/syscore";
 import { Character, Interval, Item, PlayerCharacter, World } from "@router/gamecore";
 import { randConnectedFloors } from "@src/utils/floor";
 
-// let rc = new Worker("./rander");
+// let rc = new Worker("./render");
 
 const globalWorld = new World();
 
@@ -42,21 +42,17 @@ function worldInit() {
     });
 }
 
-// on gamming
+// on gaming
 // *test*
-gameNavigator.gamming.players = [
+gameNavigator.gaming.players = [
     {
         // 我想试毒（）
         name: "cosider",
         id: "0a951",
         status: {
             onplay: {
-                characters: [
-                    Object.assign(new PlayerCharacter(), {
-                        atScene: globalWorld.scene.get("main"),
-                    }),
-                ],
-                isOnTrun: false,
+                characters: [new PlayerCharacter()],
+                isOnTurn: false,
                 nextTick: 0,
             },
         },
@@ -66,14 +62,14 @@ gameNavigator.gamming.players = [
 /**
  * 语义化探索中
  */
-let playerList: typeof gameNavigator.gamming.players = gameNavigator.gamming.players;
+let playerList: typeof gameNavigator.gaming.players = gameNavigator.gaming.players;
 
 // 小小模版
 // 先做逻辑
 let tickList = globalWorld.tickTimerList;
 let taskStruck = globalWorld.taskStruck;
-while (!gameNavigator.gamming.isPaused) {
-    // so next time [0] is comming task
+while (!gameNavigator.gaming.isPaused) {
+    // so next time [0] is coming task
     tickList.sort((a, b) => a.nextTickAt - b.nextTickAt);
 
     //jump to

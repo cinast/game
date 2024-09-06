@@ -6,11 +6,11 @@ export class Character extends gameBasicObject {
     status: {
         health: number;
         magic: number;
-        is_alive: alives;
+        is_alive: alive;
     } = {
         health: 0,
         magic: 0,
-        is_alive: alives.alive,
+        is_alive: alive.alive,
     };
 
     skill: Record<string, number> = {};
@@ -31,7 +31,7 @@ export class Character extends gameBasicObject {
 
     eventList: NestedObject_partial<string, Event | Event[]> = {
         onJoin: [],
-        onTrun: [],
+        onTurn: [],
         onUseSth: [],
         onActs: {
             Attack: [],
@@ -79,7 +79,7 @@ export class clonedCharacter extends Character {
     }
 }
 
-enum alives {
+enum alive {
     alive = 0,
     dying = -1,
     dead = -2,
@@ -95,16 +95,16 @@ enum direction {
 
 export interface char_ability {
     agile: number;
-    movespeed: number;
+    speed: number;
     wisdom: number;
     attack: number;
     defense: number;
     [key: string]: K | bigint;
 }
 
-export const defualt_char_ability: char_ability = {
+export const default_char_ability: char_ability = {
     agile: 0,
-    movespeed: 0,
+    speed: 0,
     wisdom: 0,
     max_health: 0,
     max_magic: 0,

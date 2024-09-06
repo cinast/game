@@ -1,14 +1,13 @@
 import { clamp, uuid } from "@src/utils/utils";
 
 import { NestedObject, NestedObject_partial } from "@src/utils/types";
-import { gobalItemCollection } from "@src/component/sys/gameGobal";
+import { globalItemCollection } from "@src/component/sys/gameGlobal";
 import { gameBasicObject } from "@src/core/basic";
 import { Event } from "@src/core/events";
-import { propRules } from "@src/utils/propRules";
 
 /**
  *  Anything can be interact or be used, included  equipment, food, books, etc. \
- *  but `Characters`, `buildiings` or *likes* are **not in list**
+ *  but `Characters`, `buildings` or *likes* are **not in list**
  */
 export class Item extends gameBasicObject {
     id: string = "item#" + uuid.v4();
@@ -35,7 +34,7 @@ export class Item extends gameBasicObject {
     number: number = 1;
     stackLimit: number = 10;
 
-    static random = gobalItemCollection;
+    static random = globalItemCollection;
 
     stackOn(sameItem: Item, numbers: number = sameItem.number) {
         // same type of item

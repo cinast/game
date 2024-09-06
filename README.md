@@ -18,7 +18,7 @@ _a web game_
  *
  */
 
-detail gobal.project {
+detail global.project {
     name: "xxxx dungeon",
     version: " 1.0.0",
     author: ["cinast(cosider)", "paskaw(beams123)"]

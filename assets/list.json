@@ -7,8 +7,8 @@
         "path": "./homepage/list.json",
         "id": ""
     },
-    "gamming": {
-        "path": "./gamming/list.json",
+    "gaming": {
+        "path": "./gaming/list.json",
         "id": ""
     }
 }

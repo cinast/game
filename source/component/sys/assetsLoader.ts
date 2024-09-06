@@ -92,7 +92,7 @@ export async function loadAssets() {
                     const itemPromise = import(gotItems[i].path);
                     itemPromise.catch((err) => console.error);
                     itemPromise.then((sth) => {
-                        if (assetsList[i]) throw new Error(`assest#${i} already registed`);
+                        if (assetsList[i]) throw new Error(`assets#${i} already registed`);
                         let data = parse[gotItems[i].type](sth);
                         assetsList[i] = data;
                     });

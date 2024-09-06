@@ -6,7 +6,7 @@ import { Character } from "@src/core/character";
 
 import { Item } from "./item";
 import { Event, Interval } from "@src/core/events";
-import { Buildiing as Building, FloorTransfer, Transfer } from "@src/core/buildings";
+import { Building as Building, FloorTransfer, Transfer } from "@src/core/buildings";
 import { PlayerCharacter, World } from "@src/router/gamecore";
 
 export class Scene {

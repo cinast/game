@@ -24,9 +24,9 @@ export class Event {
     predicater: () => boolean;
 
     /**
-     * @notice if this event object be setted at world or scene's `tickTimerList`, `triged` will keep `true` until this round ended,
+     * @notice if this event object be able to set at world or scene's `tickTimerList`, `trigged` will keep `true` until this round ended,
      */
-    triged: boolean = false;
+    trigged: boolean = false;
 
     constructor(
         type: string,
@@ -52,7 +52,7 @@ export class Interval {
     tag: string[] = [];
     delay: number | specialTick = 0;
     callback: (...arg: any[]) => number | void;
-    triged: boolean = false;
+    trigged: boolean = false;
     constructor(delay: number | specialTick, callback: (...arg: any[]) => number | void, tag?: string[], id?: string) {
         this.id = id ?? uuid.v4();
         this.tag = tag ?? [];

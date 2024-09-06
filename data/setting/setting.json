@@ -2,6 +2,6 @@
     "resource": {
         "request-delay": "3000",
         "request-method": "get",
-        "requset-retey-limit": "10"
+        "request-retry-limit": "10"
     }
 }

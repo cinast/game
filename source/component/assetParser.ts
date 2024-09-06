@@ -5,7 +5,7 @@
  */
 const parse: Record<K, (...any: any[]) => any> = {
     // pre:(blob:Blob)=>{FileReader(blob)},
-    // aduio:(aduio,bind?)=>{
+    // audio:(audio,bind?)=>{
     // },
     // image:(image:Blob)=>new
 } as const;

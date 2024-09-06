@@ -6,7 +6,7 @@ export function randFloor(): Floor {
 }
 
 /**
- * generate floors list which evry floor have connected each other \
+ * generate floors list which every floor have connected each other \
  * last one goes to next one
  */
 export function randConnectedFloors(

@@ -1,7 +1,7 @@
 import { char_ability, Character, clonedCharacter } from "@src/core/character";
 export class PlayerCharacter extends Character {
     name: string = "";
-    abilty: char_ability = {
+    ability: char_ability = {
         agile: 1,
         speed: 1.0,
         wisdom: 0,

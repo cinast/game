@@ -11,7 +11,7 @@ import { Item } from "./item";
  * Anything can be interact or be used, distinguish from `Items` \
  * included wall, door, boxes, etc.
  */
-export class Buildiing extends gameBasicObject {
+export class Building extends gameBasicObject {
     id: string = "Buildiing#" + uuid.v4();
     name: string = uuid.v4();
     description: string = "";
@@ -38,7 +38,7 @@ export class Buildiing extends gameBasicObject {
         },
     };
 
-    detele() {
+    delete() {
         // h e l p    m e
     }
 
@@ -62,7 +62,7 @@ export class Buildiing extends gameBasicObject {
     }
 }
 
-export class Door extends Buildiing {
+export class Door extends Building {
     id: string = "Door#" + uuid.v4();
     eventList: NestedObject_partial<string, Event | Event[]> & {
         interacts: NestedObject<string, Event>;

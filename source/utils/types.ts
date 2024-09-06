@@ -15,12 +15,12 @@ export type NestedObject_partial<K extends string | number | symbol, V> = {
 };
 
 /**
- * *`NestedObject`* MappaL ver.
+ * *`NestedObject`* Mappal ver.
  */
 export type NestedMap<K extends string | number | symbol, V> = Map<K, NestedMap<K, V>> | Map<K, V>;
 
 /**
- * *`NestedObject`* partial MappaL ver.
+ * *`NestedObject`* partial Mappal ver.
  */
 export type NestedMap_partial<K extends string | number | symbol, V> = Map<K, NestedMap<K, V>> | Partial<Map<K, V>>;
 

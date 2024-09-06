@@ -39,7 +39,7 @@ export class Item extends gameBasicObject {
     stackOn(sameItem: Item, numbers: number = sameItem.number) {
         // same type of item
         if (this.id === sameItem.id) {
-            // opinion setted?
+            // opinion has set?
             if (numbers) {
                 numbers = clamp(numbers, 0, Math.min(sameItem.number, this.stackLimit - this.number));
             } else {

@@ -83,7 +83,7 @@ while (!gameNavigator.gaming.isPaused) {
 
         const thing = tickList[i];
         const body = thing.body;
-        body.triged = true;
+        body.trigged = true;
 
         // taskStruck.push(body.callback);
 

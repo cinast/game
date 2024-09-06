@@ -10,7 +10,7 @@ export interface gameFile {}
 
 /**
  * file manger, 、
- * can recieve file from outer
+ * can receive file from outer
  */
 export declare let gameFiles: {
     current: string;

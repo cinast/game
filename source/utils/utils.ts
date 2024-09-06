@@ -59,8 +59,8 @@ export function clamp_bint(value: bigint, min: bigint, max: bigint): bigint {
 }
 
 /**
- * get the property you want by cretain funtion `predicate`
- * @param obj the object you wanna sreach
+ * get the property you want by certain function `predicate`
+ * @param obj the object you wanna search
  * @param prefix the path start with
  * @param predicate [required] the function check if satisfy the condition
  * @returns list of results
@@ -86,7 +86,7 @@ export function getItems(obj: any, predicate: (thisArg: any) => boolean, prefix:
 
 /**
  * get the property at the end of every property branch
- * @param obj the object you wanna sreach
+ * @param obj the object you wanna search
  * @param prefix the path start with
  * @returns list of results
  */

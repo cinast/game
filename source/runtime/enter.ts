@@ -19,7 +19,7 @@
 
 import _ from "lodash";
 
-import { loadAssets } from "@src/component/sys/assetsLoader";
+import { loadAssets } from "@sys/component/sys/assetsLoader";
 
 // import { PageTurnVisitable } from "./ui";
 

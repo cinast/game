@@ -1,6 +1,6 @@
 import { getItems } from "@src/utils/utils";
 import { NestedObject } from "@src/utils/types";
-import parse from "@src/component/assetParser";
+import parse from "@sys/component/assetParser";
 import totalList from "@assets/list.json";
 
 // Assets manager

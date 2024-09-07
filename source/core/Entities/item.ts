@@ -1,7 +1,7 @@
 import { clamp, uuid } from "@src/utils/utils";
 
 import { NestedObject, NestedObject_partial } from "@src/utils/types";
-import { globalItemCollection } from "@src/component/sys/gameGlobal";
+import { globalItemCollection } from "@sys/component/sys/gameGlobal";
 import { gameBasicObject } from "@src/core/basic";
 import { Event } from "@src/core/logic/events";
 

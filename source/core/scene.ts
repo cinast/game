@@ -2,7 +2,7 @@ import { uuid } from "@src/utils/utils";
 import { NestedMap, NestedObject, NestedObject_partial } from "@src/utils/types";
 
 import { gameBasicObject } from "@src/core/basic";
-import { Character } from "@src/core/character";
+import { Character } from "@src/core/Characters";
 
 import { Item } from "./item";
 import { Event, Interval } from "@src/core/events";
@@ -167,14 +167,13 @@ export class Floor extends Scene {
      */
     connectWith(tarFloor: Floor, isbidirectional: boolean = true) {
         // this
-        let ext = this.transfers.exits.get(tarFloor.id) as Transfer;
-        ext = ext ?? new Transfer("ToNextFloor");
+        let from = this.transfers.exits;
+        let exit = new Transfer("ToNextFloor");
+        from;
 
         // transfers
-        let ent = tarFloor.transfers.get(this.id) as Transfer;
-        ent = ent ?? new Transfer("FromPrevFloor");
-
-        ext.connect(ent, true);
+        let to = tarFloor.transfers.entrances;
+        let enter = new Transfer("FromPrevFloor");
     }
 
     constructor(

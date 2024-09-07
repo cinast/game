@@ -1,4 +1,4 @@
-import { Character } from "@src/core/character";
+import { Character } from "@src/core/Characters";
 import { uuid } from "@src/utils/utils";
 
 export class Layer {

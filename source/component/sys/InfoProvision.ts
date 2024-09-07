@@ -83,9 +83,7 @@ export namespace leveledInfoProvision {
 export interface gamingInfoProvision {
     status: {
         onplay: {
-            characters: (PlayerCharacter & {
-                atScene: Scene;
-            })[];
+            characters: PlayerCharacter[];
             isOnTurn: boolean;
             nextTick: number;
         };

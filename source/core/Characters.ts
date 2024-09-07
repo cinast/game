@@ -1,6 +1,8 @@
-import { Event } from "./events";
-import { gameBasicObject } from "./basic";
+import { Event } from "@src/core/events";
+import { gameBasicObject } from "@src/core/basic";
 import { NestedObject_partial } from "@src/utils/types";
+import { direction } from "@src/core/action";
+import { alive, char_ability } from "@src/core/status";
 
 export class Character extends gameBasicObject {
     status: {
@@ -79,35 +81,18 @@ export class clonedCharacter extends Character {
     }
 }
 
-enum alive {
-    alive = 0,
-    dying = -1,
-    dead = -2,
-    not_exist = -3,
+export class PlayerCharacter extends Character {
+    name: string = "";
+    ability: char_ability = {
+        agile: 1,
+        speed: 1.0,
+        wisdom: 0,
+        health: 0,
+        attack: 0,
+        defense: 0,
+    };
+    /**
+     * playerid (template)
+     */
+    controlBy: string = "";
 }
-
-enum direction {
-    front = "a",
-    right = "b",
-    back = "c",
-    left = "d",
-}
-
-export interface char_ability {
-    agile: number;
-    speed: number;
-    wisdom: number;
-    attack: number;
-    defense: number;
-    [key: string]: K | bigint;
-}
-
-export const default_char_ability: char_ability = {
-    agile: 0,
-    speed: 0,
-    wisdom: 0,
-    max_health: 0,
-    max_magic: 0,
-    attack: 0,
-    defense: 0,
-};

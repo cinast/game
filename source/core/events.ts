@@ -13,13 +13,13 @@ export class Event {
 
     /**
      * you can call it right now, \
-     * or wait until `this.predicater` gives you anwser
+     * or wait until `this.predicater` gives you answer
      */
     callback: (...arg: any[]) => number | void;
 
     /**
      * check if is time to trig \
-     * if you dont set it, defualt retrun is `true`
+     * if you dont set it, default return is `true`
      */
     predicater: () => boolean;
 

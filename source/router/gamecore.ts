@@ -9,8 +9,7 @@ export * from "@src/core/scene";
 export * from "@src/core/basic";
 
 // entities
-export * from "@src/core/character";
-export * from "@src/core/player";
+export * from "@src/core/Characters";
 
 export * from "@src/core/effect";
 // ?
@@ -19,3 +18,9 @@ export * from "@src/core/layer";
 // scene
 export * from "@src/core/item";
 export * from "@src/core/buildings";
+
+// action
+export * from "@src/core/action";
+
+// status
+export * from "@src/core/status";

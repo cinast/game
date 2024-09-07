@@ -51,7 +51,7 @@ export function clamp(value: number, min: number, max: number): number {
 }
 
 /**
- * limt a **bogint** with open interval
+ * limt a **bigint** with open interval
  */
 export function clamp_bint(value: bigint, min: bigint, max: bigint): bigint {
     let x = value > min ? value : min;

@@ -78,24 +78,24 @@ while (!gameNavigator.gaming.isPaused) {
     //get list of things need to do
     let index = tickList.findIndex((f, i) => f.nextTickAt > globalWorld.tick);
 
-    for (let i = 0; i < tickList.length; i++) {
-        if (i > index) break;
+    // for (let i = 0; i < tickList.length; i++) {
+    //     if (i > index) break;
 
-        const thing = tickList[i];
-        const body = thing.body;
-        body.trigged = true;
+    //     const thing = tickList[i];
+    //     const body = thing.body;
+    //     body.trigged = true;
 
-        // taskStruck.push(body.callback);
+    // taskStruck.push(body.callback);
 
-        let nextTick = body.callback.call();
-        if (nextTick) {
-            thing.nextTickAt += nextTick;
-        } else {
-            tickList.splice(i, 1);
-            continue;
-        }
-        if (body instanceof Interval) thing.nextTickAt += body.delay as number;
-    }
+    //     // let nextTick = body.callback.call();
+    //     if (nextTick) {
+    //         thing.nextTickAt += nextTick;
+    //     } else {
+    //         tickList.splice(i, 1);
+    //         continue;
+    //     }
+    //     if (body instanceof Interval) thing.nextTickAt += body.delay as number;
+    // }
 
     // while (taskStruck.length > 0) {
     //     // 矢

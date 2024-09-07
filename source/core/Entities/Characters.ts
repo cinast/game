@@ -1,8 +1,5 @@
-import { Event } from "@src/core/logic/events";
-import { gameBasicObject } from "@src/core/basic";
+import { alive, char_ability, direction, gameBasicObject } from "@src/router/gamecore";
 import { NestedObject_partial } from "@src/utils/types";
-import { direction } from "@src/core/Entities/Interact/action";
-import { alive, char_ability } from "@src/core/Entities/construction/status";
 
 export class Character extends gameBasicObject {
     status: {

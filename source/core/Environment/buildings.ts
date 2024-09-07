@@ -1,11 +1,6 @@
-import { uuid } from "@src/utils/utils";
-
-import { gameBasicObject } from "@src/core/basic";
-import { Character, PlayerCharacter } from "@src/core/Entities/Characters";
-import { Event } from "@src/core/logic/events";
+import { Character, gameBasicObject, Item, PlayerCharacter, Event } from "@src/router/gamecore";
 import { NestedObject, NestedObject_partial } from "@src/utils/types";
-import { Item } from "../Entities/item";
-
+import { uuid } from "@src/utils/utils";
 /**
  * Anything can be interact or be used, distinguish from `Items` \
  * included wall, door, boxes, etc.

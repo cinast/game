@@ -1,13 +1,6 @@
-import { uuid } from "@src/utils/utils";
+import { Building, Character, gameBasicObject, Interval, Item, PlayerCharacter, Transfer, World } from "@src/router/gamecore";
 import { NestedMap, NestedObject, NestedObject_partial } from "@src/utils/types";
-
-import { gameBasicObject } from "@src/core/basic";
-import { Character } from "@src/core/Entities/Characters";
-
-import { Item } from "../Entities/item";
-import { Event, Interval } from "@src/core/logic/events";
-import { Building as Building, FloorTransfer, Transfer } from "@src/core/Environment/buildings";
-import { PlayerCharacter, World } from "@src/router/gamecore";
+import { uuid } from "@src/utils/utils";
 
 export class Scene {
     id: string = `Scene#${uuid.v4()}`;

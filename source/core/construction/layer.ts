@@ -1,4 +1,4 @@
-import { Character } from "@src/core/Entities/Characters";
+import { Character } from "@src/router/gamecore";
 import { uuid } from "@src/utils/utils";
 
 export class Layer {

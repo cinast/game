@@ -1,9 +1,8 @@
 import { clamp, uuid } from "@src/utils/utils";
 
 import { NestedObject, NestedObject_partial } from "@src/utils/types";
-import { globalItemCollection } from "@sys/component/sys/gameGlobal";
-import { gameBasicObject } from "@src/core/basic";
-import { Event } from "@src/core/logic/events";
+import { Event, gameBasicObject } from "@router/gamecore";
+import { globalItemCollection } from "@src/router/sys/syscore";
 
 /**
  *  Anything can be interact or be used, included  equipment, food, books, etc. \

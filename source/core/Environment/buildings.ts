@@ -21,15 +21,9 @@ export class Building extends gameBasicObject {
     };
 
     eventList: NestedObject_partial<string, Event | Event[]> & {
-        interacts: NestedObject<string, Event>;
+        interacts: NestedObject_partial<string, Event>;
     } = {
-        interacts: {
-            // onstandOn: new eventObject("onstandOn", () => {}),
-            // /** dox likes use only */
-            // onopen: new eventObject("onopen", () => {}),
-            // /** traps likes use only */
-            // ontrigeSth: new eventObject("ontrigeSth", () => {}),
-        },
+        interacts: {},
     };
 
     delete() {

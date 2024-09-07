@@ -3,7 +3,7 @@ import { clamp, uuid } from "@src/utils/utils";
 import { NestedObject, NestedObject_partial } from "@src/utils/types";
 import { globalItemCollection } from "@src/component/sys/gameGlobal";
 import { gameBasicObject } from "@src/core/basic";
-import { Event } from "@src/core/events";
+import { Event } from "@src/core/logic/events";
 
 /**
  *  Anything can be interact or be used, included  equipment, food, books, etc. \

@@ -1,9 +1,9 @@
 import { uuid } from "@src/utils/utils";
 
-import { Event, Interval } from "@src/core/events";
-import { Layer } from "@src/core/layer";
+import { Event, Interval } from "@src/core/logic/events";
+import { Layer } from "@src/core/Entities/construction/layer";
 import { NestedObject_partial } from "@src/utils/types";
-import { Scene } from "./scene";
+import { Scene } from "./Environment/scene";
 
 /**
  *  every object comprising scenes, etc. chars, block, item

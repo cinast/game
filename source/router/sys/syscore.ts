@@ -1,5 +1,5 @@
-export * from "@src/component/sys/gameGlobal";
-export * from "@src-sys/component/gameManage";
-export * from "@src-sys/component/InfoProvision";
-export * from "@src-sys/component/assetsLoader";
-// export * from "@src-sys/component/"
+export * from "@system/component/";
+export * from "@system/component/gameManage";
+export * from "@system/component/InfoProvision";
+export * from "@system/component/assetsLoader";
+// export * from "@system/component/"

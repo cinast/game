@@ -2,11 +2,11 @@ import { uuid } from "@src/utils/utils";
 import { NestedMap, NestedObject, NestedObject_partial } from "@src/utils/types";
 
 import { gameBasicObject } from "@src/core/basic";
-import { Character } from "@src/core/Characters";
+import { Character } from "@src/core/Entities/Characters";
 
-import { Item } from "./item";
-import { Event, Interval } from "@src/core/events";
-import { Building as Building, FloorTransfer, Transfer } from "@src/core/buildings";
+import { Item } from "../Entities/item";
+import { Event, Interval } from "@src/core/logic/events";
+import { Building as Building, FloorTransfer, Transfer } from "@src/core/Environment/buildings";
 import { PlayerCharacter, World } from "@src/router/gamecore";
 
 export class Scene {

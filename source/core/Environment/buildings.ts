@@ -1,10 +1,10 @@
 import { uuid } from "@src/utils/utils";
 
 import { gameBasicObject } from "@src/core/basic";
-import { Character, PlayerCharacter } from "@src/core/Characters";
-import { Event } from "@src/core/events";
+import { Character, PlayerCharacter } from "@src/core/Entities/Characters";
+import { Event } from "@src/core/logic/events";
 import { NestedObject, NestedObject_partial } from "@src/utils/types";
-import { Item } from "./item";
+import { Item } from "../Entities/item";
 
 /**
  * Anything can be interact or be used, distinguish from `Items` \

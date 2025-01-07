@@ -1,5 +1,5 @@
 import { Building, Character, gameBasicObject, Interval, Item, PlayerCharacter, Transfer, World } from "@src/router/gamecore";
-import { NestedMap, NestedObject, NestedObject_partial } from "@src/utils/types";
+import { customObject, NestedMap, NestedObject, NestedObject_partial } from "@src/utils/types";
 import { uuid } from "@src/utils/utils";
 
 export class Scene {
@@ -31,7 +31,7 @@ export class Scene {
     /**
      * gets in or goes to, allow custom transfers groups `{a:(b{c:tran}})`
      */
-    transfers: NestedObject<K, NestedMap<K, Partial<Transfer>>> & {
+    transfers: customObject<K, Partial<Transfer>> & {
         /**
          * where u get in
          */
@@ -125,7 +125,7 @@ export class Floor extends Scene {
     /**
      * gets in or goes to, allow custom transfers groups `{a:(b{c:tran}})`
      */
-    transfers: NestedObject<K, NestedMap<K, Partial<Transfer>>> & {
+    transfers: customObject<K, Partial<Transfer>> & {
         /**
          * where u get in
          */

@@ -3,6 +3,7 @@ import { clamp, uuid } from "@src/utils/utils";
 import { NestedObject, NestedObject_partial } from "@src/utils/types";
 import { Event, gameBasicObject } from "@router/gamecore";
 import { globalItemCollection } from "@src/router/sys/syscore";
+import { propRules } from "@src/utils/propRules";
 
 /**
  *  Anything can be interact or be used, included  equipment, food, books, etc. \
@@ -28,14 +29,19 @@ export class Item extends gameBasicObject {
         },
     };
 
-    // @propRules.noZero
-    // @propRules.noOver(this)
+    @propRules.noOver("stackLimit")
+    @propRules.noZero
     number: number = 1;
     stackLimit: number = 10;
 
     static random = globalItemCollection;
 
-    stackOn(sameItem: Item, numbers: number = sameItem.number) {
+    /**
+     *
+     * @param sameItem
+     * @param numbers
+     */
+    stackOn(sameItem: Item, numbers: typeof this.number = sameItem.number): typeof this.number | false {
         // same type of item
         if (this.id === sameItem.id) {
             // opinion has set?
@@ -47,16 +53,25 @@ export class Item extends gameBasicObject {
                     numbers = clamp(sameItem.number, 0, this.stackLimit - this.number);
                 }
             }
-            // update this item's number
-            this.number += numbers;
-            // decrease sameItem's number
+
+            // Calculate overflow
+            const newNumber = this.number + numbers; // 叠加后的数量
+            const overflow = Math.max(0, newNumber - this.stackLimit); // 计算溢出
+
+            // Update this item's number
+            this.number = Math.min(newNumber, this.stackLimit); // 确保不超过堆叠限制
+
+            // Decrease sameItem's number
             sameItem.number -= numbers;
 
-            // if sameItem's number is or under 0, remove it
-            if (sameItem.number === 0) {
+            // If sameItem's number is or under 0, remove it
+            if (sameItem.number <= 0) {
                 sameItem.delete();
             }
-        }
+
+            // Return the overflows
+            return overflow; // 返回溢出数量
+        } else return false;
     }
     stackOff(numbers: number) {
         this.number -= numbers;

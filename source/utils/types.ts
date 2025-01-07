@@ -51,3 +51,5 @@ export type hasPropertyOf<T, P> = P extends `${infer Head}.${infer Tail}`
     : P extends keyof T
     ? T[P]
     : never;
+
+export type customObject<K extends string | number | symbol, T> = NestedObject<K, NestedMap<K, Partial<T>>>;

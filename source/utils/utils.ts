@@ -44,20 +44,31 @@ export function randBint(max: number, min?: number, mod: "ceil" | "floor" | "rou
 }
 
 /**
+ * limt a *val* with open interval \
+ * **notice**: have better use same type of args
+ */
+
+/**
  * limt a **number** with open interval
  */
 export function clamp(value: number, min: number, max: number): number {
     return Math.min(Math.max(value, min), max);
 }
 
-/**
- * limt a **bigint** with open interval
- */
-export function clamp_bint(value: bigint, min: bigint, max: bigint): bigint {
-    let x = value > min ? value : min;
-    return x < max ? x : max;
-}
-
+// export function clamp(value: number | bigint, min: number | bigint, max: number | bigint): number | bigint {
+//     const m = value > min ? value : min;
+//     return m < max ? m : max;
+// }
+// export function max(...arg: (number | bigint | undefined | null)[]):number | bigint | false {
+//     return arg.reduce((a, b, i, l) =>{
+//         const notEmpty  = a?? b;
+//          a > b ? a : b
+//         if ( i == l.length - 1 && notEmpty )
+//     }, undefined);
+// }
+// export function min(...arg: (number | bigint | undefined | null)[]):number | bigint | false{
+//     return arg.reduce((a, b) => a == null || b == null || a == undefined || b == undefined ? a ?? b : a < b ? a : b, undefined);
+// }
 /**
  * get the property you want by certain function `predicate`
  * @param obj the object you wanna search

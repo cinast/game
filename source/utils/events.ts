@@ -1,5 +1,6 @@
 import { uuid } from "@src/utils/utils";
 import { specialTick } from "@src/router/gamecore";
+import { customObject } from "./types";
 
 export class Event {
     readonly id: string;
@@ -60,3 +61,5 @@ export class Interval {
         this.callback = callback;
     }
 }
+
+export class EventChain {}

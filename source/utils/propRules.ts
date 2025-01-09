@@ -61,4 +61,6 @@ export namespace propRules {
             return typeof v === "bigint" ? (BigInt(limit) < v ? v : limit) : Math.max(Number(limit), v);
         });
     // export const atRangeOf = (low)
+
+    export const onlyWhen = (condition: () => boolean) => $setter((thisArg, key, v) => (condition() ? v : thisArg));
 }

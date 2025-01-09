@@ -61,5 +61,3 @@ export class Interval {
         this.callback = callback;
     }
 }
-
-export class EventChain {}

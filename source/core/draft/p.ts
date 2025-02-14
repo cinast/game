@@ -1,6 +1,6 @@
 type Executor<T> = (resolve: (value: T | Promise<T>) => void, reject: (reason?: any) => void) => void;
 
-class MyPromise<T> {
+class EventPromise<T> {
     private onResolveCallbacks: Array<(value: T) => void> = [];
     private onRejectCallbacks: Array<(reason: any) => void> = [];
     private isResolved: boolean = false;
@@ -30,8 +30,8 @@ class MyPromise<T> {
         }
     }
 
-    then(onFulfilled: (value: T) => any, onRejected?: (reason: any) => any): MyPromise<any> {
-        return new MyPromise((resolve, reject) => {
+    then(onFulfilled: (value: T) => any, onRejected?: (reason: any) => any): EventPromise<any> {
+        return new EventPromise((resolve, reject) => {
             const handleResolve = () => {
                 try {
                     const result = onFulfilled(this.value!);
@@ -65,11 +65,11 @@ class MyPromise<T> {
         });
     }
 
-    catch(onRejected: (reason: any) => any): MyPromise<any> {
+    catch(onRejected: (reason: any) => any): EventPromise<any> {
         return this.then(undefined, onRejected);
     }
 
-    finally(onFinally: () => void): MyPromise<T> {
+    finally(onFinally: () => void): EventPromise<T> {
         return this.then(
             (value) => {
                 onFinally();
@@ -84,24 +84,9 @@ class MyPromise<T> {
 }
 
 // 使用示例
-const promise = new MyPromise<string>((resolve, reject) => {
+const promise = new EventPromise<string>((resolve, reject) => {
     setTimeout(() => {
         resolve("成功");
         // reject("失败"); // 可以取消注释来测试失败情况
     }, 1000);
 });
-
-promise
-    .then((result) => {
-        console.log(result); // 输出: 成功
-        return "继续处理";
-    })
-    .then((result) => {
-        console.log(result); // 输出: 继续处理
-    })
-    .catch((error) => {
-        console.error(error);
-    })
-    .finally(() => {
-        console.log("操作完成");
-    });

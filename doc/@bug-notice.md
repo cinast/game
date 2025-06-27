@@ -2,7 +2,7 @@
 
 ## ls specification
 
-use labels to declarate question type  
+use labels to decorate question type  
 note paths to file,like `path/to/file [row:col]`
 
 ```markdown
@@ -55,7 +55,7 @@ n. ##`label` xxx
 
         c.: eeeeeem, too compex, i need ideas and help
 
-3.  ## `U` `?` The division of work & collabrate
+3.  ## `U` `?` The division of work & collaborate
 
         p.: you guys really should do something to improve the work allocation and the effenciency of working
 

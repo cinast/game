@@ -1,4 +1,11 @@
 /**
+ * @author @cinast
+ * @time tmdN个月前
+ * 这个b浪费我半年，问黑盒子ts1240是什么，他：T extend [...] ... ] ...] ...)
+ * 结果问题在tsconfg，有一个允许自定义装饰器的开关，tmd找遍全网都没这个
+ */
+
+/**
  * Custom getter decorator.
  * @param handle - Function to define the getter behavior.
  * @returns A property decorator.

@@ -2,7 +2,7 @@ import { Building, Character, gameBasicObject, Interval, Item, PlayerCharacter, 
 import { customObject, NestedMap, NestedObject, NestedObject_partial } from "@src/utils/types";
 import { uuid } from "@src/utils/utils";
 
-export class Scene {
+export class Scenario {
     id: string = `Scene#${uuid.v4()}`;
     type: string = "";
     name: string = "";
@@ -25,7 +25,9 @@ export class Scene {
 
     content: BlockUnit[][] = [];
     refresh() {
-        this.Characters.forEach;
+        this.Characters.forEach((chara) => {
+            chara.refresh();
+        });
     }
 
     /**
@@ -45,7 +47,7 @@ export class Scene {
         exits: new Map(),
     };
 
-    connects: NestedObject<K, Map<K, Partial<Scene>>> & {
+    connects: NestedObject<K, Map<K, Partial<Scenario>>> & {
         /**
          * get entrances that to up or down floor. \
          * In some cases, they may appear at `entrances`, `exit` and here at meantime
@@ -64,7 +66,7 @@ export class Scene {
     /**
      * from this floor to target floor
      */
-    connectWith(target: Scene, isbidirectional: boolean = true) {
+    connectWith(target: Scenario, isbidirectional: boolean = true) {
         if (target instanceof Floor) {
             // this
             let ext = this.transfers.exits.get(target.id) as Transfer;
@@ -98,13 +100,13 @@ export class Scene {
     }
 }
 
-export class specialScene extends Scene {
+export class specialScene extends Scenario {
     connectWith(...arg: any[]) {
         throw new Error("Method not implemented.");
     }
 }
 
-export class Floor extends Scene {
+export class Floor extends Scenario {
     id: string = `Floor#${uuid.v4()}`;
     type: string = "floor";
     /**
@@ -119,7 +121,13 @@ export class Floor extends Scene {
     };
     content: BlockUnit[][];
     refresh() {
-        this.Characters.forEach;
+        this.Characters.forEach((chara) => {
+            //更正每个character的位置信息
+            chara.atScene = this;
+            let covers = this.content[chara.x][chara.y].covers;
+            for (const i in covers) {
+            }
+        });
     }
 
     /**
@@ -139,7 +147,7 @@ export class Floor extends Scene {
         exits: new Map().set("FromPrevFloor", {}),
     };
 
-    connects: NestedObject<K, Map<K, Partial<Scene>>> & {
+    connects: NestedObject<K, Map<K, Partial<Scenario>>> & {
         /**
          * get entrance that to up or down floor. \
          * In some cases, they may appear at `entrance`, `exit` and here at meantime
@@ -158,15 +166,14 @@ export class Floor extends Scene {
     /**
      * from this floor to target floor
      */
-    connectWith(tarFloor: Floor, isbidirectional: boolean = true) {
-        // this
-        let from = this.transfers.exits;
-        let exit = new Transfer("ToNextFloor");
-        from;
+    connectWith(tarFloor: Floor, isBidirectional: boolean = true) {
+        const exitTransfer = new Transfer("ToNextFloor");
+        const enterTransfer = new Transfer("FromPrevFloor");
 
-        // transfers
-        let to = tarFloor.transfers.entrances;
-        let enter = new Transfer("FromPrevFloor");
+        this.transfers.exits.set(tarFloor.id, exitTransfer);
+        tarFloor.transfers.entrances.set(this.id, enterTransfer);
+
+        exitTransfer.connect(enterTransfer, isBidirectional);
     }
 
     constructor(
@@ -193,7 +200,7 @@ export class Floor extends Scene {
  *  base of every block of map
  */
 export class BlockUnit extends gameBasicObject {
-    covers: NestedObject<string, (Character | Building | Item)[]> & {
+    covers: Record<string, (Character | Building | Item)[]> & {
         characters: Character[];
         buildings: Building[];
         item: Item[];

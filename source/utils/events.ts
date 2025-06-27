@@ -45,6 +45,9 @@ export class Event {
         this.callback = callback;
         this.predicater = predicate ?? (() => true);
     }
+    reset() {
+        this.trigged = false;
+    }
 }
 
 export class Interval {
@@ -60,4 +63,15 @@ export class Interval {
         this.delay = delay;
         this.callback = callback;
     }
+
+    reset() {
+        this.trigged = false;
+    }
+}
+
+export class Quest {
+    objectives: Map<string, { target: string; progress: number }> = new Map();
+    onObjectiveComplete = new Event("objectiveComplete", (id: string) => {
+        this.objectives.get(id)!.progress = 100;
+    });
 }

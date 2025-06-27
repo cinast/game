@@ -13,7 +13,7 @@
  *
  * @project xxxx dungeon
  * @version 1.0.0
- * @author cinast(*cosider*)  paskaw(*beams123*)
+ * @author cinast(*cosider*) paskaw(*beams123*) Stexley(*pxcookie*)
  *
  */
 
@@ -22,10 +22,11 @@ import _ from "lodash";
 import { loadAssets } from "@sys/component/sys/assetsLoader";
 
 // import { PageTurnVisitable } from "./ui";
-
+//开个线程启动主函数，这里是initial
+//专门预处理页面用的
 async function startMainScript() {
     await loadAssets();
-    const main = new Worker("@runtime/");
+    const main = new Worker("@runtime/main.ts");
     // Send data to main script
     // main.postMessage({ assets });
 }

@@ -1,5 +1,5 @@
 import { alive, char_ability, direction, gameBasicObject } from "@src/router/gamecore";
-import { NestedObject_partial } from "@src/utils/types";
+import { NestedObject, NestedObject_partial } from "@src/utils/types";
 
 export class Character extends gameBasicObject {
     status: {
@@ -28,7 +28,7 @@ export class Character extends gameBasicObject {
     clones: clonedCharacter[] = [];
     CloneFrom: Character | void = undefined;
 
-    eventList: NestedObject_partial<string, Event | Event[]> = {
+    eventList: NestedObject<string, Event | Event[]> = {
         onJoin: [],
         onTurn: [],
         onUseSth: [],
@@ -58,6 +58,7 @@ export class Character extends gameBasicObject {
         this.CloneFrom = char;
     }
 
+    refresh() {}
     constructor(id?: string) {
         super(id);
     }

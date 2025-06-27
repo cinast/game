@@ -19,7 +19,7 @@ interface AssetItem {
     loaded: boolean;
     type: string;
     url: string;
-    loadsucceed: boolean;
+    loadingSucceed: boolean;
 }
 
 interface LoadErroredItem {
@@ -37,7 +37,7 @@ export const loadFailedList: LoadErroredItem[] = [];
 export const assetsList: Record<string, AssetItem> = {};
 export const assetsGroups: NestedObject<string, Array<AssetItem>> = {};
 
-const resourcetypes = [""] as const;
+const resourceTypes = [""] as const;
 
 export async function loadAssets() {
     for (const item in totalList) {
@@ -52,7 +52,7 @@ export async function loadAssets() {
                 body: {
                     name: item,
                     id: tar.id,
-                    type: "assetsgroup",
+                    type: "assetsGroup",
                     path: tar.path,
                 },
                 reason: err,
@@ -76,7 +76,7 @@ export async function loadAssets() {
 
                 const gotItems = getItems(
                     table,
-                    (sort) => Array.isArray(sort) && sort.every((i) => (i?.type ? resourcetypes.includes(i.type) : false)),
+                    (sort) => Array.isArray(sort) && sort.every((i) => (i?.type ? resourceTypes.includes(i.type) : false)),
                     item
                 ) as Record<
                     string,

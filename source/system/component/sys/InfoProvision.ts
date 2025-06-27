@@ -1,4 +1,4 @@
-import { PlayerCharacter, Scene } from "@router/gamecore";
+import { PlayerCharacter, Scenario } from "@router/gamecore";
 
 /**
  *  _\*a great info Provision managing method, i think\*_

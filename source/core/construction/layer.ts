@@ -4,7 +4,7 @@ import { uuid } from "@src/utils/utils";
 export class Layer {
     readonly id: string;
     readonly BaseType: string = "layer";
-    type: string = "nomal";
+    type: string = "normal";
     tag: string[] = [];
     name: string = "";
     layerIndex = 0;
@@ -16,11 +16,11 @@ export class Layer {
     }
     moveto(index: number) {
         if (this.parent === undefined) return;
-        let l = this.parent.layerset;
+        let l = this.parent.layerSet;
         l.splice(index, 0, l.splice(this.layerIndex, 1)[0]);
     }
     delete() {
-        return this.parent == undefined ? new TypeError() : this.parent.layerset.splice(this.layerIndex, 1)[0];
+        return this.parent == undefined ? new TypeError() : this.parent.layerSet.splice(this.layerIndex, 1)[0];
     }
     concatLayer() {}
 }

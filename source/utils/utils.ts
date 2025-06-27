@@ -55,20 +55,6 @@ export function clamp(value: number, min: number, max: number): number {
     return Math.min(Math.max(value, min), max);
 }
 
-// export function clamp(value: number | bigint, min: number | bigint, max: number | bigint): number | bigint {
-//     const m = value > min ? value : min;
-//     return m < max ? m : max;
-// }
-// export function max(...arg: (number | bigint | undefined | null)[]):number | bigint | false {
-//     return arg.reduce((a, b, i, l) =>{
-//         const notEmpty  = a?? b;
-//          a > b ? a : b
-//         if ( i == l.length - 1 && notEmpty )
-//     }, undefined);
-// }
-// export function min(...arg: (number | bigint | undefined | null)[]):number | bigint | false{
-//     return arg.reduce((a, b) => a == null || b == null || a == undefined || b == undefined ? a ?? b : a < b ? a : b, undefined);
-// }
 /**
  * get the property you want by certain function `predicate`
  * @param obj the object you wanna search

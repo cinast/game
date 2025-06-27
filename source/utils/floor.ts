@@ -9,29 +9,12 @@ export function randFloor(): Floor {
  * generate floors list which every floor have connected each other \
  * last one goes to next one
  */
-export function randConnectedFloors(
-    number: number,
-    /**
-     * start from 1
-     */
-    countAt: number = 1
-): Floor[] {
-    let ls: Floor[] = new Array(number);
-
-    ls.map(() => randFloor());
-
-    ls.map((f, i) => {
-        if (i == 0) {
-            f.Index = countAt;
-            return;
-        }
-        if (i < number) {
+export function randConnectedFloors(number: number, countAt: number = 1): Floor[] {
+    const ls: Floor[] = Array.from({ length: number }, () => randFloor());
+    ls.forEach((f, i) => {
+        f.Index = countAt + i;
+        if (i < number - 1) {
             f.connectWith(ls[i + 1], true);
-            f.connects.floorTo.next.set(ls[i + 1].id, ls[i + 1]);
-        }
-        if (i > 0) {
-            f.Index = countAt + i;
-            f.connects.floorTo.prev.set(ls[i - 1].id, ls[i - 1]);
         }
     });
     return ls;

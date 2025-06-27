@@ -1,5 +1,5 @@
 import { uuid } from "@src/utils/utils";
-import { Event, Floor, Character, Interval, PlayerCharacter, Item, Scene, Transfer } from "@src/router/gamecore";
+import { Event, Floor, Character, Interval, PlayerCharacter, Item, Scenario, Transfer } from "@src/router/gamecore";
 import { NestedObject_partial } from "@src/utils/types";
 
 export type specialTick = "";
@@ -9,17 +9,17 @@ export class World {
     name: string = "";
     tag: Record<K, k> = {};
 
-    scene: Map<K, Scene> = new Map();
+    Scenarios: Map<K, Scenario> = new Map();
     Characters: Map<K, Character> = new Map();
 
     spawn(entity: Character | PlayerCharacter | Item, atTransfer: Transfer) {
         // the transfer is in this world (and its scenes)
         const atScene = atTransfer.atScene;
-        if (!atScene || !this.scene.has(atScene.id)) return;
+        if (!atScene || !this.Scenarios.has(atScene.id)) return;
 
         if (entity instanceof Character) {
             this.Characters.set(entity.id, entity);
-            this.scene.get(atScene.id)?.Characters.set(entity.id, entity);
+            this.Scenarios.get(atScene.id)?.Characters.set(entity.id, entity);
             atScene.content[atTransfer.x][atTransfer.y].covers.characters.push(entity);
         }
         if (entity instanceof Item) {
@@ -27,7 +27,7 @@ export class World {
         }
     }
     refresh() {
-        this.scene.forEach((scene) => {
+        this.Scenarios.forEach((scene) => {
             scene.refresh();
         });
     }
@@ -65,9 +65,9 @@ export class World {
 
     tickTimerList: Array<{ id: K; nextTickAt: number; body: Interval | Event }> = [];
 
-    taskStruck: Array<Function> = [];
+    taskStack: Array<Function> = [];
 
-    declare gatheSomething: (id: K) => any;
+    declare gatherSomething: (id: K) => any;
 
     delete() {}
 

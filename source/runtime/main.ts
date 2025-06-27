@@ -1,7 +1,5 @@
 console.log("-main-");
 
-import "pixi";
-
 import { uuid, randint } from "@router/runtime";
 import { gameNavigator } from "@router/sys/syscore";
 
@@ -16,10 +14,10 @@ let totalfloors = randint(20, 100);
 
 function worldInit() {
     // generate floors
-    randConnectedFloors(totalfloors).forEach((f, i) => globalWorld.scene.set(`floor${i}`, f));
+    randConnectedFloors(totalfloors).forEach((f, i) => globalWorld.Scenarios.set(`floor${i}`, f));
 
     // generate details
-    globalWorld.scene.forEach((floor) => {
+    globalWorld.Scenarios.forEach((floor) => {
         for (let i = 0; i < randint(500, 50); i++) {
             // pick one randomly
             let block = floor.content[randint(floor.scale.row)][randint(floor.scale.col)];
@@ -52,6 +50,18 @@ gameNavigator.gaming.players = [
         status: {
             onplay: {
                 characters: [new PlayerCharacter()],
+                isOnTurn: true,
+                nextTick: 0,
+            },
+        },
+    },
+    {
+        //px加入了游戏
+        name: "pxcookie",
+        id: "0a8331",
+        status: {
+            onplay: {
+                characters: [new PlayerCharacter()],
                 isOnTurn: false,
                 nextTick: 0,
             },
@@ -66,8 +76,9 @@ let playerList: typeof gameNavigator.gaming.players = gameNavigator.gaming.playe
 
 // 小小模版
 // 先做逻辑
+// 回合stack栈
 let tickList = globalWorld.tickTimerList;
-let taskStruck = globalWorld.taskStruck;
+let taskStruck = globalWorld.taskStack;
 while (!gameNavigator.gaming.isPaused) {
     // so next time [0] is coming task
     tickList.sort((a, b) => a.nextTickAt - b.nextTickAt);

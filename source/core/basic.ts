@@ -1,4 +1,4 @@
-import { Interval, Layer, Scene } from "@src/router/gamecore";
+import { Interval, Layer, Scenario } from "@src/router/gamecore";
 import { NestedObject_partial } from "@src/utils/types";
 import { uuid } from "@src/utils/utils";
 
@@ -12,12 +12,12 @@ export class gameBasicObject {
     layerIndex: number = 0;
     x: number = 0.0;
     y: number = 0.0;
-    atScene: Scene | undefined | null;
+    atScene: Scenario | undefined | null;
     name: string = "";
     globalSize: number = 1.0;
     visitable: boolean = true;
     rotation: number = 0.0;
-    layerset: Layer[] = [];
+    layerSet: Layer[] = [];
     eventList: NestedObject_partial<string, Event | Event[]> = {};
     intervalList: NestedObject_partial<string, Interval | Interval[]> = {};
 

@@ -6,12 +6,14 @@ module.exports = {
     // 指定入口文件
     entry: "./source/runtime/enter.ts",
 
-    // 开发模式使用，方便查错误
+    // // // 开发模式使用，方便查错误
     devtool: "inline-source-map",
 
     // 配置服务器
     devServer: {
-        contentBase: "./dist",
+        static: { directory: path.join(__dirname, "./") },
+        compress: true,
+        // port: 9090,
     },
 
     // 指定打包文件所在目录
@@ -41,7 +43,7 @@ module.exports = {
         ],
     },
 
-    // 配置webpack的插件
+    // // 配置webpack的插件
     plugins: [
         new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({

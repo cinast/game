@@ -15,7 +15,7 @@ export class Item extends gameBasicObject {
     description: string = "";
     weight: number = 0.0;
     isUsable: boolean = true;
-    eeventList: NestedObject_partial<string, Event | Event[]> & {
+    eventList: NestedObject_partial<string, Event | Event[]> & {
         effect: {
             onkeep: Event;
             onhold: Event;

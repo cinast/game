@@ -55,11 +55,30 @@ export namespace propRules {
      * @param limit - `[b,n]`The maximum allowed value, \
      *                `[str]`or the key of the property that holds the limit.
      */
-    export const noOver = (limit: bigint | number) =>
-        $setter((thisArg, key, v: bigint | number) => {
-            if (typeof limit === "string") limit = thisArg[limit];
-            return typeof v === "bigint" ? (BigInt(limit) > v ? v : limit) : Math.min(Number(limit), v);
+    export const noOver = (limit: bigint | number | string) =>
+        $setter<bigint | number>((thisArg, key, v: bigint | number) => {
+            let resolvedLimit: bigint | number;
+
+            if (typeof limit === "string") {
+                const refValue = thisArg[limit];
+                if (typeof refValue === "bigint" || typeof refValue === "number") {
+                    resolvedLimit = refValue;
+                } else {
+                    throw new Error("Referenced limit must be bigint or number");
+                }
+            } else {
+                resolvedLimit = limit;
+            }
+
+            if (typeof v === "bigint") {
+                const bigintLimit = typeof resolvedLimit === "bigint" ? resolvedLimit : BigInt(resolvedLimit);
+                return v < bigintLimit ? v : bigintLimit;
+            } else {
+                const numberLimit = typeof resolvedLimit === "number" ? resolvedLimit : Number(resolvedLimit);
+                return Math.min(numberLimit, v);
+            }
         });
+
     /**
      * Ensures the property value is never less than a specified limit.
      * @param limit - `[b,n]`The maximum allowed value, \

@@ -1,17 +1,12 @@
 import { $setter, propRules } from "./propRules";
 
 export class Node<T = any> {
-    public value: T;
-    public next: Set<Node<T>> = new Set(); // 多出口
-    public prev: Set<Node<T>> = new Set(); // 多入口
+    public next: Set<Node<T>> = new Set();
+    public prev: Set<Node<T>> = new Set();
+    public parentChain?: Chain<T>; // 所属的 Chain
 
-    constructor(value: T, next?: Iterable<Node<T>>) {
-        this.value = value;
-        if (next) {
-            for (const node of next) {
-                this.linkTo(node);
-            }
-        }
+    constructor(parentChain?: Chain<T>) {
+        this.parentChain = parentChain;
     }
 
     /** 连接到目标节点（建立双向关系） */
@@ -26,9 +21,11 @@ export class Node<T = any> {
         node.prev.delete(this);
     }
 
-    /** 检查节点有效性（可自定义规则） */
+    /** 检查节点有效性（可自定义规则）
+     * @deprecated
+     */
     isValid(): boolean {
-        return this.value !== undefined && !this.hasCyclicReference();
+        return true;
     }
 
     /** 检测自引用或循环引用 */
@@ -48,7 +45,15 @@ export class Chain<T = any> {
         return newNode;
     })
     head: Node<T> | undefined;
+    // tail: Node<T> | undefined;
 
+    @propRules.watchSet<Node<T> | undefined>((thisArg, key, newNode) => {
+        if (newNode && !thisArg.validateNode(newNode)) {
+            throw new Error("Invalid node: cyclic reference or belongs to another chain");
+        }
+        thisArg.updateOwnership(newNode);
+        return newNode;
+    })
     protected nodes: Set<Node<T>> = new Set();
 
     /** 添加节点到图中（自动建立连接关系） */
@@ -74,11 +79,6 @@ export class Chain<T = any> {
         }
     }
 
-    /** 验证节点是否可加入当前图 */
-    protected validateNode(node: Node<T>): boolean {
-        return node.isValid() && !this.nodes.has(node);
-    }
-
     /** 更新图结构 */
     protected updateGraph(newHead?: Node<T>): void {
         this.nodes = new Set([...this.traverse()]);
@@ -87,10 +87,40 @@ export class Chain<T = any> {
         }
     }
 
-    /** 可视化图结构（调试用） */
-    visualize(): string {
-        return [...this.traverse()]
-            .map((node) => `${node.value} -> [${[...node.next].map((n) => n.value).join(", ")}]`)
-            .join("\n");
+    /** 连接另一个 Chain 的头部节点 */
+    linkTo(otherChain: Chain<T>): void {
+        if (!this.head || !otherChain.head) return;
+        this.head.linkTo(otherChain.head);
     }
+
+    /** 验证节点是否属于当前 Chain */
+    protected validateNode(node: Node<T>): boolean {
+        return (
+            node.isValid() && (node.parentChain === undefined || node.parentChain === this) // 允许无主节点或属于当前链
+        );
+    }
+
+    /** 更新节点所有权 */
+    protected updateOwnership(node?: Node<T>): void {
+        if (node) {
+            node.parentChain = this;
+            this.nodes.add(node);
+        }
+    }
+
+    /** 合并另一个 Chain 的所有节点 */
+    merge(otherChain: Chain<T>): void {
+        for (const node of otherChain.nodes) {
+            node.parentChain = this;
+            this.nodes.add(node);
+        }
+        otherChain.nodes.clear();
+    }
+
+    /** 可视化图结构（调试用） */
+    // visualize(): string {
+    //     return [...this.traverse()]
+    //         .map((node) => `${node} -> [${[...node.next].map((n) => n).join(", ")}]`)
+    //         .join("\n");
+    // }
 }

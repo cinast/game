@@ -42,7 +42,7 @@ export class Character extends gameBasicObject {
         },
         onDeath: [],
     };
-    /**  */
+
     moveto(x: number, y: number) {
         this.x = x;
         this.y = y;

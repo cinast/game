@@ -1,16 +1,14 @@
 /**
  * @author @cinast
- * @time tmdN个月前
- * 这个b浪费我半年，问黑盒子ts1240是什么，他：T extend [...] ... ] ...] ...)
- * 结果问题在tsconfg，有一个允许自定义装饰器的开关，tmd找遍全网都没这个
  */
 
 /**
  * Custom getter decorator.
+ * @factory
  * @param handle - Function to define the getter behavior.
  * @returns A property decorator.
  */
-export function $getter(handle: (thisArg: unknown, propertyKey: string | symbol, ...arg: any[]) => any): PropertyDecorator {
+export function $getter(handle: (thisArg: any, propertyKey: string | symbol, ...arg: any[]) => unknown): PropertyDecorator {
     return function (target: any, propertyKey: string | symbol) {
         Object.defineProperty(target, propertyKey, {
             get(): any {
@@ -24,14 +22,15 @@ export function $getter(handle: (thisArg: unknown, propertyKey: string | symbol,
 
 /**
  * Custom setter decorator.
+ * @factory
  * @param handle - Function to define the setter behavior.
  * @returns A property decorator.
  */
-export function $setter(handle: (thisArg: any, propertyKey: string | symbol, ...arg: any[]) => any): PropertyDecorator {
+export function $setter<T>(handle: (thisArg: any, propertyKey: string | symbol, value: T) => T): PropertyDecorator {
     return function (target: any, propertyKey: string | symbol) {
         Object.defineProperty(target, propertyKey, {
-            set(v: any) {
-                target[propertyKey] = handle(target, propertyKey, v);
+            set(value: T) {
+                target[propertyKey] = handle(target, propertyKey, value);
             },
             enumerable: true,
             configurable: true,
@@ -39,6 +38,10 @@ export function $setter(handle: (thisArg: any, propertyKey: string | symbol, ...
     };
 }
 
+/**
+ * @author @cinast
+ * make u easier decorate ur properties
+ */
 export namespace propRules {
     /**
      * Ensures the property value is never less than zero.
@@ -52,7 +55,7 @@ export namespace propRules {
      * @param limit - `[b,n]`The maximum allowed value, \
      *                `[str]`or the key of the property that holds the limit.
      */
-    export const noOver = (limit: bigint | number | string) =>
+    export const noOver = (limit: bigint | number) =>
         $setter((thisArg, key, v: bigint | number) => {
             if (typeof limit === "string") limit = thisArg[limit];
             return typeof v === "bigint" ? (BigInt(limit) > v ? v : limit) : Math.min(Number(limit), v);
@@ -62,12 +65,19 @@ export namespace propRules {
      * @param limit - `[b,n]`The maximum allowed value, \
      *                `[str]`or the key of the property that holds the limit.
      */
-    export const noLower = (limit: bigint | number | string) =>
+    export const noLower = (limit: bigint | number) =>
         $setter((thisArg, key, v: bigint | number) => {
             if (typeof limit === "string") limit = thisArg[limit];
             return typeof v === "bigint" ? (BigInt(limit) < v ? v : limit) : Math.max(Number(limit), v);
         });
     // export const atRangeOf = (low)
+
+    /**
+     * @param T Input type, non be any
+     * @param handle
+     * @returns
+     */
+    export const watchSet = <T>(handle: (thisArg: any, propertyKey: string | symbol, value: T) => T) => $setter<T>(handle);
 
     export const onlyWhen = (condition: () => boolean) => $setter((thisArg, key, v) => (condition() ? v : thisArg));
 }

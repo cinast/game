@@ -18,7 +18,9 @@ export class gameBasicObject {
     visitable: boolean = true;
     rotation: number = 0.0;
     layerSet: Layer[] = [];
-    eventList: NestedObject_partial<string, Event | Event[]> = {};
+    eventList: NestedObject_partial<string, Event | Event[]> & {
+        interacts?: NestedObject_partial<string, Event>;
+    } = {};
     intervalList: NestedObject_partial<string, Interval | Interval[]> = {};
 
     constructor(id?: string) {

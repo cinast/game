@@ -14,15 +14,15 @@ export class Event {
 
     /**
      * you can call it right now, \
-     * or wait until `this.predicater` gives you answer
+     * or wait until `this.predicator` gives you answer
      */
     callback: (...arg: any[]) => number | void;
 
     /**
      * check if is time to trig \
-     * if you dont set it, default return is `true`
+     * if you don’t set it, default return is `true`
      */
-    predicater: () => boolean;
+    predicator: () => boolean;
 
     /**
      * @notice if this event object be able to set at world or scene's `tickTimerList`, `trigged` will keep `true` until this round ended,
@@ -43,7 +43,7 @@ export class Event {
 
         this.reExecutable = reExecutable;
         this.callback = callback;
-        this.predicater = predicate ?? (() => true);
+        this.predicator = predicate ?? (() => true);
     }
     reset() {
         this.trigged = false;

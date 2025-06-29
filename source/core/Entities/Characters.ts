@@ -1,4 +1,5 @@
 import { alive, char_ability, direction, gameBasicObject } from "@src/router/gamecore";
+import { SkillTree } from "@src/skills";
 import { NestedObject, NestedObject_partial } from "@src/utils/types";
 
 export class Character extends gameBasicObject {
@@ -12,14 +13,16 @@ export class Character extends gameBasicObject {
         is_alive: alive.alive,
     };
 
-    skill: Record<string, number> = {};
+    skillTree: SkillTree = new SkillTree();
 
     effect: {} = {
         cursed: [],
     };
 
     action = {
-        walk(direction: direction | number) {},
+        walk(direction: direction | number) {
+            this;
+        },
     };
 
     isClone: boolean = false;
@@ -63,6 +66,7 @@ export class Character extends gameBasicObject {
         super(id);
     }
 }
+
 export class clonedCharacter extends Character {
     isClone: boolean = true;
     cloneNumber: bigint;

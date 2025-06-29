@@ -55,7 +55,7 @@ export class World {
 
     readonly starttime = new Date().getMilliseconds();
 
-    get reallKeeppedTime() {
+    get reallyKeptTime() {
         return new Date().getMilliseconds() - this.starttime;
     }
 

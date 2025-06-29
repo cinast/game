@@ -3,7 +3,7 @@ import { Event } from "./utils/events";
 import { propRules } from "./utils/propRules";
 import { uuid } from "./utils/utils";
 
-export class Skill extends Node {
+export class StoryNode extends Node {
     name: string = "";
     id: string = uuid.v4();
     tag: Set<string> = new Set();
@@ -17,12 +17,12 @@ export class Skill extends Node {
     };
     unlocked: boolean = false;
 
-    constructor(parentChain?: SkillTree | undefined) {
+    constructor(parentChain?: StoryTree | undefined) {
         super(parentChain);
     }
 }
 
-export class SkillTree extends Chain<Skill> {
+export class StoryTree extends Chain<StoryNode> {
     name: string = "";
     id: string = uuid.v4();
     tag: Set<string> = new Set();

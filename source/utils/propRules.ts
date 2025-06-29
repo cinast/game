@@ -3,7 +3,11 @@
  */
 
 /**
- * Custom getter decorator.
+ *                              ————————base fn————————
+ */
+
+/**
+ * Getter decorator Factory.
  * @factory
  * @param handle - Function to define the getter behavior.
  * @returns A property decorator.
@@ -21,7 +25,7 @@ export function $getter(handle: (thisArg: any, propertyKey: string | symbol, ...
 }
 
 /**
- * Custom setter decorator.
+ * Setter decorator Factory.
  * @factory
  * @param handle - Function to define the setter behavior.
  * @returns A property decorator.
@@ -37,7 +41,11 @@ export function $setter<T>(handle: (thisArg: any, propertyKey: string | symbol, 
         });
     };
 }
-
+/**
+ * and anywise
+ * @param props
+ * @returns
+ */
 export function $defineProperty<T>(...props: any[][]): PropertyDecorator {
     return function (target: any, propertyKey: string | symbol) {
         Object.defineProperty(target, propertyKey, props);
@@ -45,8 +53,14 @@ export function $defineProperty<T>(...props: any[][]): PropertyDecorator {
 }
 
 /**
- * @author @cinast
- * make u easier decorate ur properties
+ * \*code candies\*
+ * Make u easier decorate ur properties
+ * soo trash it to add additional get or set,
+ *
+ *
+ * @author cinast
+ * @date 2022-11-29
+ *
  */
 export namespace propRules {
     /**
@@ -95,20 +109,25 @@ export namespace propRules {
             if (typeof limit === "string") limit = thisArg[limit];
             return typeof v === "bigint" ? (BigInt(limit) < v ? v : limit) : Math.max(Number(limit), v);
         });
-    // export const atRangeOf = (low)
 
     /**
-     * @param T Input type, non be any
-     * @param handle
-     * @returns
+     * Intercept when it gonna change, do sth or process input than cover the value
+     * So is why it called `Watch`
+     * @param T Input type, or let it infer by itself
      */
     export const watchSet = <T>(handle: (thisArg: any, propertyKey: string | symbol, value: T) => T) => $setter<T>(handle);
 
+    /**
+     *
+     * @param condition
+     * @returns
+     */
     export const onlyWhen = (condition: () => boolean) => $setter((thisArg, key, v) => (condition() ? v : thisArg));
+
     /**
      * `Protect`'s another version, but viewable to outer.
      * @param ctor Constructor of that class.
-     * @returns Keep still if you hsave no right of, or will receive that.
+     * @returns Keep still if you hsave no right of, otherwise receive that.
      */
     export const onlyTheClassAndSubCanWrite = (ctor: new (...args: any[]) => any) =>
         $setter((thisArg, key, value) => (thisArg instanceof ctor ? value : thisArg[key]));

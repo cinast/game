@@ -1,6 +1,0 @@
-
-scenario:
-  !!str name: a
-  !!str tag: a
-  number: 2.0
-  !data data

@@ -1,16 +1,22 @@
-import { alive, char_ability, direction, gameBasicObject } from "@src/router/gamecore";
+import { AliveStatus, CharacterAbility, Direction, gameBasicObject } from "@src/router/gamecore";
 import { SkillTree } from "@src/skills";
 import { NestedObject, NestedObject_partial } from "@src/utils/types";
 
 export class Character extends gameBasicObject {
-    status: {
-        health: number;
-        magic: number;
-        is_alive: alive;
-    } = {
+    status = {
         health: 0,
         magic: 0,
-        is_alive: alive.alive,
+        is_alive: AliveStatus.Alive,
+    };
+
+    ability: CharacterAbility = {
+        agile: 0,
+        speed: 0,
+        wisdom: 0,
+        attack: 0,
+        defense: 0,
+        maxHealth: 0,
+        maxMagic: 0,
     };
 
     skillTree: SkillTree = new SkillTree();
@@ -20,7 +26,7 @@ export class Character extends gameBasicObject {
     };
 
     action = {
-        walk(direction: direction | number) {
+        walk(direction: Direction | number) {
             this;
         },
     };
@@ -85,13 +91,15 @@ export class clonedCharacter extends Character {
 
 export class PlayerCharacter extends Character {
     name: string = "";
-    ability: char_ability = {
+    ability: CharacterAbility = {
         agile: 1,
         speed: 1.0,
         wisdom: 0,
         health: 0,
         attack: 0,
         defense: 0,
+        maxHealth: 0,
+        maxMagic: 0,
     };
     /**
      * playerid (template)

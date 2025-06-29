@@ -1,5 +1,6 @@
 import { uuid } from "@src/utils/utils";
-import { Event, Floor, Character, Interval, PlayerCharacter, Item, Scenario, Transfer } from "@src/router/gamecore";
+import { Floor, Character, PlayerCharacter, Item, Scenario, Transfer } from "@src/router/gamecore";
+import { Event, Interval } from "@src/utils/events";
 import { NestedObject_partial } from "@src/utils/types";
 
 export type specialTick = "";
@@ -11,6 +12,41 @@ export class World {
 
     Scenarios: Map<K, Scenario> = new Map();
     Characters: Map<K, Character> = new Map();
+
+    /** 添加场景到世界 */
+    addScenario(scenario: Scenario): void {
+        if (!this.Scenarios.has(scenario.id)) {
+            scenario.atWorld = this;
+            this.Scenarios.set(scenario.id, scenario);
+        }
+    }
+
+    /** 从世界移除场景 */
+    removeScenario(scenarioId: K): boolean {
+        const scenario = this.Scenarios.get(scenarioId);
+        if (scenario) {
+            scenario.atWorld = undefined;
+            return this.Scenarios.delete(scenarioId);
+        }
+        return false;
+    }
+
+    /** 批量添加角色 */
+    addCharacters(characters: Character[]): void {
+        characters.forEach((character) => {
+            this.Characters.set(character.id, character);
+            // 移除character.atWorld = this; 因为Character类没有这个属性
+        });
+    }
+
+    /** 批量移除角色 */
+    removeCharacters(characterIds: K[]): number {
+        let count = 0;
+        characterIds.forEach((id) => {
+            if (this.Characters.delete(id)) count++;
+        });
+        return count;
+    }
 
     spawn(entity: Character | PlayerCharacter | Item, atTransfer: Transfer) {
         // the transfer is in this world (and its scenes)
@@ -35,16 +71,16 @@ export class World {
     eventList: NestedObject_partial<string, Event | Event[]> & {
         onStopped: Event;
         for_entity: {
-            onswpan: Event[];
+            onSpawn: Event[];
         };
     } = {
         onStopped: new Event(
-            "onStoped",
+            "onStopped",
             () => {},
             () => this.isPaused
         ),
         for_entity: {
-            onswpan: [new Event("onspawn", (entity: Character | PlayerCharacter) => {})],
+            onSpawn: [new Event("onSpawn", (entity: Character | PlayerCharacter) => {})],
         },
     };
     intervalList: NestedObject_partial<string, Interval | Interval[]> & {
@@ -61,6 +97,17 @@ export class World {
 
     isPaused: boolean = false;
 
+    /** 暂停游戏世界 */
+    pause(): void {
+        this.isPaused = true;
+        this.eventList.onStopped.callback();
+    }
+
+    /** 恢复游戏世界 */
+    resume(): void {
+        this.isPaused = false;
+    }
+
     tick: number = 0;
 
     tickTimerList: Array<{ id: K; nextTickAt: number; body: Interval | Event }> = [];
@@ -69,7 +116,49 @@ export class World {
 
     declare gatherSomething: (id: K) => any;
 
-    delete() {}
+    /** 广播全局事件 */
+    broadcastEvent(eventType: string, data?: any): void {
+        this.Scenarios.forEach((scenario) => {
+            const event = scenario.eventList[eventType];
+            if (!event) return;
+
+            if (event instanceof Event) {
+                const evt = event as { callback?: (...args: any[]) => void };
+                if (evt.callback) {
+                    evt.callback(data);
+                }
+            } else if (Array.isArray(event)) {
+                event.forEach((e) => {
+                    const evt = e as { callback?: (...args: any[]) => void };
+                    if (evt?.callback) {
+                        evt.callback(data);
+                    }
+                });
+            }
+        });
+    }
+
+    /** 保存世界状态 */
+    saveState(): Record<string, any> {
+        return {
+            id: this.id,
+            name: this.name,
+            tick: this.tick,
+            scenarios: [...this.Scenarios.keys()],
+            characters: [...this.Characters.keys()],
+        };
+    }
+
+    /** 加载世界状态 */
+    loadState(state: Record<string, any>): void {
+        this.name = state.name;
+        this.tick = state.tick;
+    }
+
+    delete() {
+        this.Scenarios.clear();
+        this.Characters.clear();
+    }
 
     constructor(opinions?: { time: number; init?: boolean }) {
         if (opinions?.time) this.starttime = opinions.time;

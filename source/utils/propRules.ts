@@ -38,6 +38,12 @@ export function $setter<T>(handle: (thisArg: any, propertyKey: string | symbol, 
     };
 }
 
+export function $defineProperty<T>(...props: any[][]): PropertyDecorator {
+    return function (target: any, propertyKey: string | symbol) {
+        Object.defineProperty(target, propertyKey, props);
+    };
+}
+
 /**
  * @author @cinast
  * make u easier decorate ur properties
@@ -99,4 +105,11 @@ export namespace propRules {
     export const watchSet = <T>(handle: (thisArg: any, propertyKey: string | symbol, value: T) => T) => $setter<T>(handle);
 
     export const onlyWhen = (condition: () => boolean) => $setter((thisArg, key, v) => (condition() ? v : thisArg));
+    /**
+     * `Protect`'s another version, but viewable to outer.
+     * @param ctor Constructor of that class.
+     * @returns Keep still if you hsave no right of, or will receive that.
+     */
+    export const onlyTheClassAndSubCanWrite = (ctor: new (...args: any[]) => any) =>
+        $setter((thisArg, key, value) => (thisArg instanceof ctor ? value : thisArg[key]));
 }

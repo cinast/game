@@ -54,7 +54,8 @@ export class Chain<T = any> {
         thisArg.updateOwnership(newNode);
         return newNode;
     })
-    protected nodes: Set<Node<T>> = new Set();
+    @propRules.onlyTheClassAndSubCanWrite(Chain<T>)
+    nodes: Set<Node<T>> = new Set();
 
     /** 添加节点到图中（自动建立连接关系） */
     append(node: Node<T>): void {

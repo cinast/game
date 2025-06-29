@@ -3,15 +3,53 @@ import { Floor, Character, PlayerCharacter, Item, Scenario, Transfer } from "@sr
 import { Event, Interval } from "@src/utils/events";
 import { NestedObject_partial } from "@src/utils/types";
 
-export type specialTick = "";
+const specialTicks: (symbol | string | number)[] = [""];
+export type specialTicks = (typeof specialTicks)[number];
+
+export interface WorldRules {
+    timeScale: number;
+    physics: {
+        gravity: number;
+        collisionEnabled: boolean;
+    };
+    allowMultiplayer: boolean;
+    persistence: {
+        autoSave: boolean;
+        saveInterval: number;
+    };
+}
 
 export class World {
     readonly id: string = uuid.v4();
     name: string = "";
-    tag: Record<K, k> = {};
+    description: string = "";
+    tags: Record<string, any> = {};
+    rules: WorldRules = {
+        timeScale: 1.0,
+        physics: {
+            gravity: 9.8,
+            collisionEnabled: true,
+        },
+        allowMultiplayer: false,
+        persistence: {
+            autoSave: false,
+            saveInterval: 300000, // 5 minutes
+        },
+    };
 
-    Scenarios: Map<K, Scenario> = new Map();
-    Characters: Map<K, Character> = new Map();
+    // Core collections
+    Scenarios: Map<string, Scenario> = new Map();
+    Characters: Map<string, Character> = new Map();
+    Items: Map<string, Item> = new Map();
+    Players: Map<string, PlayerCharacter> = new Map();
+
+    // Task system
+    private taskQueue: Array<{
+        id: string;
+        task: () => Promise<void>;
+        priority: number;
+    }> = [];
+    private activeTasks: Set<string> = new Set();
 
     /** 添加场景到世界 */
     addScenario(scenario: Scenario): void {
@@ -22,7 +60,7 @@ export class World {
     }
 
     /** 从世界移除场景 */
-    removeScenario(scenarioId: K): boolean {
+    removeScenario(scenarioId: string): boolean {
         const scenario = this.Scenarios.get(scenarioId);
         if (scenario) {
             scenario.atWorld = undefined;
@@ -40,7 +78,7 @@ export class World {
     }
 
     /** 批量移除角色 */
-    removeCharacters(characterIds: K[]): number {
+    removeCharacters(characterIds: string[]): number {
         let count = 0;
         characterIds.forEach((id) => {
             if (this.Characters.delete(id)) count++;
@@ -68,12 +106,7 @@ export class World {
         });
     }
 
-    eventList: NestedObject_partial<string, Event | Event[]> & {
-        onStopped: Event;
-        for_entity: {
-            onSpawn: Event[];
-        };
-    } = {
+    eventList = {
         onStopped: new Event(
             "onStopped",
             () => {},
@@ -83,9 +116,8 @@ export class World {
             onSpawn: [new Event("onSpawn", (entity: Character | PlayerCharacter) => {})],
         },
     };
-    intervalList: NestedObject_partial<string, Interval | Interval[]> & {
-        eachTick: Event[];
-    } = {
+
+    intervalList = {
         eachTick: [],
     };
 
@@ -110,11 +142,84 @@ export class World {
 
     tick: number = 0;
 
-    tickTimerList: Array<{ id: K; nextTickAt: number; body: Interval | Event }> = [];
+    tickTimerList: Array<{ id: string; nextTickAt: number; body: Interval | Event }> = [];
 
     taskStack: Array<Function> = [];
 
-    declare gatherSomething: (id: K) => any;
+    declare gatherSomething: (id: string) => any;
+
+    /** 设置世界规则 */
+    setRules(newRules: Partial<WorldRules>): void {
+        this.rules = {
+            ...this.rules,
+            ...newRules,
+            physics: {
+                ...this.rules.physics,
+                ...(newRules.physics || {}),
+            },
+            persistence: {
+                ...this.rules.persistence,
+                ...(newRules.persistence || {}),
+            },
+        };
+    }
+
+    /** 添加任务到队列 */
+    addTask(id: string, task: () => Promise<void>, priority: number = 0): void {
+        this.taskQueue.push({ id, task, priority });
+        this.taskQueue.sort((a, b) => b.priority - a.priority);
+    }
+
+    /** 执行下一个任务 */
+    async executeNextTask(): Promise<boolean> {
+        if (this.taskQueue.length === 0) return false;
+
+        const nextTask = this.taskQueue.shift();
+        if (!nextTask || this.activeTasks.has(nextTask.id)) return false;
+
+        this.activeTasks.add(nextTask.id);
+        try {
+            await nextTask.task();
+        } finally {
+            this.activeTasks.delete(nextTask.id);
+        }
+        return true;
+    }
+
+    /** 更新世界时间 */
+    update(deltaTime: number): void {
+        if (this.isPaused) return;
+
+        // 应用时间缩放
+        const scaledDelta = deltaTime * this.rules.timeScale;
+        this.tick += scaledDelta;
+
+        // 处理定时器
+        this.tickTimerList = this.tickTimerList.filter((timer) => {
+            if (timer.nextTickAt <= this.tick) {
+                timer.body.callback();
+                return false;
+            }
+            return true;
+        });
+
+        // 执行任务
+        while (this.executeNextTask()) {}
+    }
+
+    /** 添加定时器 */
+    addTimer(id: string, interval: number, callback: () => void): void {
+        this.tickTimerList.push({
+            id,
+            nextTickAt: this.tick + interval,
+            body: new Interval(interval, callback, id),
+        });
+    }
+
+    /** 移除定时器 */
+    removeTimer(id: string): void {
+        this.tickTimerList = this.tickTimerList.filter((timer) => timer.id !== id);
+    }
 
     /** 广播全局事件 */
     broadcastEvent(eventType: string, data?: any): void {

@@ -1,5 +1,5 @@
 import { uuid } from "@src/utils/utils";
-import { specialTick } from "@src/router/gamecore";
+import { specialTicks } from "@src/router/gamecore";
 import { customObject } from "./types";
 
 export class Event {
@@ -54,10 +54,10 @@ export class Interval {
     readonly id: string;
     type: string = "";
     tag: string[] = [];
-    delay: number | specialTick = 0;
+    delay: number | specialTicks = 0;
     callback: (...arg: any[]) => number | void;
     trigged: boolean = false;
-    constructor(delay: number | specialTick, callback: (...arg: any[]) => number | void, tag?: string[], id?: string) {
+    constructor(delay: number | specialTicks, callback: (...arg: any[]) => number | void, id?: string, tag?: string[]) {
         this.id = id ?? uuid.v4();
         this.tag = tag ?? [];
         this.delay = delay;

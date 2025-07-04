@@ -1,5 +1,4 @@
-/**         ---first draft----
- *
+/**         ---first draft----, *
  *
  *       xx
  *     x  xx         xxxx

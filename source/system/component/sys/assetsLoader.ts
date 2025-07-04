@@ -13,6 +13,34 @@ interface LoadedAssetsListItem {
     // [key:string]:string
 }
 
+interface CharacterAsset {
+    id: string;
+    name: string;
+    status: {
+        health: number;
+        magic: number;
+        is_alive: string;
+    };
+    ability: {
+        agile: number;
+        speed: number;
+        wisdom: number;
+        attack: number;
+        defense: number;
+        maxHealth: number;
+        maxMagic: number;
+    };
+    skillTree: any[];
+    effect: {
+        cursed: any[];
+    };
+    eventList: {
+        onJoin: any[];
+        onTurn: any[];
+        onDeath: any[];
+    };
+}
+
 interface AssetItem {
     content: any;
     name: string;
@@ -37,13 +65,41 @@ export const loadFailedList: LoadErroredItem[] = [];
 export const assetsList: Record<string, AssetItem> = {};
 export const assetsGroups: NestedObject<string, Array<AssetItem>> = {};
 
-const resourceTypes = [""] as const;
+const resourceTypes = ["", "character"] as const;
 
 export async function loadAssets() {
     for (const item in totalList) {
         //ts 的矢山写法（怒）
         const tar = totalList[item as keyof typeof totalList];
         const promise = import(tar.path);
+
+        // Handle character assets
+        if (item.endsWith(".yml") || item.endsWith(".yaml")) {
+            promise
+                .then((characterData: CharacterAsset) => {
+                    assetsList[item] = {
+                        content: characterData,
+                        name: item,
+                        loaded: true,
+                        type: "character",
+                        url: tar.path,
+                        loadingSucceed: true,
+                    };
+                })
+                .catch((err) => {
+                    loadFailedList.push({
+                        name: item,
+                        body: {
+                            name: item,
+                            id: tar.id || "",
+                            type: "character",
+                            path: tar.path,
+                        },
+                        reason: err,
+                    });
+                });
+            continue;
+        }
 
         // importing
         promise.catch((err) => {

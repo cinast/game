@@ -1,4 +1,4 @@
-import { Building, Character, gameBasicObject, Interval, Item, PlayerCharacter, Transfer, World } from "@src/router/gamecore";
+import { Building, Character, theDust, Interval, Item, PlayerCharacter, Transfer, World } from "@src/router/gamecore";
 import { customObject, NestedMap, NestedObject, NestedObject_partial } from "@src/utils/types";
 import { uuid } from "@src/utils/utils";
 
@@ -199,7 +199,7 @@ export class Floor extends Scenario {
 /**
  *  base of every block of map
  */
-export class BlockUnit extends gameBasicObject {
+export class BlockUnit extends theDust {
     covers: Record<string, (Character | Building | Item)[]> & {
         characters: Character[];
         buildings: Building[];

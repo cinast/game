@@ -1,7 +1,7 @@
 import { clamp, uuid } from "@src/utils/utils";
 
 import { NestedObject, NestedObject_partial } from "@src/utils/types";
-import { Event, gameBasicObject } from "@router/gamecore";
+import { Event, theDust } from "@router/gamecore";
 import { globalItemCollection } from "@src/router/sys/syscore";
 import { propRules } from "@src/utils/propRules";
 
@@ -9,7 +9,7 @@ import { propRules } from "@src/utils/propRules";
  *  Anything can be interact or be used, included  equipment, food, books, etc. \
  *  but `Characters`, `buildings` or *likes* are **not in list**
  */
-export class Item extends gameBasicObject {
+export class Item extends theDust {
     id: string = "item#" + uuid.v4();
     name: string = uuid.v4();
     description: string = "";

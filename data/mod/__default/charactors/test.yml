@@ -1,0 +1,21 @@
+id: test_character
+name: 测试角色
+status:
+  health: 100
+  magic: 50
+  is_alive: Alive
+ability:
+  agile: 5
+  speed: 3.0
+  wisdom: 2
+  attack: 10
+  defense: 8
+  maxHealth: 100
+  maxMagic: 50
+skillTree: []
+effect:
+  cursed: []
+eventList:
+  onJoin: []
+  onTurn: []
+  onDeath: []

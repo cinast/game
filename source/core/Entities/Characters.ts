@@ -1,8 +1,8 @@
-import { AliveStatus, CharacterAbility, Direction, gameBasicObject } from "@src/router/gamecore";
+import { AliveStatus, CharacterAbility, Direction, theDust } from "@src/router/gamecore";
 import { SkillTree } from "@src/skills";
 import { NestedObject, NestedObject_partial } from "@src/utils/types";
 
-export class Character extends gameBasicObject {
+export class Character extends theDust {
     status = {
         health: 0,
         magic: 0,
@@ -71,6 +71,10 @@ export class Character extends gameBasicObject {
     constructor(id?: string) {
         super(id);
     }
+    /**
+     * Entity's uuid
+     */
+    controlBy: Set<string> = new Set();
 }
 
 export class clonedCharacter extends Character {
@@ -104,5 +108,7 @@ export class PlayerCharacter extends Character {
     /**
      * playerid (template)
      */
-    controlBy: string = "";
+    constructor() {
+        super();
+    }
 }

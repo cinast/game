@@ -5,7 +5,7 @@ import { uuid } from "@src/utils/utils";
 /**
  *  every object comprising scenes, etc. chars, block, item
  */
-export class gameBasicObject {
+export class theDust {
     id: string;
     type: string = "";
     tag: Record<K, k> = {};

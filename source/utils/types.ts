@@ -42,8 +42,7 @@ export type DeepPath<T extends object> = {
 }[keyof T];
 
 export type attrTreePath<T extends object> = DeepPath<T>;
-// -------
-
+// -------,
 export type hasPropertyOf<T, P> = P extends `${infer Head}.${infer Tail}`
     ? Head extends keyof T
         ? hasPropertyOf<T[Head], Tail>

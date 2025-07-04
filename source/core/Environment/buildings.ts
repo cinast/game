@@ -1,11 +1,11 @@
-import { Character, gameBasicObject, Item, PlayerCharacter, Event } from "@src/router/gamecore";
+import { Character, theDust, Item, PlayerCharacter, Event } from "@src/router/gamecore";
 import { NestedObject, NestedObject_partial } from "@src/utils/types";
 import { uuid } from "@src/utils/utils";
 /**
  * Anything can be interact or be used, distinguish from `Items` \
  * included wall, door, boxes, etc.
  */
-export class Building extends gameBasicObject {
+export class Building extends theDust {
     id: string = "Building#" + uuid.v4();
     name: string = uuid.v4();
     description: string = "";

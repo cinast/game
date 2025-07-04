@@ -10,5 +10,9 @@
     "gaming": {
         "path": "./gaming/list.json",
         "id": ""
+    },
+    "test_character": {
+        "path": "../../data/mod/__default/charactors/test.yml",
+        "id": "test_character"
     }
 }

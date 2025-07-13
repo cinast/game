@@ -39,8 +39,11 @@
     },
     "type": "commonjs",
     "scripts": {
-        "start": "webpack-dev-server --mode=development --config ./build/webpack.config.js",
-        "build": "webpack --mode=production --config ./build/webpack.config.js"
+        "start": "webpack serve --mode=development --config ./build/webpack.config.js",
+        "build": "webpack --mode=production --config ./build/webpack.config.js",
+        "build:analyze": "webpack --mode=production --config ./build/webpack.config.js --profile --json > stats.json",
+        "type-check": "tsc --noEmit",
+        "dev": "webpack serve --mode=development --config ./build/webpack.config.js --hot"
     },
     "devDependencies": {
         "@babel/core": "^7.24.9",

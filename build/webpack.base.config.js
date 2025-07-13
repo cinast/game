@@ -33,10 +33,41 @@ module.exports = {
         rules: [
             {
                 test: /.ts$/,
-                use: {
-                    loader: "ts-loader",
-                },
+                use: [
+                    {
+                        loader: "babel-loader",
+                        options: {
+                            presets: ["@babel/preset-env"],
+                        },
+                    },
+                    {
+                        loader: "ts-loader",
+                    },
+                ],
                 exclude: /node_modules/,
+            },
+            {
+                test: /\.css$/,
+                use: [
+                    "style-loader",
+                    "css-loader",
+                    {
+                        loader: "postcss-loader",
+                        options: {
+                            postcssOptions: {
+                                config: path.resolve(__dirname, "postcss.config.js"),
+                            },
+                        },
+                    },
+                ],
+            },
+            {
+                test: /\.(png|svg|jpg|jpeg|gif)$/i,
+                type: "asset/resource",
+            },
+            {
+                test: /\.(woff|woff2|eot|ttf|otf)$/i,
+                type: "asset/resource",
             },
         ],
     },

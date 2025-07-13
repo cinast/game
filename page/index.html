@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>blog::Cinast</title>
+        <script src="./static/scripts/languages.js"></script>
+        <style g="colors">
+            /* global vars */
+            :root {
+                --gold-usual: gold;
+                --gold-second: rgb(240, 197, 89);
+                --gold-light: rgb(255, 231, 94);
+
+                --gray-bright: #969696;
+                --gray-usual: #5c5c5c;
+                --gray-dark-brighter: #494949;
+                --gray-darker: #313131;
+                --blue-ink-deeper: rgb(2, 18, 43);
+
+                --font-snow: rgb(238, 238, 238);
+                --font-white-greyer: rgb(204, 204, 204);
+                --font-gary-lighter: #adadad;
+                --font-gary: #8b8b8b;
+                --font-dark-lighter: #353535;
+                --font-dark: #222222;
+
+                --Owner-who: url("./static/img/silence.svg");
+                --referer-dynamic: 0;
+            }
+            /* sizes vars */
+            :root {
+                --size-small: 20px;
+                --size-medium: 50px;
+                --size-large: 80px;
+                --size-extra-large: 120px;
+            }
+
+            /** math values */
+            :root {
+                --sqrt-2: 1.4142135623730950488016887242097;
+                --math-e: 2.7182818284590452353602874713527;
+            }
+        </style>
+        <style>
+            /* default setting */
+            * {
+                padding: 0;
+                margin: 0;
+            }
+
+            body {
+                width: 100vw;
+                height: 100vh;
+                background: linear-gradient(130.56deg, rgb(11, 21, 44) 0%, var(--blue-ink-deeper) 100%);
+            }
+
+            /* UI general style setting */
+            @media (prefers-color-scheme: light) {
+            }
+
+            @media (prefers-color-scheme: dark) {
+            }
+
+            :root {
+                font-family: var(--font-family-usual);
+            }
+        </style>
+        <style>
+            /* fonts initialize */
+            p,
+            span,
+            i,
+            u {
+                color: white;
+                font-style: normal;
+                text-align: left;
+                font-size: medium;
+                font-family: var(--font-family-usual), "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji",
+                    "Segoe UI Emoji";
+                line-height: normal;
+            }
+
+            @font-face {
+                font-family: "NotoSansCJKkr";
+                src: url("./static/font/NotoSansCJKkr-Regular.otf");
+            }
+
+            @font-face {
+                font-family: "Centaur";
+                src: url("./static/font/CENTAUR.TTF");
+                unicode-range: U+0000-007F, U+0100-017F, U+2000-206F;
+            }
+
+            @font-face {
+                font-family: "SimFang";
+                src: url("./static/font/SIMFANG.TTF");
+                unicode-range: U+4E00-9FFF;
+            }
+
+            @font-face {
+                font-family: "STkaiti";
+                src: url("./static/font/STKAITI.TTF");
+                unicode-range: U+4E00-9FFF;
+            }
+
+            :root {
+                --font-family-usual: STkaiti, SimFang, Centaur, NotoSansCJKkr;
+            }
+        </style>
+        <style>
+            /* style for functions */
+            avatar {
+                position: absolute;
+                width: 200px;
+                height: 200px;
+                border: 1px solid var(--gold-usual);
+                border-radius: 50%;
+                backdrop-filter: blur(10px);
+                box-shadow: 5px 3px 10px var(--gold-light);
+
+                background-image: var(--Owner-who);
+                background-repeat: no-repeat;
+                background-position: center;
+                background-size: contain;
+            }
+
+            website_icon {
+                width: 20px;
+                height: 20px;
+                border: var(--gold-usual) 100%;
+            }
+
+            /*
+            * special div for editing bg
+            */
+            background {
+                position: fixed;
+                left: 50vw;
+                top: 50vh;
+                width: 100vw;
+                height: 100vh;
+                z-index: -1000;
+            }
+
+            pendant {
+                z-index: 600;
+                position: fixed;
+                right: 50px;
+                height: auto;
+                padding-top: 150px;
+            }
+
+            pendant > button {
+                position: relative;
+                display: block;
+                width: 35px;
+                height: 35px;
+                border: 1px solid var(--gold-usual);
+                border-radius: 50%;
+                backdrop-filter: blur(10px);
+                background-color: rgba(2, 18, 43, 0.3);
+                margin-bottom: 20px;
+                transition: all 1s cubic-bezier(0.25, 0.8, 0.25, 1);
+                cursor: pointer;
+                outline: none;
+                overflow: hidden;
+            }
+
+            pendant > button:hover,
+            pendant > button:focus-visible {
+                box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+            }
+
+            pendant > button:active {
+                transform: rotateY(180deg);
+            }
+
+            pendant > button:last-child {
+                margin-bottom: 0;
+            }
+
+            pendant > #rope {
+                position: absolute;
+                top: 0;
+                left: calc(50% - 0.5px / 2);
+                width: 0.5px;
+                height: 100%;
+                background-color: var(--gold-second);
+            }
+
+            pendant > #to-top {
+                background-image: url(./static/img/to-top.svg);
+                background-repeat: no-repeat;
+                background-position: center;
+                background-size: 40%;
+                opacity: 0.3;
+                transition: opacity 0.4s ease;
+            }
+
+            pendant > #to-top.active {
+                opacity: 1;
+            }
+
+            pendant > #lang {
+                background-image: url(./static/img/lang-Cn-yu-1.png);
+                background-repeat: no-repeat;
+                background-position: center;
+                background-size: 65%;
+            }
+
+            tooltip {
+                position: fixed;
+                display: block;
+                z-index: 9999;
+
+                max-width: 300px;
+                margin: 10px;
+                padding: 6px 10px;
+                border-radius: 2.5px;
+                border-bottom: 1px solid var(--gold-usual);
+                box-shadow: 0 2px 8px rgba(255, 200, 61, 0.7);
+                backdrop-filter: blur(10px);
+                opacity: 0;
+
+                font-size: 14px;
+                line-height: 1rem;
+                font-family: var(--font-family-usual);
+                color: whitesmoke;
+                letter-spacing: 0.6px;
+
+                transition: opacity 0.2s ease;
+                pointer-events: none;
+            }
+
+            /* Tooltip箭头 */
+            tooltip::after {
+                content: "";
+                position: absolute;
+                --size: calc(max(min(10px, 2%), 3.5px));
+                width: var(--size);
+                height: var(--size);
+                background-color: var(--gold-light);
+                border-left: none;
+                border-bottom: none;
+                border: 1px solid var(--gold-usual);
+                opacity: 0;
+                rotate: 45deg;
+                transition: opacity 0.2s ease;
+                left: calc(var(--dot-towards) - max(var(--size) * var(--sqrt-2)));
+                top: 50%;
+                transform: translateY(-50%);
+            }
+
+            tooltip[data-show="true"]::after {
+                opacity: 1;
+            }
+
+            tooltip[data-show="true"] {
+                opacity: 1;
+            }
+        </style>
+        <style>
+            /* main text blocks & its construction */
+            .area {
+                position: relative;
+
+                display: block;
+                margin: 5px #999;
+                border: 10px 0px 10px 0px;
+            }
+
+            .container {
+                position: relative;
+                display: block;
+                width: 600px;
+                height: max-content;
+                padding-left: 5px;
+            }
+
+            .line {
+                position: relative;
+                width: fit-content;
+                padding-left: 15px;
+                margin-left: 10px;
+            }
+
+            .line > * {
+                display: inline-block;
+            }
+
+            .line > h1 {
+                color: var(--gold-usual);
+                font-size: larger;
+                letter-spacing: 0.11cap;
+                font-family: var(--font-family-usual);
+                font-weight: 490;
+                text-align: left;
+                display: block;
+                width: 100%;
+                line-height: 90%;
+                width: fit-content;
+            }
+
+            /* the  underline */
+            .line > h1::before {
+                content: "";
+                display: inline-block;
+                position: absolute;
+                bottom: calc(-1 * (min(max(2px, 0.1em), 5px)));
+                background: var(--gold-second);
+                height: max(min(5px, 0.05em), 0.8px);
+                width: 0;
+                transition: width 0.36s;
+                left: 5px + max(min(5px, 0.4em), 3.5px);
+            }
+
+            .line:hover > h1::before {
+                width: calc(100% + 2ch - 5px - max(min(5px, 0.4em), 3.5px));
+            }
+
+            /* the sidedot */
+            .line::before {
+                content: "";
+                position: absolute;
+                top: 50%;
+                left: 5px;
+                transform: translateY(-50%);
+                --size: max(min(5px, 0.4em), 3.5px);
+                width: var(--size);
+                height: var(--size);
+                background-color: var(--gold-light);
+                border-radius: 100%;
+                opacity: 0;
+                transition: opacity 0.8s;
+            }
+
+            .line:hover::before,
+            .line:focus-visible::before {
+                opacity: 1;
+            }
+
+            .content {
+                position: relative;
+                background: linear-gradient(0deg, transparent 0%, var(--blue-ink-deeper) 100%);
+                backdrop-filter: blur(10px);
+                border-style: ridge;
+                border-width: 4px 2px 2px 2px;
+                border-radius: 4px;
+
+                border-top-color: var(--gray-dark-brighter);
+                border-right-color: var(--gray-darker);
+                border-bottom-color: var(--gold-light);
+                border-left-color: var(--gray-bright);
+
+                margin: 5px 10px 5px 10px;
+                padding: 2px;
+                transition: all 0.3s ease-out;
+                z-index: 31;
+                opacity: 0.8;
+                box-shadow: 0 2px 4px rgba(255, 231, 94, 0.3);
+                transition: box-shadow filter 0.3s ease;
+            }
+
+            .content:hover {
+                background: linear-gradient(0deg, var(--gray-darker) 0%, rgba(0, 0, 0, 0) 100%);
+                backdrop-filter: blur(10px);
+                box-shadow: 0 4px 8px rgba(255, 231, 94, 0.5);
+                opacity: 1;
+            }
+
+            .content * {
+                z-index: 30;
+            }
+
+            .textarea {
+                width: fit-content;
+                height: fit-content;
+                background: transparent;
+                padding: 0 15px;
+            }
+
+            .textarea * {
+                position: relative;
+                left: 10px;
+                text-align: left;
+                text-wrap: balance;
+                text-align: left;
+                line-height: 1rem;
+                letter-spacing: 1px;
+                font-weight: 400;
+            }
+
+            .textarea p,
+            .textarea span,
+            .textarea i,
+            .textarea u,
+            .textarea del {
+                position: relative;
+                margin: 0.8em 0;
+                text-align: left;
+                text-wrap: pretty;
+                font-family: var(--font-family-usual);
+                line-height: 0.7;
+                letter-spacing: 0.5px;
+                font-weight: 300;
+                padding-left: 1em;
+                text-indent: -1em;
+                transition: font-weight 0.3s ease;
+            }
+
+            .textarea p:first-child {
+                margin-top: 0;
+            }
+
+            .textarea p:last-child {
+                margin-bottom: 0;
+            }
+        </style>
+        <style>
+            /* useful blank blocks */
+            .block {
+                position: relative;
+                width: auto;
+            }
+
+            .blockS {
+                height: var(--size-small, 20px);
+            }
+            .blockM {
+                height: var(--size-medium, 50px);
+            }
+            .blockL {
+                height: var(--size-large, 80px);
+            }
+            .blockXl {
+                height: var(--size-extra-large, 120px);
+            }
+        </style>
+        <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+    </head>
+
+    <body>
+        <pendant>
+            <div id="rope"></div>
+            <button id="to-top" data-tip="to-top" data-tooltip-position="left"></button>
+            <button id="lang" data-tip="languages" data-tooltip-position="left" onclick="toggleLanguage()"></button>
+        </pendant>
+        <tooltip id="globalTooltip"></tooltip>
+
+        <!-- writing -->
+    </body>
+    <!-- language script -->
+    <script>
+        async function toggleLanguage() {
+            const langBtn = document.getElementById("lang");
+            const currentLang = document.head.lang || document.documentElement.lang;
+            const isCN = currentLang.includes("zh");
+
+            try {
+                const newLang = isCN ? "En" : "zh-CN";
+                await switchLang(newLang);
+                langBtn.style.backgroundImage = `url(./static/img/${
+                    newLang === "En" ? "lang-en.svg" : Math.random() > 0.5 ? "lang-Cn-yu-2.svg" : "lang-Cn-yu-1.png"
+                })`;
+            } catch (error) {
+                console.error("语言切换失败:", error);
+            }
+        }
+    </script>
+    <!-- tooltip script -->
+    <script>
+        " use strick ";
+        const tooltip = document.getElementById("globalTooltip");
+        let hideTimeout = null;
+        let currentTarget = null;
+
+        // 计算tooltip位置
+        function calculateBestPosition(target, tipWidth, tipHeight) {
+            const rect = target.getBoundingClientRect();
+            const manualPos = target.getAttribute("data-tooltip-position") || "right";
+
+            // 默认置于右侧，sidedot于左（朝向元素）
+            let left = rect.right + 10;
+            let top = rect.top + rect.height / 2 - tipHeight / 2;
+            let sideDoDotAt = "left";
+
+            // 如果手动指定左侧或右侧空间不足
+            if (manualPos === "left" || (manualPos === "right" && left + tipWidth > window.innerWidth - 10)) {
+                left = rect.left - tipWidth - 10;
+                sideDoDotAt = "right";
+            }
+
+            // 确保在视口内
+            left = Math.max(10, Math.min(left, window.innerWidth - tipWidth - 10));
+            top = Math.max(10, Math.min(top, window.innerHeight - tipHeight - 10));
+
+            return {
+                left,
+                top,
+                sideDoDotAt,
+            };
+        }
+
+        // 显示 Tooltip
+        function showTooltip(target) {
+            // 清除之前的隐藏计时
+            clearTimeout(hideTimeout);
+
+            // 设置内容
+            const tipContent = target.getAttribute("data-tip");
+            tooltip.textContent = tipContent;
+
+            // 先显示一次以获取尺寸
+            tooltip.setAttribute("data-show", "true");
+            tooltip.style.visibility = "hidden";
+            tooltip.style.display = "block";
+
+            // 计算位置
+            const tipWidth = tooltip.offsetWidth;
+            const tipHeight = tooltip.offsetHeight;
+            const pos = calculateBestPosition(target, tipWidth, tipHeight);
+
+            // 应用位置
+            tooltip.style.left = `${pos.left}px`;
+            tooltip.style.top = `${pos.top}px`;
+
+            // 设置箭头位置
+            tooltip.style.setProperty("--dot-towards", pos.sideDoDotAt === "left" ? "0%" : "100%");
+
+            // 真正显示
+            tooltip.style.visibility = "visible";
+            currentTarget = target;
+        }
+
+        // 定时延迟隐藏 Tooltip
+        function hideTooltip() {
+            hideTimeout = setTimeout(() => {
+                tooltip.setAttribute("data-show", "false");
+                currentTarget = null;
+            }, 500);
+        }
+
+        // 取消隐藏
+        function cancelHide() {
+            clearTimeout(hideTimeout);
+        }
+
+        // 事件监听
+        document.addEventListener("mouseover", (e) => {
+            const target = e.target.closest("[data-tip]");
+            if (target) {
+                showTooltip(target);
+            } else if (e.target === tooltip) {
+                cancelHide();
+            } else if (currentTarget && !currentTarget.contains(e.target) && e.target !== tooltip) {
+                hideTooltip();
+            }
+        });
+
+        // Tooltip 鼠标事件
+        tooltip.addEventListener("mouseenter", cancelHide);
+        tooltip.addEventListener("mouseleave", hideTooltip);
+
+        // 窗口大小变化时重新定位
+        window.addEventListener("resize", () => {
+            if (currentTarget) {
+                showTooltip(currentTarget);
+            }
+        });
+    </script>
+    <!-- back to top script -->
+    <script>
+        const toTopBtn = document.getElementById("to-top");
+
+        function smoothScrollToTop() {
+            const duration = 3000; // 最大3秒
+            const start = window.pageYOffset;
+            const startTime = performance.now();
+
+            function scrollStep(timestamp) {
+                const currentTime = timestamp - startTime;
+                const progress = Math.min(currentTime / duration, 1);
+
+                const easing = easeInOutCubic(progress);
+
+                window.scrollTo(0, start * (1 - easing));
+
+                if (progress < 1) {
+                    requestAnimationFrame(scrollStep);
+                }
+            }
+
+            function easeInOutCubic(t) {
+                return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+            }
+
+            requestAnimationFrame(scrollStep);
+        }
+
+        // 按钮变暗/变亮
+        window.addEventListener("scroll", () => {
+            if (window.scrollY > 300) {
+                toTopBtn.classList.add("active");
+            } else {
+                toTopBtn.classList.remove("active");
+            }
+        });
+
+        // 点击滚动到顶部
+        toTopBtn.addEventListener("click", (e) => {
+            e.preventDefault();
+            smoothScrollToTop();
+        });
+
+        // 初始状态
+        toTopBtn.classList.remove("active");
+    </script>
+</html>

@@ -1,8 +1,9 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
-
-module.exports = {
+const { merge } = require("webpack-merge");
+const base = require("./webpack.base.config");
+module.exports = merge(base, {
     // 指定入口文件
     entry: "./source/runtime/enter.ts",
 
@@ -11,7 +12,10 @@ module.exports = {
 
     // 配置服务器
     devServer: {
-        static: { directory: path.join(__dirname, "./") },
+        static: {
+            directory: path.join(__dirname, "./"),
+            watch: true,
+        },
         compress: true,
         // port: 9090,
     },
@@ -47,7 +51,7 @@ module.exports = {
     plugins: [
         new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({
-            template: "./src/index.html",
+            template: "./page/index.html",
         }),
     ],
-};
+});

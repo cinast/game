@@ -1,7 +1,6 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
-
 module.exports = {
     // 指定入口文件
     entry: "./source/runtime/enter.ts",
@@ -11,7 +10,10 @@ module.exports = {
 
     // 配置服务器
     devServer: {
-        contentBase: "./dist",
+        static: {
+            directory: path.join(__dirname, "dist"),
+            watch: true,
+        },
     },
 
     // 指定打包文件所在目录

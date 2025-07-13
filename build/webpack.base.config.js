@@ -26,6 +26,18 @@ module.exports = {
     // 用来设置引用模块
     resolve: {
         extensions: [".ts", ".js"],
+        alias: {
+            "@src": path.resolve(__dirname, "../source"),
+            "@src/core": path.resolve(__dirname, "../source/core"),
+            "@sys": path.resolve(__dirname, "../source/system"),
+            "@src/utils": path.resolve(__dirname, "../source/utils"),
+            "@router": path.resolve(__dirname, "../source/router"),
+            "@runtime": path.resolve(__dirname, "../source/runtime"),
+            "@pages": path.resolve(__dirname, "../page"),
+            "@dist": path.resolve(__dirname, "../dist"),
+            "@assets": path.resolve(__dirname, "../assets"),
+            "@lib": path.resolve(__dirname, "../source/lib"),
+        },
     },
 
     // 配置webpack的loader
@@ -76,7 +88,7 @@ module.exports = {
     plugins: [
         new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({
-            template: "/page/game.html",
+            template: "./page/index.html",
         }),
     ],
 };

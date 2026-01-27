@@ -1,7 +1,7 @@
-#
+# Silent Mill
 
-here's secret porject of  
-_a web game_
+This is a secret project of  
+_a \*mysterious\* web game_
 
 ```js
 /**
@@ -29,15 +29,15 @@ detail global.project {
 
 See [the Development Guide](/doc/devguide.md) at `/doc`
 
-—— _for devlopr_ ——  
-issuse? go [`@bug-notice.md`](/doc/@bug-notice.md)
+—— _for developers_ ——  
+Have any issues? Go check [`@bug-notice.md`](/doc/@bug-notice.md)
 
-## Game Entrance
+## Game Entry Point
 
 -   [Game page](/page/game.html)
 -   [Entrance script](/source/runtime/enter.ts)
 
-## Thanks to
+## Special Acknowledgement
 
 -   [`blackbox.ai`](https://www.blackbox.ai/) for programming help
 -   [`kenney.nl`](https://kenney.nl/) for assests & idea aid

@@ -40,5 +40,5 @@ Have any issues? Go check [`@bug-notice.md`](/doc/@bug-notice.md)
 ## Special Acknowledgement
 
 -   [`blackbox.ai`](https://www.blackbox.ai/) for programming help
--   [`kenney.nl`](https://kenney.nl/) for assests & idea aid
+-   [`kenney.nl`](https://kenney.nl/) for assets & idea aid
 -   _YK 's [guide book](https://juejin.cn/post/7036300546839412750)_ for webpack deploy guide

@@ -57,10 +57,9 @@ export function $defineProperty<T>(...props: any[][]): PropertyDecorator {
  * Make u easier decorate ur properties
  * soo trash it to add additional get or set,
  *
- *
  * @author cinast
- * @date 2022-11-29
- *
+ * @date 2022-11-29  
+ * **@warning** tsconfg `experimentalDecorators` must be `true`
  */
 export namespace propRules {
     /**

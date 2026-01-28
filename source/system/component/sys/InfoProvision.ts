@@ -63,7 +63,7 @@ export namespace leveledInfoProvision {
      * Provides highly sensitive or private information about a player.
      * Not implemented in this example, but could be added as needed.
      * @deprecated
-     * @why im not perpeared
+     * @why im not prepared for this
      */
     export interface PlayerInfoL4 {
         // Add more properties here as needed

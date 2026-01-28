@@ -62,6 +62,7 @@ export class Character extends theDust {
         this.clones.push(cl);
         return cl;
     }
+
     set cloneFrom(char: Character | void) {
         if (!this.isClone && this.CloneFrom instanceof Character) return;
         this.CloneFrom = char;

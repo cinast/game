@@ -1,9 +1,9 @@
-# doc of bug or quset
+# Issue Format Regulations
 
-## ls specification
+## Issue Specifications
 
-use labels to decorate question type  
-note paths to file,like `path/to/file [row:col]`
+Specify the path to the file where issues occurs
+e.g.: `path/to/file [row:col]`
 
 ```markdown
 n. ##`label` xxx
@@ -47,40 +47,40 @@ n. ##`label` xxx
 
     > _[`core/scene.ts`](/source/core/scene.ts) & [`core/building.ts [76+]`](/source/core/buildings.ts)_
 
-        c.: i m so trrrrrrrr
+        c.: I'm really tired...
 
 2.  ## `U` `with 4` accoutSys | playerOnline or just interface
 
     > _[`sys/account.ts`](/source/component/sys/account.ts) & [`sys/gameglobal.ts`](/source/component/sys/gameglobal.ts)_
 
-        c.: eeeeeem, too compex, i need ideas and help
+        c.: Well I think i need some aid on ideas or coding.
 
 3.  ## `U` `?` The division of work & collaborate
 
-        p.: you guys really should do something to improve the work allocation and the effenciency of working
+        p.: You guys really should do something to improve the work allocation and the effienciency of work.
 
-    `replys`
+    `replies`
 
-            c.: @p what parts you tought should be have
+            c.: @p What parts of jobs you think we should have?
 
             p.: _@cinast_ : programming
                 _@pxstate_ : programming
                 _@paskaw_ : art designer, animator, programming
 
-            c.: all right
-                but r u sure to so much job
+            c.: Ok then.
+                Just noticing, we really need that much job??
 
-4.  ### `U` `extends 2` palyer info provision interface L4 template
+4.  ### `U` `extends 2` player info provision interface L4 template
 
-        c.: i suddenly thought out an idea,
-            make player infos into parts, lilke importing modules
+        c.: Well a idea suddenly struck me:
+            make player infos into parts, like importing modules
             and then we can assemble them in certain ways, what an great idea!
 
 5.  ## `?` `!(?)` I am not sure if this can do
 
     > _[`core/item.ts [81]`](/source/core/item.ts)_
 
-        c.: emmm, can _assgin_ fn add and cover target by source?
+        c.: emmm, can _assign_ fn add and cover target by source?
 
     > _[`core/world.ts [11]`](/source/core/world.ts)_
 
